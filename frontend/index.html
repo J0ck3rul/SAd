@@ -4,11 +4,16 @@
     <meta charset="utf-8">
     <title>Page Title</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/main.js"></script>
 </head>
 <body>
     <page-content>
-        <header><h1>header</h1></header>
-        <section><header><h3>section</h3></header></section>
+        <header><h1>header</h1>
+            <button onclick="goHome();">Go Home</button>
+            <button onclick="goSearch();">Go To Search</button>
+        </header>
+        <section class="browse"><header><h3>browse</h3></header></section>
+        <section class="home"><header><h3>home</h3></header></section>
         <aside>sidebar</aside>
         <footer>footer</footer>
     </page-content>
