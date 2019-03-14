@@ -1,0 +1,30 @@
+page-content{
+    display: grid;
+    grid-template-columns: 1fr 20em;
+    grid-template-rows: 10em 1fr 6em;
+}
+
+page-content > *{
+    background-color: azure;
+    border: 2px solid black;
+}
+
+page-content > header{
+    grid-row: 1;
+    grid-column: 1 / span 2;
+}
+
+page-content > section{
+    grid-row: 2;
+    grid-column: 1;
+}
+
+page-content > aside{
+    grid-row: 2;
+    grid-column: 2;
+}
+
+page-content > footer{
+    grid-row: 3;
+    grid-column: 1 / span 2;
+}
