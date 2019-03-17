@@ -99,13 +99,24 @@ page-content > footer > line{
 
 }
 
-page-content > footer > ul{
-    padding: 20px;
-    padding-bottom: 0px;
+.section-contact{
+    display: flex;
+    justify-content: space-around;
+    width:100%;
+}
+.contact{
+    padding: 30px;
     display: inline-block;
-   color:red;
-   flex-direction: column;
-   flex-grow: 3;
+    background: red;
+    flex-direction: column;
+    /*  */
+
+    
+}
+.contact-name > p{
+
+        
+        margin: 15px;
 
 }
 page-content > footer > copyright{
