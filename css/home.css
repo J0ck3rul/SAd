@@ -81,18 +81,21 @@ section.distro-item > .distro-text{
     grid-column:1/4;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .team-content-photos
 {
     text-align: center;
+    display: inline;
+
 }
 .team-content-photos img{
     width: 75%;
     height: auto;
-
-    background-color: white;
+    
+   
     padding:10px;
+    padding-bottom: 30px;
 }
 .team-content-photos:nth-child(1)
 {
@@ -105,4 +108,11 @@ section.distro-item > .distro-text{
 .team-content-photos:nth-child(3)
 {
     grid-column : 3;
+}
+
+#test
+{
+    background-color: white;
+    /* width: 75%; */
+
 }
