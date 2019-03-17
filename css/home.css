@@ -3,9 +3,9 @@ section.row-image{
     background-size : cover;
     background-repeat: no-repeat;
     background-position: center center;
+    height: 30em;
     grid-row:  2;
     grid-column: 1;
-
     color: white;
 }
 
@@ -38,8 +38,6 @@ section.row-distro > section.distro-list{
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
-
-
 }
 
 section.distro-list > section.distro-item{

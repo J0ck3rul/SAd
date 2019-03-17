@@ -10,8 +10,8 @@ page-content{
     width:100%;
     
     display: grid;
-    grid-template-columns: 1fr ;
-    grid-template-rows:  1fr 30em;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
     background-color: white;
 }
 
@@ -46,7 +46,7 @@ page-content > footer{
 }
 
 .shown{
-    visibility: show;
+    visibility: visible;
     opacity: 100%;
     transition: visibility 0.1s 0s, opacity 0.1s linear;
 }
