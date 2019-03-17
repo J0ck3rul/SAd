@@ -1,5 +1,5 @@
 function goHome(){
-    var browse = document.getElementsByClassName("home")[0];
+    var browse = document.getElementsByClassName("row-image")[0];
     browse.style.display = "block";
     
     var browse = document.getElementsByClassName("browse")[0];
