@@ -6,9 +6,13 @@
     <title>Page Title</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/main.js"></script>
+    <script src="js/utilities.js"></script>
 </head>
 
 <body>
+    <loading-screen style="display: block; position: absolute; left: 0; top: 0; width: 100vw; height: 100vh; text-align: center; line-height: 100vh; font-size: 80px; background-color:burlywood; z-index: 1000;">
+        Loading...
+    </loading-screen>
     <page-content>
         <nav>
             Navbar
@@ -31,6 +35,6 @@
 
         <footer>footer</footer>
     </page-content>
+    <script>finishLoading();</script>
 </body>
-
 </html>

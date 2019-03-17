@@ -1,6 +1,7 @@
 body{
     overflow: hidden;
 }
+
 page-content{
     position: absolute;
     top:0;
@@ -56,4 +57,10 @@ page-content > aside{
 page-content > footer{
     grid-row: 3;
     grid-column: 1 / span 2;
+}
+
+.hidden{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1s, opacity 1s linear;
 }
