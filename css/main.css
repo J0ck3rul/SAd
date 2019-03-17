@@ -34,7 +34,7 @@ page-content > nav button
 }
 
 .home{
-    background-image: url('./materials/poza-home.jpg')
+    background-image: url('../poza-home.jpg')
 }
 
 page-content > section{
