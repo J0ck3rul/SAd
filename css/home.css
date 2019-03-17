@@ -56,3 +56,60 @@ section.distro-item > .distro-text{
     width:50%;
     margin: 0 auto;
 }
+
+.row-team
+{
+    background-color: #2F3F4F;
+    grid-row: 4;
+    color: #F88466;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    
+}
+.row-team >.team-title
+{
+    grid-column: 2;
+    font-size: 1.5em;
+    justify-self: center;
+}
+.row-team > .team-content
+{
+    grid-row: 2;
+    grid-column:1/4;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+}
+.team-content-photos
+{
+    text-align: center;
+    display: inline;
+
+}
+.team-content-photos img{
+    width: 300px;
+    height: auto;
+}
+.team-content-photos:nth-child(1)
+{
+    grid-column : 1;
+}
+.team-content-photos:nth-child(2)
+{
+    grid-column : 2;
+}
+.team-content-photos:nth-child(3)
+{
+    grid-column : 3;
+}
+
+#test
+{
+    padding: 20px;
+    padding-bottom: 0px;
+    display: inline-block;
+    background-color: white;
+    /* width: 75%; */
+
+}
