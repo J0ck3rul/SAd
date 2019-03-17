@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Page Title</title>
@@ -11,22 +12,26 @@
 </head>
 
 <body>
-    <loading-screen class="shown" style="display: block; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; text-align: center; line-height: 100vh; font-size: 80px; background-color:burlywood; z-index: 1000;">
+    <loading-screen class="shown"
+        style="display: block; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; text-align: center; line-height: 100vh; font-size: 80px; background-color:burlywood; z-index: 1000;">
         Loading...
     </loading-screen>
     <page-content>
-        <nav>
-            Navbar
-            <a href="#home"><button onclick="goHome();">Home</button></a>
-            <a href="#browse"><button onclick="goBrowse();">Browse</button></a>
-        </nav>
 
+        <div class="logo">
+            <img src="./materials/logo.png" alt="">
+        </div>
+        <div class="right-arrow" onclick="goBrowse()">
+            <img src="./materials/right-arrow.png" alt="">
+        </div>
         <section class="row-image">
-           <h3>
-                    SMART ADMIN
-           </h3>
-           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, voluptas impedit perferendis temporibus unde totam magnam, repellat eligendi dignissimos mollitia pariatur veniam aperiam animi accusamus laudantium consequatur, quam officia rem!</p>
-             <button onclick="goBrowse()">LEARN MORE</button>
+            <h3>
+                SMART ADMIN
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, voluptas impedit perferendis temporibus
+                unde totam magnam, repellat eligendi dignissimos mollitia pariatur veniam aperiam animi accusamus
+                laudantium consequatur, quam officia rem!</p>
+            <button onclick="goBrowse()">LEARN MORE</button>
         </section>
 
         <section class="row-distro">

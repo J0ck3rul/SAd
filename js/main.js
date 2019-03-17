@@ -40,6 +40,13 @@ async function goBrowse(show_loading = true){
     var browse = document.getElementsByClassName("browse")[0];
     browse.style.display = "block";
 
+    var arrow = document.getElementsByClassName("right-arrow")[0];
+    arrow.style.right = "95.5%";
+
+    var logo = document.getElementsByClassName("logo")[0];
+    logo.style.left = "95.5%";
+    console.log(arrow);
+
     if(show_loading){
         toggleLoading();
         await sleep(500);

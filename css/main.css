@@ -3,6 +3,10 @@ body{
     margin: 0 auto;
 }
 
+
+
+
+
 page-content{
     position: absolute;
     top:0;
@@ -21,17 +25,52 @@ page-content{
 page-content > nav{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    grid-row: 1;
-    grid-column: 1/3;
-
+    
+    
     background-color: white;
 }
+nav img{
+width:auto;
+height: 50px;
+}
+nav > .nav-links
+{
+    display:flex;
+    justify-content: space-aroundx;
+    width: 20%;
 
+}
+
+
+
+.logo
+{
+    position: absolute;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    padding:5px;
+}
+.logo img, .right-arrow img
+{
+    height : 50px;
+    width: auto;
+}
+
+.right-arrow
+{
+    position: absolute;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    padding:5px;
+    right:0;
+    
+
+}
 page-content > nav > a > button
 {
-    height: 5em;
+    height: 50px;
 }
 
 page-content > footer{

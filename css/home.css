@@ -134,18 +134,6 @@ section.distro-item > .distro-text{
     width: 20em;
     height: auto;
 }
-/* .team-content-photos:nth-child(1)
-{
-    grid-column : 1;
-}
-.team-content-photos:nth-child(2)
-{
-    grid-column : 2;
-}
-.team-content-photos:nth-child(3)
-{
-    grid-column : 3;
-} */
 
 .team-content-photos-item
 {
