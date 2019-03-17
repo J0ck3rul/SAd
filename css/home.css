@@ -90,12 +90,8 @@ section.distro-item > .distro-text{
 
 }
 .team-content-photos img{
-    width: 75%;
+    width: 300px;
     height: auto;
-    
-   
-    padding:10px;
-    padding-bottom: 30px;
 }
 .team-content-photos:nth-child(1)
 {
@@ -112,6 +108,9 @@ section.distro-item > .distro-text{
 
 #test
 {
+    padding: 20px;
+    padding-bottom: 0px;
+    display: inline-block;
     background-color: white;
     /* width: 75%; */
 
