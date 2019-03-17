@@ -4,3 +4,13 @@ main.browse{
     grid-row: 2;
     grid-column: 1;
 }
+
+main.browse > section.package-list{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+}
+
+main.browse > section.package-list > section.package{
+    border: black solid 2px;
+}
