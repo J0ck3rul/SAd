@@ -1,6 +1,8 @@
-async function goHome(){
-    toggleLoading();
-    await sleep(500);
+async function goHome(show_loading = true){
+    if(show_loading){
+        toggleLoading();
+        await sleep(500);
+    }
 
     var browse = document.getElementsByClassName("row-image")[0];
     browse.style.display = "block";
@@ -14,12 +16,17 @@ async function goHome(){
     var browse = document.getElementsByClassName("browse")[0];
     browse.style.display = "none";
 
-    toggleLoading();
+    if(show_loading){
+        toggleLoading();
+        await sleep(500);
+    }
 }
 
-async function goBrowse(){
-    toggleLoading();
-    await sleep(500);
+async function goBrowse(show_loading = true){
+    if(show_loading){
+        toggleLoading();
+        await sleep(500);
+    }
 
     var browse = document.getElementsByClassName("row-image")[0];
     browse.style.display = "none";
@@ -33,5 +40,8 @@ async function goBrowse(){
     var browse = document.getElementsByClassName("browse")[0];
     browse.style.display = "block";
 
-    toggleLoading();
+    if(show_loading){
+        toggleLoading();
+        await sleep(500);
+    }
 }

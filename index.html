@@ -18,8 +18,8 @@
     <page-content>
         <nav>
             Navbar
-            <button onclick="goHome();">Home</button>
-            <button onclick="goBrowse();">Browse</button>
+            <a href="#home"><button onclick="goHome();">Home</button></a>
+            <a href="#browse"><button onclick="goBrowse();">Browse</button></a>
         </nav>
 
         <section class="row-image">
@@ -104,6 +104,8 @@
 
         <footer>Footer</footer>
     </page-content>
-    <script>firstLoadingEnd();</script>
+    <script>
+        firstLoadingEnd();
+    </script>
 </body>
 </html>

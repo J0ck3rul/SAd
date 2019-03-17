@@ -15,6 +15,8 @@ page-content{
     background-color: white;
 }
 
+/* https://www.w3schools.com/howto/howto_js_navbar_sticky.asp */
+
 page-content > nav{
     display: flex;
     flex-direction: row;
@@ -26,7 +28,7 @@ page-content > nav{
     background-color: white;
 }
 
-page-content > nav > button
+page-content > nav > a > button
 {
     height: 5em;
 }
