@@ -7,8 +7,19 @@ main.browse{
 
 main.browse > header{
     display: flex;
+    justify-content: space-around;
     flex-wrap: wrap;
-    
+    height: 3em;
+    font-size: 24px;
+}
+
+main.browse > header > div.search{
+    display: flex;
+}
+
+main.browse > header > div.search > input{
+    height: 60%;
+    margin: auto 0;
 }
 
 main.browse > section.package-list{
