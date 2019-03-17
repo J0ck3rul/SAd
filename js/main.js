@@ -13,6 +13,14 @@ async function goHome(show_loading = true){
     var browse = document.getElementsByClassName("browse")[0];
     browse.style.display = "none";
 
+    var arrow = document.getElementsByClassName("right-arrow")[0];
+    arrow.style.right = "0";
+    arrow.style.transform = "rotate(0)";
+    arrow.setAttribute("onclick", "goBrowse()");
+
+    var logo = document.getElementsByClassName("logo")[0];
+    logo.style.left = "0";
+
     if(show_loading){
         toggleLoading();
         await sleep(500);
@@ -36,10 +44,11 @@ async function goBrowse(show_loading = true){
 
     var arrow = document.getElementsByClassName("right-arrow")[0];
     arrow.style.right = "95.5%";
+    arrow.style.transform = "rotate(180deg)";
+    arrow.setAttribute("onclick", "goHome()");
 
     var logo = document.getElementsByClassName("logo")[0];
     logo.style.left = "95.5%";
-    console.log(arrow);
 
     if(show_loading){
         toggleLoading();
