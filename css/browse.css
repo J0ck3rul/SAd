@@ -5,12 +5,38 @@ main.browse{
     grid-column: 1;
 }
 
+main.browse > header{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
 main.browse > section.package-list{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    display: none;
+    flex-direction: column;
 }
 
 main.browse > section.package-list > section.package{
+    margin: 0.5em 3em;
     border: black solid 2px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em 3em;
+    justify-content: space-between;
+}
+
+main.browse > section.package-list > section.package > *{
+    margin: 0.5em 0;
+    font-size: 1.2em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+main.browse > section.package-list > section.package > * > *{
+    margin: 0.5em 0;
+}
+
+main.browse > section.package-list > section.package > div.expandable{
+    display: none;
 }

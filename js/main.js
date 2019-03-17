@@ -4,9 +4,6 @@ async function goHome(show_loading = true){
         await sleep(500);
     }
 
-    var browse = document.getElementsByClassName("row-image")[0];
-    browse.style.display = "block";
-
     var browse = document.getElementsByClassName("row-distro")[0];
     browse.style.display = "block";
 
@@ -28,9 +25,6 @@ async function goBrowse(show_loading = true){
         await sleep(500);
     }
 
-    var browse = document.getElementsByClassName("row-image")[0];
-    browse.style.display = "none";
-
     var browse = document.getElementsByClassName("row-distro")[0];
     browse.style.display = "none";
 
@@ -44,4 +38,16 @@ async function goBrowse(show_loading = true){
         toggleLoading();
         await sleep(500);
     }
+}
+
+async function expandPackage(elem){
+    console.log(elem.getElementsByClassName("expandable")[0].style.display);
+    if(elem.getElementsByClassName("expandable")[0].style.display === "block")
+        elem.getElementsByClassName("expandable")[0].style.display = "none";
+    else
+        elem.getElementsByClassName("expandable")[0].style.display = "block";
+}
+
+async function selectOS(){
+    document.getElementsByClassName("package-list")[0].style.display = "flex";
 }
