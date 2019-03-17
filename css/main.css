@@ -10,9 +10,8 @@ page-content{
 
     width:100%;
     
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    display: flex;
+    flex-direction: column;
     background-color: white;
 }
 
@@ -35,11 +34,47 @@ page-content > nav > a > button
 }
 
 page-content > footer{
-    display: none;
-    grid-row: 3;
-    grid-column: 1 / span 2;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+    padding:30px ;
+
 }
 
+page-content > footer > h3{
+    
+    color:white;
+    font-weight: bold;
+    font-size: 2em;
+    justify-content: left;
+    margin-top: 0.1em;
+    margin-left: 0.5em;
+    width: 100%;
+}
+page-content > footer > line{
+    border: 1px solid #123d;
+    flex-grow: 10;
+    width:100%;
+    display: block;
+
+
+}
+
+page-content > footer > ul{
+    padding: 20px;
+    padding-bottom: 0px;
+    display: inline-block;
+   color:red;
+   flex-direction: column;
+   flex-grow: 3;
+
+}
+page-content > footer > copyright{
+    display: block;
+    color:white;
+    font-size: 10px;;
+
+}
 .hidden{
     visibility: hidden;
     opacity: 0;
