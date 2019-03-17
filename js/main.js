@@ -37,10 +37,10 @@ async function goBrowse(show_loading = true){
     var arrow = document.getElementsByClassName("right-arrow")[0];
     arrow.style.right = "95.5%";
     arrow.style.transform = "rotate(180deg)";
+    arrow.setAttribute("onclick", "goHome()");
 
     var logo = document.getElementsByClassName("logo")[0];
     logo.style.left = "95.5%";
-    console.log(arrow);
 
     if(show_loading){
         toggleLoading();
