@@ -69,15 +69,17 @@ section.row-distro > h3 > span{
 section.row-distro > section.distro-list{
     grid-row : 2;
     grid-column: 1/4;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     align-items: center;
 }
 
 section.distro-list > section.distro-item{
     align-items: center;
     text-align: center;
+    width: 30em;
+    /* width:30%; */
 }
 
 section.distro-item > .distro-logo > img{
@@ -88,7 +90,6 @@ section.distro-item > h4{
     /* font-weight: bold; */
 }
 section.distro-item > .distro-text{
-    width:50%;
     margin: 0 auto;
 }
 
@@ -134,18 +135,6 @@ section.distro-item > .distro-text{
     width: 20em;
     height: auto;
 }
-/* .team-content-photos:nth-child(1)
-{
-    grid-column : 1;
-}
-.team-content-photos:nth-child(2)
-{
-    grid-column : 2;
-}
-.team-content-photos:nth-child(3)
-{
-    grid-column : 3;
-} */
 
 .team-content-photos-item
 {
