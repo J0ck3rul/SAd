@@ -8,6 +8,7 @@ section.row-image{
     grid-column: 1;
     color: white;
     text-align: center;
+    opacity: 0.6;
 
 }
 section.row-image > h3 {
