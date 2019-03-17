@@ -104,8 +104,12 @@ section.distro-item > .distro-text{
 .row-team >.team-title
 {
     grid-column: 2;
-    font-size: 1.5em;
+    
     justify-self: center;
+}
+.row-team >.team-title > h4
+{
+    font-size:2em;
 }
 .row-team > .team-content
 {
@@ -122,7 +126,7 @@ section.distro-item > .distro-text{
 
 }
 .team-content-photos img{
-    width: 300px;
+    width: 27em;
     height: auto;
 }
 .team-content-photos:nth-child(1)
@@ -138,12 +142,14 @@ section.distro-item > .distro-text{
     grid-column : 3;
 }
 
-#test
+.team-content-photos-item
 {
     padding: 20px;
     padding-bottom: 0px;
     display: inline-block;
     background-color: white;
-    /* width: 75%; */
-
+}
+.team-content-photos-item > p
+{
+    font-size: 1.25em;
 }
