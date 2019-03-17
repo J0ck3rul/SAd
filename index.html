@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <loading-screen style="display: block; position: absolute; left: 0; top: 0; width: 100vw; height: 100vh; text-align: center; line-height: 100vh; font-size: 80px; background-color:burlywood; z-index: 1000;">
+    <loading-screen class="shown" style="display: block; position: absolute; left: 0; top: 0; width: 100vw; height: 100vh; text-align: center; line-height: 100vh; font-size: 80px; background-color:burlywood; z-index: 1000;">
         Loading...
     </loading-screen>
     <page-content>
@@ -22,7 +22,7 @@
 
         <section class="row-image">
             <header>
-                <h3>home</h3>
+                <h2>Home Page</h2>
 
             </header>
         </section>
@@ -30,7 +30,7 @@
         <section class="row-distro">
             <h3>
                 <span>
-                    Distro uri disponibile
+                    Available Distributions
                 </span>
             </h3>
             <section class="row-distro-content">
@@ -93,15 +93,15 @@
         <section class="row-team">
             
         </section>
-        
+
         <section class="browse">
             <header>
-                <h3>browse</h3>
+                <h2>Browse</h3>
             </header>
         </section>
 
-        <footer>footer</footer>
+        <footer>Footer</footer>
     </page-content>
-    <script>finishLoading();</script>
+    <script>firstLoadingEnd();</script>
 </body>
 </html>

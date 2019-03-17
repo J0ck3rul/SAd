@@ -99,6 +99,8 @@ page-content > nav button
 
 .browse{
     display: none;
+    grid-row:  2;
+    grid-column: 1;
 }
 
 page-content > aside{
@@ -116,5 +118,11 @@ page-content > footer{
 .hidden{
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s 1s, opacity 1s linear;
+    transition: visibility 0s 0.5s, opacity 0.5s linear;
+}
+
+.shown{
+    visibility: show;
+    opacity: 100%;
+    transition: visibility 0.5s 0s, opacity 0.5s linear;
 }

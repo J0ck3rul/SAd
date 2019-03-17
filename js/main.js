@@ -1,4 +1,5 @@
 function goHome(){
+    triggerLoading(750);
     var browse = document.getElementsByClassName("row-image")[0];
     browse.style.display = "block";
     
@@ -7,6 +8,7 @@ function goHome(){
 }
 
 function goSearch(){
+    triggerLoading(750);
     var browse = document.getElementsByClassName("home")[0];
     browse.style.display = "none";
 
