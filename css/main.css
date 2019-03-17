@@ -10,7 +10,7 @@ page-content{
     width:100%;
     
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
     background-color: white;
 }
