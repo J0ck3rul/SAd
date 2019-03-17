@@ -36,6 +36,7 @@ async function goBrowse(show_loading = true){
 
     var arrow = document.getElementsByClassName("right-arrow")[0];
     arrow.style.right = "95.5%";
+    arrow.style.transform = "rotate(180deg)";
 
     var logo = document.getElementsByClassName("logo")[0];
     logo.style.left = "95.5%";
