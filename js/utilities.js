@@ -3,15 +3,12 @@ function sleep(ms){
 }
 
 async function firstLoadingEnd(){
-    await sleep(750);
+    await sleep(500);
     document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
     document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
 }
 
-async function triggerLoading(ms){
-    document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
-    document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
-    await sleep(ms);
+function toggleLoading(){
     document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
     document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
 }

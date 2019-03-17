@@ -118,11 +118,11 @@ page-content > footer{
 .hidden{
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s 0.5s, opacity 0.5s linear;
+    transition: visibility 0s 0.1s, opacity 0.1s linear;
 }
 
 .shown{
     visibility: show;
     opacity: 100%;
-    transition: visibility 0.5s 0s, opacity 0.5s linear;
+    transition: visibility 0.1s 0s, opacity 0.1s linear;
 }
