@@ -1,0 +1,6 @@
+main.browse{
+    background-color: burlywood;
+    display: none;
+    grid-row:  2;
+    grid-column: 1;
+}

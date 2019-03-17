@@ -1,0 +1,60 @@
+section.row-image{
+    background-image: url('../poza-home.jpg');
+    background-size : cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    grid-row:  2;
+    grid-column: 1;
+
+    color: white;
+}
+
+section.row-distro{
+    background-color: white;
+    grid-column: 1/4;
+    grid-row : 3;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+}
+section.row-distro > h3{
+    grid-row: 1;
+    grid-column: 1/4;
+    text-align: center;
+    top: -1.5em;
+    position: relative;
+   
+}
+section.row-distro > h3 > span{
+    color: white;
+    background-color: #448CAB;
+    padding: 5px;
+    border-radius: 20px;
+}
+section.row-distro > section.distro-list{
+    grid-row : 2;
+    grid-column: 1/4;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
+section.distro-list > section.distro-item{
+    align-items: center;
+    text-align: center;
+}
+
+section.distro-item > .distro-logo > img{
+    height: 10em;
+    width: 10em;
+}
+section.distro-item > h4{
+    /* font-weight: bold; */
+}
+section.distro-item > .distro-text{
+    width:50%;
+    margin: 0 auto;
+}

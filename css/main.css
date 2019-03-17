@@ -12,9 +12,6 @@ page-content{
     display: grid;
     grid-template-columns: 1fr ;
     grid-template-rows:  1fr 30em;
-}
-
-page-content > *{
     background-color: white;
 }
 
@@ -29,84 +26,9 @@ page-content > nav{
     background-color: white;
 }
 
-page-content > nav button
+page-content > nav > button
 {
     height: 5em;
-}
-
-.row-image{
-    background-image: url('../poza-home.jpg');
-    background-size : cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    grid-row:  2;
-    grid-column: 1;
-
-    color: white;
-}
-.row-distro{
-    background-color: white;
-    grid-column: 1/4;
-    grid-row : 3;
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-content: center;
-}
-.row-distro > h3{
-    grid-row: 1;
-    grid-column: 1/4;
-    text-align: center;
-    top: -1.5em;
-    position: relative;
-   
-}
-.row-distro h3 span
-{
-    color: white;
-    background-color: #448CAB;
-    padding: 5px;
-    border-radius: 20px;
-}
-.row-distro > .row-distro-content
-{
-    grid-row : 2;
-    grid-column: 1/4;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: space-between;
-    align-items: center;
-
-
-}
-.distro{
-    align-items: center;
-    text-align: center;
-}
-.distro-logo img
-{
-    height: 10em;
-    width: 10em;
-}
-.distro h4
-{
-    /* font-weight: bold; */
-}
-.distro .distro-text
-{
-    width:50%;
-    margin: 0 auto;
-}
-
-.browse{
-    display: none;
-    grid-row:  2;
-    grid-column: 1;
-}
-
-page-content > aside{
-    display: none;
-    grid-row: 2;
-    grid-column: 2;
 }
 
 page-content > footer{
