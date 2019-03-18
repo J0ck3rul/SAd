@@ -103,12 +103,10 @@ page-content > footer > line{
     display: flex;
     justify-content: space-around;
     width:100%;
+    
 }
 .contact{
-    padding: 25px;
-    display: inline-block;
-    border-style: solid;
-    border-color:red;
+    padding: 20px;
     flex-direction: column;
     margin: 10px;
     color:white;
@@ -119,10 +117,8 @@ page-content > footer > line{
     
 }
 .contact> p{
-
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         font-size: 10px;
-
+        margin:2px;
         
 
 }
