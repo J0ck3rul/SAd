@@ -2,6 +2,7 @@ main.browse{
     display: none;
     flex-wrap: wrap;
     flex-direction: column;
+    padding: 20px;
     grid-row: 2;
     grid-column: 1;
 }
@@ -15,10 +16,10 @@ main.browse > header > form.search{
 
 main.browse > header > form.search > *{
     height: 3em;
-    margin: auto 0;
+    margin: auto 0.5em;
 }
 
-main.browse > header > form.search > p{
+/* main.browse > header > form.search > p{
     margin-left: 2em;
 }
 
@@ -28,7 +29,7 @@ main.browse > header > form.search > input.search-field{
 
 main.browse > header > form.search > input.search-confirm{
     margin-right: 3em;
-}
+} */
 
 main.browse > header > form.search > input.search-field{
     flex-grow: 1;
@@ -48,12 +49,20 @@ main.browse > section.package-list{
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    padding-top: 0.5em;
+    border-top: #555555 solid 1px;
+    /* justify-content: space-around; */
+}
+
+main.browse > section.package-list > section.package:hover{
+    background-color: #f0f0f0;
+    cursor: pointer;
 }
 
 main.browse > section.package-list > section.package{
     margin: 0.5em;
     border: black solid 2px;
+    border-radius: 10px 30px;
     display: flex;
     flex-wrap: wrap;
     padding: 1em 3em;
