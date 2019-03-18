@@ -1,25 +1,48 @@
 main.browse{
-    background-color: burlywood;
     display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
     grid-row: 2;
     grid-column: 1;
 }
 
-main.browse > header{
+main.browse > header > form.search{
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
-    height: 3em;
     font-size: 24px;
+    height: 3em;
+    line-height: 3em;
 }
 
-main.browse > header > div.search{
-    display: flex;
-}
-
-main.browse > header > div.search > input{
-    height: 60%;
+main.browse > header > form.search > *{
+    height: 3em;
     margin: auto 0;
+}
+
+main.browse > header > form.search > p{
+    margin-left: 2em;
+}
+
+main.browse > header > form.search > input.search-field{
+    margin-left: 3em;
+}
+
+main.browse > header > form.search > input.search-confirm{
+    margin-right: 3em;
+}
+
+main.browse > header > form.search > input.search-field{
+    flex-grow: 1;
+}
+
+/* main.browse > header.search > select{
+    height: 3em;
+    margin: auto 0;
+}
+
+main.browse > header.search > input{
+    height: 3em;
+    margin: auto 0; */
 }
 
 main.browse > section.package-list{
