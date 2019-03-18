@@ -101,32 +101,19 @@ page-content > footer > line{
 
 .section-contact{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     width:100%;
-    
+    color:white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 10px;
 }
 .contact{
-    padding: 20px;
-    flex-direction: column;
-    margin: 10px;
-    color:white;
-
-
-
-
-    
-}
-.contact> p{
-        font-size: 10px;
-        margin:2px;
-        
-
+    margin: 0 4em;
 }
 page-content > footer > copyright{
     display: block;
     color:white;
-    font-size: 10px;;
-
+    font-size: 10px;
 }
 .hidden{
     visibility: hidden;
