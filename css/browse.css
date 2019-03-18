@@ -54,9 +54,15 @@ main.browse > section.package-list{
     /* justify-content: space-around; */
 }
 
+main.browse > section.package-list > section.package:hover{
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
 main.browse > section.package-list > section.package{
     margin: 0.5em;
     border: black solid 2px;
+    border-radius: 10px 30px;
     display: flex;
     flex-wrap: wrap;
     padding: 1em 3em;
