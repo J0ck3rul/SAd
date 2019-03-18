@@ -49,6 +49,8 @@ main.browse > section.package-list{
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
+    padding-top: 0.5em;
+    border-top: #555555 solid 1px;
     /* justify-content: space-around; */
 }
 
