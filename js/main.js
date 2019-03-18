@@ -4,6 +4,8 @@ async function goHome(show_loading = true){
         await sleep(500);
     }
 
+    location.href = "#home";
+
     var browse = document.getElementsByClassName("row-distro")[0];
     browse.style.display = "block";
 
@@ -33,6 +35,8 @@ async function goBrowse(show_loading = true){
         await sleep(500);
     }
 
+    location.href = "#browse";
+
     var browse = document.getElementsByClassName("row-distro")[0];
     browse.style.display = "none";
 
@@ -40,7 +44,7 @@ async function goBrowse(show_loading = true){
     browse.style.display = "none";
 
     var browse = document.getElementsByClassName("browse")[0];
-    browse.style.display = "block";
+    browse.style.display = "flex";
 
     var arrow = document.getElementsByClassName("right-arrow")[0];
     arrow.style.right = "95.5%";
