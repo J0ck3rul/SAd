@@ -19,6 +19,8 @@ async function firstLoadingEnd(){
         }
     }
     else{
+        var arrow = document.getElementsByClassName("right-arrow")[0];
+        arrow.style.right = "0";
         await sleep(500);
         document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
         document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');

@@ -16,11 +16,15 @@ async function goHome(show_loading = true){
     browse.style.display = "none";
 
     var arrow = document.getElementsByClassName("right-arrow")[0];
+    arrow.style.right = null;
+    arrow.style.left = null;
     arrow.style.right = "0";
     arrow.style.transform = "rotate(0)";
     arrow.setAttribute("onclick", "goBrowse()");
 
     var logo = document.getElementsByClassName("logo")[0];
+    logo.style.right = null;
+    logo.style.left = null;
     logo.style.left = "0";
 
     if(show_loading){
@@ -47,12 +51,16 @@ async function goBrowse(show_loading = true){
     browse.style.display = "flex";
 
     var arrow = document.getElementsByClassName("right-arrow")[0];
-    arrow.style.right = "95.5%";
+    arrow.style.right = null;
+    arrow.style.left = null;
+    arrow.style.left = "0";
     arrow.style.transform = "rotate(180deg)";
     arrow.setAttribute("onclick", "goHome()");
 
     var logo = document.getElementsByClassName("logo")[0];
-    logo.style.left = "95.5%";
+    logo.style.right = null;
+    logo.style.left = null;
+    logo.style.right = "0";
 
     if(show_loading){
         toggleLoading();

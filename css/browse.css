@@ -8,7 +8,6 @@ main.browse{
 
 main.browse > header > form.search{
     display: flex;
-    flex-wrap: wrap;
     font-size: 24px;
     height: 3em;
     line-height: 3em;
@@ -47,11 +46,13 @@ main.browse > header.search > input{
 
 main.browse > section.package-list{
     display: none;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 main.browse > section.package-list > section.package{
-    margin: 0.5em 3em;
+    margin: 0.5em;
     border: black solid 2px;
     display: flex;
     flex-wrap: wrap;
