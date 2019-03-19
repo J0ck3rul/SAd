@@ -30,17 +30,24 @@ section.row-image > p {
 
 }
 
-section.row-image >button  {
-    background-color:#F88466; /* Green */
+section.row-image > button{
+    background-color:#F88466;
     border: none;
     color: white;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    box-shadow: 1px 1px 3px #F88466, -1px -1px 3px #F88466;
     font-size: 18px;
     font-weight: bold;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+section.row-image > button:hover{
+    background-color:rgb(250, 150, 125);
+    box-shadow: 1px 1px 3px rgb(250, 150, 125), -1px -1px 3px rgb(250, 150, 125);
+    cursor: pointer;
 }
 
 section.row-distro{

@@ -7,31 +7,28 @@ main.browse{
     grid-column: 1;
 }
 
+main.browse > header{
+    margin-bottom: 20px;
+}
+
 main.browse > header > form.search{
     display: flex;
-    font-size: 24px;
-    height: 3em;
-    line-height: 3em;
+    height: 40px;
 }
 
 main.browse > header > form.search > *{
-    height: 3em;
-    margin: auto 0.5em;
+    display: block;
+    height: 40px;
+    margin: auto 10px;
+    font-size: 24px;
 }
 
-/* main.browse > header > form.search > p{
-    margin-left: 2em;
+main.browse > header > form.search > input.search-field, select, input.search-confirm{
+    box-shadow: 1px 1px 1px #bbbbbb, -1px -1px 1px #bbbbbb;
 }
 
 main.browse > header > form.search > input.search-field{
-    margin-left: 3em;
-}
-
-main.browse > header > form.search > input.search-confirm{
-    margin-right: 3em;
-} */
-
-main.browse > header > form.search > input.search-field{
+    height: 34px;
     flex-grow: 1;
 }
 
@@ -54,19 +51,19 @@ main.browse > section.package-list{
     /* justify-content: space-around; */
 }
 
-main.browse > section.package-list > section.package:hover{
-    background-color: #f0f0f0;
-    cursor: pointer;
-}
-
 main.browse > section.package-list > section.package{
     margin: 0.5em;
-    border: black solid 2px;
     border-radius: 10px 30px;
     display: flex;
     flex-wrap: wrap;
     padding: 1em 3em;
     justify-content: space-between;
+    box-shadow: 1px 1px 3px #999999, -1px -1px 3px #999999;
+}
+
+main.browse > section.package-list > section.package:hover{
+    background-color: #f0f0f0;
+    cursor: pointer;
 }
 
 main.browse > section.package-list > section.package > *{
