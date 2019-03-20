@@ -1,11 +1,13 @@
 body{
     margin: 0 0;
-    width: 100%;
 }
 
 page-content{
+    position: absolute;
+    top:0;
+    left:0;
 
-    min-width: 400px;
+    min-width: 600px;
     width:100%;
     
     display: flex;
