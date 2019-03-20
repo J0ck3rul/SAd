@@ -7,6 +7,8 @@ main.browse{
 
 main.browse > header{
     margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: #555555 solid 1px;
 }
 
 main.browse > header > form.search{
@@ -24,6 +26,10 @@ main.browse > header > form.search > input.search-field, select, input.search-co
     box-shadow: 1px 1px 1px #bbbbbb, -1px -1px 1px #bbbbbb;
 }
 
+main.browse > header > form.search > select:hover, input.search-confirm:hover{
+    cursor: pointer;
+}
+
 main.browse > header > form.search > input.search-field{
     height: 34px;
     flex-grow: 1;
@@ -33,8 +39,6 @@ main.browse > section.package-list{
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
-    padding-top: 0.5em;
-    border-top: #555555 solid 1px;
 }
 
 main.browse > section.package-list > section.package{
@@ -53,7 +57,7 @@ main.browse > section.package-list > section.package:hover{
 }
 
 main.browse > section.package-list > section.package > *{
-    margin: 0.5em 0;
+    margin: 10px 0;
     font-size: 1.2em;
     display: flex;
     flex-wrap: wrap;
@@ -61,11 +65,36 @@ main.browse > section.package-list > section.package > *{
 }
 
 main.browse > section.package-list > section.package > * > *{
-    margin: 0.5em 0;
+    margin: 10px 0;
 }
 
 main.browse > section.package-list > section.package > div.expandable{
     display: none;
+}
+
+section.package-list > section.package > div.expandable > button{
+    background-color: green;
+}
+
+section.package-list > section.package > div.expandable > button.selected{
+    background-color: red;
+}
+
+main.browse > button{
+    display: none;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: auto;
+    padding: 4px;
+    width: 100px;
+    border: #F88466 solid 0px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px #F88466, -1px -1px 3px #F88466;
+    background-color: #F88466;
+}
+
+main.browse > button:hover{
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px){
