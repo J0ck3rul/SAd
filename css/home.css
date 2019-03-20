@@ -6,6 +6,7 @@ section.row-image{
     color: white;
     text-align: center;
 }
+
 section.row-image > h3 {
     color:white;
     text-align: center;
@@ -94,6 +95,24 @@ footer > section.contact-list > section.contact{
 }
 
 
+
+@media screen and (max-width: 2160px){
+    section.row-image{
+        background-image: url('../materials/home_4k.jpg');
+    }
+}
+
+@media screen and (max-width: 1440px){
+    section.row-image{
+        background-image: url('../materials/home_1440p.jpg');
+    }
+}
+
+@media screen and (max-width: 1080px){
+    section.row-image{
+        background-image: url('../materials/home_1080p.jpg');
+    }
+}
 
 @media screen and (max-width: 400px){
     section.row-image > p {
