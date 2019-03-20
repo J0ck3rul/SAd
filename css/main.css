@@ -4,9 +4,6 @@ body{
 }
 
 page-content{
-    position: absolute;
-    top:0;
-    left:0;
 
     min-width: 300px;
     width:100%;
