@@ -65,5 +65,8 @@ page-content{
     transition: visibility 0.1s 0s, opacity 0.1s linear;
 }
 
-@media screen and (max-width: 400px){
+@media screen and (max-width: 300px){
+    page-content{
+        min-width: 300px;
+    }
 }

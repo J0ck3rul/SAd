@@ -3,8 +3,6 @@ main.browse{
     flex-wrap: wrap;
     flex-direction: column;
     padding: 20px;
-    grid-row: 2;
-    grid-column: 1;
 }
 
 main.browse > header{
@@ -13,14 +11,13 @@ main.browse > header{
 
 main.browse > header > form.search{
     display: flex;
-    height: 40px;
 }
 
 main.browse > header > form.search > *{
     display: block;
     height: 40px;
     margin: auto 10px;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 main.browse > header > form.search > input.search-field, select, input.search-confirm{
@@ -71,5 +68,16 @@ main.browse > section.package-list > section.package > div.expandable{
     display: none;
 }
 
-@media screen and (max-width: 400px){
+@media screen and (max-width: 600px){
+    main.browse > header > form.search{
+        flex-wrap: wrap;
+    }
+
+    main.browse > header > form.search > *{
+        margin: 5px 0;
+    }
+
+    main.browse > header > form.search > input.search-field{
+        width: 100%;
+    }
 }
