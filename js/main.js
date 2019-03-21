@@ -78,4 +78,17 @@ async function expandPackage(elem){
 
 async function selectOS(){
     document.getElementsByClassName("package-list")[0].style.display = "flex";
+    document.getElementsByClassName("apply-changes-button")[0].style.display = "block";
+}
+
+async function selectPackage(elem, event){
+    event.stopPropagation();
+    if(elem.classList.contains("selected")){
+        elem.classList.toggle("selected");
+        elem.innerText = "Select";
+    }
+    else{
+        elem.classList.toggle("selected");
+        elem.innerText = "Deselect";
+    }
 }

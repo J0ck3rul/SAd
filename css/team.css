@@ -1,0 +1,60 @@
+section.row-team
+{
+    background-color: #2F3F4F;
+    color: #F88466;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+section.row-team > h3{
+    text-align: center;
+    top: -1.5em;
+    position: relative;
+   
+}
+
+section.row-team > h3 > span{
+    color: white;
+    background-color: #448CAB;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+section.row-team > .team-content
+{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+section.row-team > .team-content > .team-content-photos
+{
+    text-align: center;
+    display: block;
+    padding: 10px;
+}
+
+section.team-content-photos > .team-content-photos-item
+{
+    padding: 20px;
+    padding-bottom: 2px;
+    display: block;
+    background-color: white;
+}
+
+section.team-content-photos > .team-content-photos-item > img{
+    width: 300px;
+    height: auto;
+    box-shadow: 1px 1px 3px rgb(151, 151, 151), -1px -1px 3px rgb(151, 151, 151)
+}
+
+section.team-content-photos > .team-content-photos-item > p
+{
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+@media screen and (max-width: 400px){
+}

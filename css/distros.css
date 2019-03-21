@@ -1,0 +1,45 @@
+section.row-distro{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+section.row-distro > h3{
+    text-align: center;
+    top: -1.5em;
+    position: relative;
+   
+}
+
+section.row-distro > h3 > span{
+    color: white;
+    background-color: #448CAB;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+section.row-distro > section.distro-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+section.distro-list > section.distro-item{
+    align-items: center;
+    text-align: center;
+    width: 400px;
+}
+
+section.distro-item > .distro-logo > img{
+    width: 200px;
+    height: auto;
+}
+
+section.distro-item > .distro-text{
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 400px){
+}

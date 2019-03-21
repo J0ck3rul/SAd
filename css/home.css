@@ -3,13 +3,10 @@ section.row-image{
     background-size : cover;
     background-repeat: no-repeat;
     background-position: center center;
-    height: 25em;
-    grid-row:  2;
-    grid-column: 1;
     color: white;
     text-align: center;
-
 }
+
 section.row-image > h3 {
     color:white;
     text-align: center;
@@ -23,11 +20,10 @@ section.row-image > h3 {
 section.row-image > p {
     color:white;
     text-align: center;
-    width:30em;
-    font-size: 1.1em;
+    width:50%;
+    font-size: 18px;
     margin:auto;
     margin-bottom: 0.8em;
-
 }
 
 section.row-image > button{
@@ -42,6 +38,7 @@ section.row-image > button{
     font-size: 18px;
     font-weight: bold;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 50px;
 }
 
 section.row-image > button:hover{
@@ -50,107 +47,75 @@ section.row-image > button:hover{
     cursor: pointer;
 }
 
-section.row-distro{
-    background-color: white;
-    grid-column: 1/4;
-    grid-row : 3;
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-content: center;
-}
-section.row-distro > h3{
-    grid-row: 1;
-    grid-column: 1/4;
-    text-align: center;
-    top: -1.5em;
-    position: relative;
-   
-}
-section.row-distro > h3 > span{
-    color: white;
-    background-color: #448CAB;
-    padding: 5px;
-    border-radius: 20px;
-}
-section.row-distro > section.distro-list{
-    grid-row : 2;
-    grid-column: 1/4;
+
+
+footer{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    background-color: black;
+    /* padding:30px; */
+
 }
 
-section.distro-list > section.distro-item{
-    align-items: center;
-    text-align: center;
-    width: 30em;
-    /* width:30%; */
-}
-
-section.distro-item > .distro-logo > img{
-    height: 10em;
-    width: 10em;
-}
-section.distro-item > h4{
-    /* font-weight: bold; */
-}
-section.distro-item > .distro-text{
-    margin: 0 auto;
-}
-
-.row-team
-{
-    background-color: #2F3F4F;
-    grid-row: 4;
-    color: #F88466;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+footer > h3{
     
-}
-.row-team >.team-title
-{
-    grid-column: 2;
-    
-    justify-self: center;
-}
-.row-team >.team-title > h4
-{
-    margin-left: 3em;
-    font-size:2em;
-}
-.row-team > .team-content
-{
-    grid-row: 2;
-    grid-column:1/4;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-.row-team > .team-content > *{
-    margin: 6px;
-}
-.team-content-photos
-{
-    text-align: center;
-    display: inline;
-
-}
-.team-content-photos img{
-    width: 20em;
-    height: auto;
-}
-
-.team-content-photos-item
-{
-    padding: 20px;
-    padding-bottom: 0px;
-    display: inline-block;
-    background-color: white;
-}
-.team-content-photos-item > p
-{
+    color:white;
     font-weight: bold;
-    font-size: 1.25em;
+    font-size: 2em;
+    justify-content: left;
+    margin-top: 2%;
+    margin-left: 10%;
+    width: 100%;
+}
+
+footer > line{
+    border: 1px solid #123d;
+    flex-grow: 10;
+    width:100%;
+    display: block;
+}
+
+footer > copyright{
+    display: block;
+    color:white;
+    font-size: 10px;
+}
+
+footer > section.contact-list{
+    display: flex;
+    justify-content: center;
+    width:100%;
+    color:white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 10px;
+}
+
+footer > section.contact-list > section.contact{
+    margin: 0 10px;
+}
+
+
+
+@media screen and (max-width: 2160px){
+    section.row-image{
+        background-image: url('../materials/home_4k.jpg');
+    }
+}
+
+@media screen and (max-width: 1440px){
+    section.row-image{
+        background-image: url('../materials/home_1440p.jpg');
+    }
+}
+
+@media screen and (max-width: 1080px){
+    section.row-image{
+        background-image: url('../materials/home_1080p.jpg');
+    }
+}
+
+@media screen and (max-width: 400px){
+    section.row-image > p {
+        width:90%;
+    }
 }

@@ -2,40 +2,19 @@ body{
     margin: 0 0;
 }
 
+/* https://www.w3schools.com/howto/howto_js_navbar_sticky.asp */
+
 page-content{
     position: absolute;
     top:0;
     left:0;
+    right:0;
 
-    min-width: 600px;
     width:100%;
     
     display: flex;
     flex-direction: column;
     background-color: white;
-}
-
-/* https://www.w3schools.com/howto/howto_js_navbar_sticky.asp */
-
-page-content > nav{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    
-    
-    background-color: white;
-}
-nav img{
-width:auto;
-height: 50px;
-}
-nav > .nav-links
-{
-    display:flex;
-    justify-content: space-aroundx;
-    width: 20%;
-
 }
 
 
@@ -54,6 +33,8 @@ nav > .nav-links
     margin-right: 4px;
 }
 
+
+
 .right-arrow
 {
     position: absolute;
@@ -63,61 +44,15 @@ nav > .nav-links
     margin-right: 4px;
 
 }
-
 .right-arrow:hover
 {
     background-color: rgba(255,255,255,0.5);
     box-shadow: 2px 2px 15px rgba(255,255,255,0.5), -2px -2px 15px rgba(255,255,255,0.5);
     cursor: pointer;
 }
-page-content > nav > a > button
-{
-    height: 50px;
-}
-
-page-content > footer{
-    display: flex;
-    flex-wrap: wrap;
-    background-color: black;
-    padding:30px ;
-
-}
-
-page-content > footer > h3{
-    
-    color:white;
-    font-weight: bold;
-    font-size: 2em;
-    justify-content: left;
-    margin-top: 0.1em;
-    margin-left: 0.5em;
-    width: 100%;
-}
-page-content > footer > line{
-    border: 1px solid #123d;
-    flex-grow: 10;
-    width:100%;
-    display: block;
 
 
-}
 
-.section-contact{
-    display: flex;
-    justify-content: center;
-    width:100%;
-    color:white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 10px;
-}
-.contact{
-    margin: 0 4em;
-}
-page-content > footer > copyright{
-    display: block;
-    color:white;
-    font-size: 10px;
-}
 .hidden{
     visibility: hidden;
     opacity: 0;
@@ -128,4 +63,10 @@ page-content > footer > copyright{
     visibility: visible;
     opacity: 100%;
     transition: visibility 0.1s 0s, opacity 0.1s linear;
+}
+
+@media screen and (max-width: 300px){
+    page-content{
+        min-width: 300px;
+    }
 }

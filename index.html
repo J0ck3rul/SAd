@@ -6,14 +6,17 @@
     <title>SAd Package Manager</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/home.css">
+    <link rel="stylesheet" type="text/css" href="css/distros.css">
+    <link rel="stylesheet" type="text/css" href="css/team.css">
     <link rel="stylesheet" type="text/css" href="css/browse.css">
     <script src="js/main.js"></script>
     <script src="js/utilities.js"></script>
+    <meta name="viewport" content="initial-scale=1"> 
 </head>
 
 <body>
     <loading-screen class="shown"
-        style="display: block; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; text-align: center; line-height: 100vh; font-size: 80px; background-color:burlywood; z-index: 1000;">
+        style="display: block; position: fixed; left: 0; top: 0; width: 100%; height: 100%; text-align: center; line-height: 100vh; font-size: 40px; background-color:#448CAB; z-index: 1000; text-shadow: 1px 1px 3px black;">
         Loading...
     </loading-screen>
     <page-content>
@@ -90,30 +93,28 @@
         </section>
 
         <section class="row-team">
-            <div class="team-title">
-                <h4>
-                    Our Best Team
-                </h4>
-            </div>
+            <h3>
+                <span>Our Best Team</span>
+            </h3>
             <div class="team-content">
-                <div class="team-content-photos">
+                <section class="team-content-photos">
                     <div class="team-content-photos-item">
                         <img src="./materials/poza-eduard" alt="photo with eduard">
                         <p>Tibuleac Eduard Mihail</p>
                     </div>
-                </div>
-                <div class="team-content-photos">
+                </section>
+                <section class="team-content-photos">
                     <div class="team-content-photos-item">
                         <img src="./materials/poza-radu.jpg" alt="photo with radu">
                         <p>Marinoiu Radu Florin</p>
                     </div>
-                </div>
-                <div class="team-content-photos">
+                </section>
+                <section class="team-content-photos">
                     <div class="team-content-photos-item">
                         <img src="./materials/poza-andrei.jpg" alt="photo with andrei">
                         <p>Calinciuc Andrei-Victor </p>
                     </div>
-                </div>
+                </section>
             </div>
         </section>
 
@@ -133,6 +134,7 @@
                         class="search-confirm">
                 </form>
             </header>
+            <button class="apply-changes-button" onclick="applyChanges(this, event)">Apply Changes</button>
             <section class="package-list">
                 <section class="package" onclick="expandPackage(this);">
                     <h2>Package Name: firefox</h2>
@@ -143,6 +145,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -154,6 +157,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -165,6 +169,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -176,6 +181,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -187,6 +193,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -198,6 +205,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -209,6 +217,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -220,6 +229,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -231,6 +241,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -242,6 +253,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -253,6 +265,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -264,6 +277,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -275,6 +289,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -286,6 +301,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
                 <section class="package" onclick="expandPackage(this);">
@@ -297,6 +313,7 @@
                         <p>Version: 66.0+build3-0ubuntu1</p>
                         <p>Architectures: any</p>
                         <p>Maintainer: Ubuntu-Mozilla-Team</p>
+                        <button onclick="selectPackage(this, event)">Select</button>
                     </div>
                 </section>
             </section>
@@ -304,27 +321,26 @@
 
         <footer>
             <h3>Contact</h3>
-            <div class="section-contact">
-                <div class="contact">
+            <section class="contact-list">
+                <section class="contact">
                     <h4>Nume</h4>
                     <p>Tibuleac Eduard Mihail</p>
                     <p>Marinoiu Radu Florin</p>
                     <p>Calinciuc Andrei-victor</p>
-
-                </div>
-                <div class="contact">
+                </section>
+                <section class="contact">
                     <h4>Numar de telefon</h4>
                     <p>0755555555</p>
                     <p>0755555555</p>
                     <p>0755555555</p>
-                </div>
-                <div class="contact">
+                </section>
+                <section class="contact">
                     <h4>Firma</h4>
                     <p>Maxcode</p>
                     <p>Bittdefender</p>
                     <p>Wait...</p>
-                </div>
-            </div>
+                </section>
+            </section>
             <line></line>
             <copyright>© Copyright DA 2019</copyright>
         </footer>
