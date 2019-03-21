@@ -12,6 +12,7 @@ section.row-distro > h3{
    
 }
 
+
 section.row-distro > h3 > span{
     color: white;
     background-color: #448CAB;
@@ -38,7 +39,11 @@ section.distro-item > .distro-logo > img{
 }
 
 section.distro-item > .distro-text{
-    margin: 0 auto;
+    margin: 3px auto;
+}
+section.distro-item > .distro-text > p{
+    padding: 2px;
+    margin:auto;
 }
 
 @media screen and (max-width: 400px){
