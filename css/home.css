@@ -68,14 +68,14 @@ footer > h3{
     width: 100%;
 }
 
-footer > line{
+footer > footer-line{
     border: 1px solid #123d;
     flex-grow: 10;
     width:100%;
     display: block;
 }
 
-footer > copyright{
+footer > page-copyright{
     display: block;
     color:white;
     font-size: 10px;
