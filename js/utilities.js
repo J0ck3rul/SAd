@@ -3,7 +3,7 @@ function sleep(ms){
 }
 
 async function firstLoadingEnd(){
-    if(window.location.hash) {
+    if(window.location.hash != "") {
         var hash = window.location.hash.substring(1);
         if(hash === "browse"){
             goBrowse(false);
