@@ -28,7 +28,7 @@ def apt_search(pkg_name):
             # print(match.group(0))
     return pkg_name_list
 
-def apt_depends(pkg_name):
+def apt_pkg_relationships(pkg_name):
     print(pkg_name)
     cmd_output = subprocess.check_output(['apt-cache',"depends",pkg_name])
     pkg = deepcopy(PKG_TEMPLATE)
@@ -39,10 +39,7 @@ def apt_depends(pkg_name):
             match = re.search(r"[a-zA-Z0-9\.\-]+$",line)
             if match:
                 info_name = match.group(0)
-                if info_type == "Depends" :
-                    pkg[info_type].append(apt_depends(info_name))
-                else:
-                    pkg[info_type].append(info_name)
+                pkg[info_type].append(info_name)
     return pkg
 
 
@@ -50,4 +47,4 @@ def apt_depends(pkg_name):
 
 
 
-apt_depends("python")
+apt_pkg_relationships("python")
