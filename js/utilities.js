@@ -3,7 +3,7 @@ function sleep(ms){
 }
 
 async function firstLoadingEnd(){
-    if(window.location.hash) {
+    if(window.location.hash != "") {
         var hash = window.location.hash.substring(1);
         if(hash === "browse"){
             goBrowse(false);
@@ -19,8 +19,7 @@ async function firstLoadingEnd(){
         }
     }
     else{
-        var arrow = document.getElementsByClassName("right-arrow")[0];
-        arrow.style.right = "0";
+        goHome(false);
         await sleep(500);
         document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
         document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
