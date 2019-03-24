@@ -28,7 +28,7 @@ def apt_search(pkg_name):
             # print(match.group(0))
     return pkg_name_list
 
-def apt_pkg_relationships(pkg_name):
+def apt_get_pkg_obj(pkg_name):
     print(pkg_name)
     cmd_output = subprocess.check_output(['apt-cache',"depends",pkg_name])
     pkg = deepcopy(PKG_TEMPLATE)
@@ -47,4 +47,4 @@ def apt_pkg_relationships(pkg_name):
 
 
 
-apt_pkg_relationships("python")
+apt_get_pkg_obj("python")
