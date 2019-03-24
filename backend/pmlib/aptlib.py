@@ -42,9 +42,6 @@ def apt_get_pkg_obj(pkg_name):
                 pkg[info_type].append(info_name)
     return pkg
 
-
-
-
-
-
-apt_get_pkg_obj("python")
+def test():
+    print("Debian i guess")
+    
