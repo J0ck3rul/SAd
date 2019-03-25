@@ -22,4 +22,5 @@ if CURRENT_DISTRO in PACKAGE_MANAGERS["apt"] and CURRENT_VERSION in PACKAGE_MANA
 elif CURRENT_DISTRO in PACKAGE_MANAGERS["yum"] and CURRENT_VERSION in PACKAGE_MANAGERS["yum"][CURRENT_DISTRO]:
     import yumlib as packagemanager
 else:
-    raise Exception("Distribution not supported!\nCheck the supported distro list on our website. ;)")
+    # raise Exception("Distribution not supported!\nCheck the supported distro list on our website. ;)") #TODO: Needs to be removed in production
+    pass
