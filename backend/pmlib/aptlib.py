@@ -3,6 +3,7 @@ import json
 import re
 from copy import deepcopy
 import time
+from package import Package
 PKG_CONTENT_MATCHES = {
     r"^Description[a-zA-Z\-]*: ": "_description",
     r"^Version: ": "_version",
@@ -32,8 +33,9 @@ PKG_TEMPLATE = {
 }
 
 def apt_show(pkg_name):
+    pkg = Package(pkg_name)
+    pkg.__dict__
     cmd_output = subprocess.check_output(['apt-cache',"show",pkg_name])
-    pkg = deepcopy(PKG_TEMPLATE)
     for line in cmd_output.split("\n"):
         match=re.search(r"^[a-zA-Z\.\-]+",line)
         if match:
