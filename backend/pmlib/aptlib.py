@@ -8,7 +8,7 @@ PKG_CONTENT_MATCHES = {
     r"^Description[a-zA-Z\-]*: ": "_description",
     r"^Version: ": "_version",
     r"^Depends: ": "_depends",
-    r"^Pre-Depends: ":"_pre-depends",
+    r"^Pre-Depends: ":"_pre_depends",
     r"^Conflicts: ": "_conflicts",
     r"^Breaks: ": "_breaks",
     r"^Replaces: ": "_replaces",
@@ -35,13 +35,20 @@ PKG_TEMPLATE = {
 def apt_show(pkg_name):
     pkg = Package(pkg_name)
     pkg.__dict__
-    cmd_output = subprocess.check_output(['apt-cache',"show",pkg_name])
-    for line in cmd_output.split("\n"):
-        match=re.search(r"^[a-zA-Z\.\-]+",line)
-        if match:
-            line=re.sub('Description:',"",line)
-            print(line)
+    cmd_output = subprocess.check_output(['apt-cache',"show",pkg_name]).split("\n")
+    for attribute in PKG_CONTENT_MATCHES:
+        for line in cmd_output:
+            match=re.search(attribute,line)
+            if match:
+                if isinstance(pkg.__dict__[PKG_CONTENT_MATCHES[attribute]],list):
+                    arguments=re.sub(attribute,"",line).split(", ")
+                else:
+                    arguments=re.sub(attribute,"",line)
+                
+                pkg.__dict__[PKG_CONTENT_MATCHES[attribute]]=arguments
 
+
+    return pkg
     
 
 def apt_search(pkg_name):
@@ -54,22 +61,20 @@ def apt_search(pkg_name):
             # print(match.group(0))
     return pkg_name_list
 
-def apt_get_pkg_obj(pkg_name):
-    print(pkg_name)
-    cmd_output = subprocess.check_output(['apt-cache',"depends",pkg_name])
-    pkg = deepcopy(PKG_TEMPLATE)
-    for line in cmd_output.split("\n"):
-        match=re.search(r"^  [a-zA-Z0-9]+",line)
-        if match:
-            info_type = re.sub(r"^  ","",match.group(0))
-            match = re.search(r"[a-zA-Z0-9\.\-]+$",line)
-            if match:
-                info_name = match.group(0)
-                pkg[info_type].append(info_name)
-    return pkg
+# def apt_get_pkg_obj(pkg_name):
+#     print(pkg_name)
+#     cmd_output = subprocess.check_output(['apt-cache',"depends",pkg_name])
+#     pkg = deepcopy(PKG_TEMPLATE)
+#     for line in cmd_output.split("\n"):
+#         match=re.search(r"^  [a-zA-Z0-9]+",line)
+#         if match:
+#             info_type = re.sub(r"^  ","",match.group(0))
+#             match = re.search(r"[a-zA-Z0-9\.\-]+$",line)
+#             if match:
+#                 info_name = match.group(0)
+#                 pkg[info_type].append(info_name)
+#     return pkg
 
 def test():
     print("Debian i guess")
     
-if __name__ == "__main__":
-    apt_show("python")
