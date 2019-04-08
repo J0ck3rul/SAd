@@ -1,6 +1,8 @@
 import json
-from launchpadlib.launchpad import Launchpad
+import pymongo
 from pymongo import MongoClient
+from pymongo.errors import BulkWriteError
+from launchpadlib.launchpad import Launchpad
 
 db_username = "devs"
 db_password = "devs"
@@ -13,18 +15,54 @@ lp_coll = lp_db["lp"] # This is a collection (table) in the database
 
 distro = launchpad.distributions["ubuntu"]
 
-project_list = []
 
-count = 0
+def pull_all_packages_into_db():
+    project_list = []
 
-with open("db.json", "wb") as f:
-    for project in launchpad.projects:
+    latest_packages = launchpad.projects.latest()
+    nr_packages = len(latest_packages)
+
+    total_count = 0
+    batch_count = 0
+
+    for project in latest_packages:
         project_list.append({"name": project.name})
-        count += 1
-        if count == 100:
-            count = 0
-            lp_coll.insert_many(project_list)
+        batch_count += 1
+        if batch_count == min(nr_packages/100, 100):
+            total_count += batch_count
+            batch_count = 0
+            try:
+                lp_coll.insert_many(project_list, ordered=False)
+            except:
+                print "Existing packages found, updating list... [{0:.2g}%]".format((total_count*100)*1.0/nr_packages)
             project_list = []
+
+def update_db_pkg_list(pkg_list):
+    try:
+        lp_coll.insert_many(pkg_list, ordered=False)
+    except pymongo.errors.BulkWriteError:
+        print "Found duplicates, ignoring them..."
+
+def get_all_packages():
+    output = list([elem["name"] for elem in lp_coll.find({})])
+    output.sort()
+    return json.dumps(output, indent=4)
+
+def find_package(pkg_name, online=True):
+    if online is False:
+        output = list(elem["name"] for elem in lp_coll.find(
+            {
+                "name": { "$regex": r".*" + pkg_name + r".*" }
+            }
+        ).sort("name", -1))
+        return json.dumps(output, indent=4)
+    elif online is True:
+        results = []
+        for result in launchpad.projects.search(text=pkg_name):
+            results.append({"name": result.name})
+        update_db_pkg_list(results)
+        return find_package(pkg_name, online=False)
+        
 
 
 # source = archive.getPublishedSources(exact_match=True, source_name="python2.7", pocket="Release")[0]
