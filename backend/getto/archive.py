@@ -41,4 +41,4 @@ def find_package_source(pkg, distro_str):
                 return [pkg_result.source_package_name]
             returned_pkgs.append(pkg_result.source_package_name)
     returned_pkgs = list(set(returned_pkgs))
-    return difflib.get_close_matches(pkg, returned_pkgs, len(returned_pkgs), 0.5)
+    return difflib.get_close_matches(pkg, returned_pkgs, 8, 0.5)

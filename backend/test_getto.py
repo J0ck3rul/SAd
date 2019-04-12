@@ -29,4 +29,4 @@ def get_installer_package(pkg_name, distro_name, series_name, distro_arch):
         return ""
 
 # print getto.find_package_source("samba", "ubuntu")
-print get_installer_package("clif", "ubuntu", "bionic", "amd64")
+print get_installer_package("erlang-guestfs", "ubuntu", "bionic", "amd64")
