@@ -65,23 +65,3 @@ def get_all_dependencies():
 
 def get_all_distros():
     return list([distro.name for distro in launchpad.distributions])
-
-## Testing ##
-
-def get_distro(distro_str):
-    return launchpad.distributions[distro_str]
-
-def get_archive(distro_str):
-    distro = get_distro(distro_str)
-    return distro.getArchive(name="primary")
-
-def get_distro_arch_series(distro_str, series_str, arch_str):
-    distro = get_distro(distro_str)
-    distro_series = distro.getSeries(name_or_version=series_str)
-    return distro_series.getDistroArchSeries(archtag=arch_str)
-
-def get_package(pkg, distro_str, series_str, arch_str):
-    distro = get_distro(distro_str)
-    archive = get_archive(distro_str)
-    distro_arch_series = get_distro_arch_series(distro_str, series_str, arch_str)
-    return archive.getPublishedBinaries(binary_name=pkg, exact_match=True, status="Published", distro_arch_series=distro_arch_series)
