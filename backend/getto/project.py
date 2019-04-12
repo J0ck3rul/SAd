@@ -9,5 +9,5 @@ def find_project(pkg_name):
         if pkg_name in result.name:
             results.append(result)
             if pkg_name == result.name:
-                return result
+                return [result]
     return results

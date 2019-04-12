@@ -1,3 +1,4 @@
+import difflib
 from getto.constants import *
 from launchpadlib.launchpad import Launchpad
 
@@ -29,3 +30,15 @@ def get_package_sources(pkg, distro_str, series_str):
     archive = get_archive(distro_str)
     distro_series = get_distro_series(distro_str, series_str)
     return archive.getPublishedSources(source_name=pkg, exact_match=True, status="Published", distro_series=distro_series)
+
+def find_package_source(pkg, distro_str):
+    archive = get_archive(distro_str)
+    pkg_results = list(archive.getPublishedSources(source_name=pkg, exact_match=False, status="Published"))
+    returned_pkgs = []
+    for pkg_result in pkg_results:
+        if pkg in pkg_result.source_package_name:
+            if pkg == pkg_result.source_package_name:
+                return [pkg_result.source_package_name]
+            returned_pkgs.append(pkg_result.source_package_name)
+    returned_pkgs = list(set(returned_pkgs))
+    return difflib.get_close_matches(pkg, returned_pkgs, len(returned_pkgs), 0.5)
