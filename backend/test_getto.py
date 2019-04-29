@@ -44,3 +44,26 @@ with open("testfile.txt", "r") as f:
 
 #IMPORTANT
 #chdist for getting packages from other distros
+
+import os
+import gzip
+import urllib
+distros = ["bionic", "bionic-security", "bionic-updates"]
+distro_type = ["main", "universe", "restricted", "multiverse"]
+distro_arch = ["binary-amd64", "binary-i386"]
+os.mkdir("packages")
+for dist in distros:
+    for d_type in distro_type:
+        for d_arch in distro_arch:
+            archive_filename = "{}_{}_{}_Packages.gz".format(dist, d_type, d_arch)
+            package_list_filename = "{}_{}_{}_packages.list".format(dist, d_type, d_arch)
+            print "Downloading http://archive.ubuntu.com/ubuntu/dists/{}/{}/{}/Packages.gz".format(
+                dist, d_type, d_arch)
+            urllib.urlretrieve("http://archive.ubuntu.com/ubuntu/dists/{}/{}/{}/Packages.gz".format(
+                dist, d_type, d_arch),
+                os.path.join("packages", archive_filename))
+            with gzip.open(os.path.join("packages", archive_filename), "rb") as archive:
+                with open(os.path.join("packages", package_list_filename), "wb") as package_list:
+                    archive_content = archive.read()
+                    package_list.write(archive_content)
+
