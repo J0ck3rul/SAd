@@ -4,3 +4,5 @@
 *.pyc
 
 backend/packages/
+
+\.idea/
