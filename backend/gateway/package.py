@@ -1,6 +1,3 @@
-import pmlib
-import gateway
-
 class Package:
     def __init__(self, pkg_name):
         self._name = pkg_name

@@ -19,11 +19,16 @@ arr.append(Package("terminator"))
 @app.route("/search", methods = ["GET"])
 def hello():
     querry_string = request.args['name']
-    return jsonify(arr)
+    jsonList = []
+    for package in arr:
+        jsonList.append(json.dumps(package.__dict__))
+    dict  = arr[1].__dict__
+    return jsonify(jsonList)
     
 
 
 
 if __name__ == "__main__":
     app.run(host="", port=5123)
+
     app.debug = True
