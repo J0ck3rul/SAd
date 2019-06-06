@@ -1,10 +1,16 @@
+var baseURL = 'http://localhost:5123';
 function searchButton()
 {
-    var ajaxHttp = new XMLHttpRequest();
-    var url = 'http://localhost:5123/search';
+    let ajaxHttp = new XMLHttpRequest();
+    var url = baseURL+'/search';
 
     ajaxHttp.open("GET", url, true);
     ajaxHttp.setRequestHeader("content-type","application/json");
+    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin',url);
+
 
     var searchText = document.getElementsByClassName("search-field");
 
@@ -45,8 +51,7 @@ function createPackageListItem(package)
     description.innerHTML = package["_description"];
 
     let version = document.createElement("p");
-    console.log(package["_version"]);
-    version.innerHTML = "version: "+ package["_version"][package["_version"].length -1];
+    version.innerHTML = "version: "+ package["_version"];
 
     let maintainer = document.createElement("p");
     maintainer.innerHTML = "maintainter: " + package["_maintainer"];
@@ -56,17 +61,11 @@ function createPackageListItem(package)
 
 
     let selectVersion = document.createElement("select");
-    selectVersion.setAttribute("onclick", "getAllVersions(this)");
 
     let baseOption = document.createElement("option");
     baseOption.innerHTML = "select a different version";
     
     selectVersion.appendChild(baseOption);
-    // package["_version"].forEach(version=>{
-    //     let newOption = document.createElement("option");
-    //     newOption.innerHTML = version;
-    //     selectVersion.appendChild(newOption);
-    // })
     expandable.appendChild(id)
     expandable.appendChild(description);
     expandable.appendChild(version);
@@ -82,14 +81,38 @@ function createPackageListItem(package)
     return section;
 
 }
-function getAllVersions(x)
+function getAllVersions(packageContainer)
 {
-    x = x.parentElement;
-    x = x.parentElement;
-    x = x.childNodes[1].childNodes[0];
-    x = x.textContent;
-    console.log(x);
+    let id = packageContainer.childNodes[1].childNodes[0].textContent;
     
+
+
+
+    let ajaxHttp = new XMLHttpRequest();
+    var url = baseURL+'/getVersion?id='+id;
+
+    ajaxHttp.open("GET", url, true);
+    ajaxHttp.setRequestHeader("content-type","application/json");
+    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin',url);
+
+    ajaxHttp.onreadystatechange = function () {
+        var obj = JSON.parse(ajaxHttp.response)
+        console.log(obj);
+    }
+
+    ajaxHttp.send();
+
+
+      // package["_version"].forEach(version=>{
+    //     let newOption = document.createElement("option");
+    //     newOption.innerHTML = version;
+    //     selectVersion.appendChild(newOption);
+    // })
+
+
 }
 
 

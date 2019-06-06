@@ -73,6 +73,8 @@ async function expandPackage(elem){
         elem.getElementsByClassName("expandable")[0].style.display = "none";
     else
         elem.getElementsByClassName("expandable")[0].style.display = "block";
+
+    getAllVersions(elem);
 }
 
 async function selectOS(){
