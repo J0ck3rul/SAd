@@ -1,7 +1,7 @@
 var baseURL = 'http://localhost:5123';
 function searchButton()
 {
-    let ajaxHttp = new XMLHttpRequest();
+    let ajaxHttp = new XMLHttpRequest({mozSystem: true});
     var url = baseURL+'/search';
 
     ajaxHttp.open("GET", url, true);
@@ -64,6 +64,7 @@ function createPackageListItem(package)
 
     let baseOption = document.createElement("option");
     baseOption.innerHTML = "select a different version";
+    baseOption.disabled = true;
     
     selectVersion.appendChild(baseOption);
     expandable.appendChild(id)
@@ -84,34 +85,32 @@ function createPackageListItem(package)
 function getAllVersions(packageContainer)
 {
     let id = packageContainer.childNodes[1].childNodes[0].textContent;
-    
+    let versionSelector = packageContainer.childNodes[1].childNodes[5];
+    console.log(versionSelector);
 
 
 
-    let ajaxHttp = new XMLHttpRequest();
-    var url = baseURL+'/getVersion?id='+id;
-
+    let ajaxHttp = new XMLHttpRequest({mozSystem: true});
+    var url = baseURL+'/getVersions?id='+id;
+    console.log(url);
     ajaxHttp.open("GET", url, true);
     ajaxHttp.setRequestHeader("content-type","application/json");
     ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
     ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
     ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin',url);
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin','*');
 
     ajaxHttp.onreadystatechange = function () {
-        var obj = JSON.parse(ajaxHttp.response)
-        console.log(obj);
+        var versionsList = JSON.parse(ajaxHttp.response)
+        versionsList.forEach(version=>{
+            let newOption = document.createElement("option");
+            newOption.innerHTML = version;
+            versionSelector.appendChild(newOption);
+        })
+        
     }
 
     ajaxHttp.send();
-
-
-      // package["_version"].forEach(version=>{
-    //     let newOption = document.createElement("option");
-    //     newOption.innerHTML = version;
-    //     selectVersion.appendChild(newOption);
-    // })
-
 
 }
 
