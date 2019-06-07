@@ -92,7 +92,6 @@ function getAllVersions(packageContainer)
 
     let ajaxHttp = new XMLHttpRequest({mozSystem: true});
     var url = baseURL+'/getVersions?id='+id;
-    console.log(url);
     ajaxHttp.open("GET", url, true);
     ajaxHttp.setRequestHeader("content-type","application/json");
     ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
