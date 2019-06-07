@@ -5,11 +5,8 @@ function searchButton()
     var url = baseURL+'/search';
 
     ajaxHttp.open("GET", url, true);
-    ajaxHttp.setRequestHeader("content-type","application/json");
-    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin',url);
+
+    setAjaxHeaders(ajaxHttp);
 
 
     var searchText = document.getElementsByClassName("search-field");
@@ -86,32 +83,58 @@ function getAllVersions(packageContainer)
 {
     let id = packageContainer.childNodes[1].childNodes[0].textContent;
     let versionSelector = packageContainer.childNodes[1].childNodes[5];
-    console.log(versionSelector);
-
-
-
+    let url = baseURL+'/getVersions?id='+id;
+    
     let ajaxHttp = new XMLHttpRequest({mozSystem: true});
-    var url = baseURL+'/getVersions?id='+id;
     ajaxHttp.open("GET", url, true);
-    ajaxHttp.setRequestHeader("content-type","application/json");
-    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+
+    setAjaxHeaders(ajaxHttp);
 
     ajaxHttp.onreadystatechange = function () {
+
+        versionSelector.innerHTML = '';
+
+        let baseOption = document.createElement("option");
+        baseOption.innerHTML = "select a different version";
+        baseOption.disabled = true;
+    
+        versionSelector.appendChild(baseOption);
+
         var versionsList = JSON.parse(ajaxHttp.response)
         versionsList.forEach(version=>{
-            let newOption = document.createElement("option");
-            newOption.innerHTML = version;
-            versionSelector.appendChild(newOption);
-        })
+
+            versionSelector.appendChild(createNewVersionOption(version));
+            
+        });
         
     }
 
     ajaxHttp.send();
 
 }
+function createNewVersionOption(version)
+{
+    let option = document.createElement("option");
+    option.setAttribute('onclick', 'versionSelect(this)');
+    option.innerHTML = version;
+
+    return option;
+}
+
+function versionSelect(elem)
+{
+    id = elem.value;
+
+}
 
 
+
+function setAjaxHeaders(ajaxHttp)
+{
+    ajaxHttp.setRequestHeader("content-type","application/json");
+    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+}
 

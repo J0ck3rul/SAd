@@ -42,6 +42,13 @@ def getVersions():
     if(request.args['id'] is None):
         return 'nothing'
 
+@app.route("/getPackage", methods=["GET"])
+def getPackage():
+    id = request.args['id']
+    version = request.args['version']
+    package._version = version
+    package._id = id
+    return json.dumps(package), 200, {'Content-Type':'application/json'}
 
 if __name__ == "__main__":
     app.run(host="", port=5123)
