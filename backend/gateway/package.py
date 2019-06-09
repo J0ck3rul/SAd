@@ -1,8 +1,6 @@
-import pmlib
-
-
 class Package:
     def __init__(self, pkg_name):
+        self._id = ""
         self._name = pkg_name
         self._description = ""
         self._version = ""
@@ -15,7 +13,10 @@ class Package:
         self._download_size = -1
         self._homepage = ""
         self._maintainer = ""
-        
+    @property
+    def id(self):
+        return self._id
+
     @property
     def name(self):
         return self._name
