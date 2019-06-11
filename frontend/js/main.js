@@ -69,11 +69,13 @@ async function goBrowse(show_loading = true){
 }
 
 async function expandPackage(elem){
-    console.log(elem.getElementsByClassName("expandable")[0].style.display);
     if(elem.getElementsByClassName("expandable")[0].style.display === "block")
-        elem.getElementsByClassName("expandable")[0].style.display = "none";
+        elem.getElementsByClassName("expandable")[0].style.display = "nonee";
     else
-        elem.getElementsByClassName("expandable")[0].style.display = "block";
+        {
+            elem.getElementsByClassName("expandable")[0].style.display = "block";
+            getAllVersions(elem);
+        }
 }
 
 async function selectOS(){
