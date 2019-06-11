@@ -2,3 +2,7 @@
 \.vscode/
 
 *.pyc
+
+backend/packages/
+
+\.idea/
