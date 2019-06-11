@@ -21,6 +21,9 @@ PKG_CONTENT_MATCHES = {
 
 }
 
+#download pkg by name
+
+
 PKG_TEMPLATE = {
     "Name" : "",
     "Description" :"",
@@ -75,6 +78,5 @@ def apt_search(pkg_name):
 #                 pkg[info_type].append(info_name)
 #     return pkg
 
-def test():
-    print("Debian i guess")
-    
+
+

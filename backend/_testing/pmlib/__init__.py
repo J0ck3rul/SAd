@@ -18,7 +18,7 @@ CURRENT_DISTRO = platform.linux_distribution()[0]
 CURRENT_VERSION = platform.linux_distribution()[1]
 
 if CURRENT_DISTRO in PACKAGE_MANAGERS["apt"] and CURRENT_VERSION in PACKAGE_MANAGERS["apt"][CURRENT_DISTRO]:
-    import aptlib as packagemanager
+    pass
 elif CURRENT_DISTRO in PACKAGE_MANAGERS["yum"] and CURRENT_VERSION in PACKAGE_MANAGERS["yum"][CURRENT_DISTRO]:
     import yumlib as packagemanager
 else:
