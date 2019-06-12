@@ -48,7 +48,7 @@ def getPackage():
     version = request.args['version']
     package._version = version
     package._id = id
-    return json.dumps(package), 200, {'Content-Type':'application/json'}
+    return json.dumps(package.__dict__), 200, {'Content-Type':'application/json'}
 
 if __name__ == "__main__":
     app.run(host="", port=5123)

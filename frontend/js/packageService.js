@@ -97,6 +97,7 @@ function getAllVersions(packageContainer)
         let baseOption = document.createElement("option");
         baseOption.innerHTML = "select a different version";
         baseOption.disabled = true;
+        baseOption.selected='selected';
     
         versionSelector.appendChild(baseOption);
 
@@ -112,21 +113,31 @@ function getAllVersions(packageContainer)
     ajaxHttp.send();
 
 }
-function createNewVersionOption(version)
-{
-    let option = document.createElement("option");
-    option.setAttribute('onclick', 'versionSelect(this)');
-    option.innerHTML = version;
-
-    return option;
-}
 
 function versionSelect(elem)
 {
-    id = elem.value;
+    version = elem.value;
+    id  = elem.parentElement.parentElement.childNodes[0].textContent;
+    packageSection = elem.parentElement.parentElement.parentElement;
+    console.log(packageSection);
 
+
+    let url = baseURL+'/getPackage?id='+id+'&version='+version;
+   
+    let ajaxHttp = new XMLHttpRequest({mozSystem: true});
+    ajaxHttp.open("GET", url, true);
+    setAjaxHeaders(ajaxHttp);
+
+    ajaxHttp.onreadystatechange = ()=> {
+
+        var package = JSON.parse(ajaxHttp.response)
+        packageSection.innerHTML = createPackageListItem(package).innerHTML;
+        packageSection.style.display = "block";
+    }
+
+
+    ajaxHttp.send();
 }
-
 
 
 function setAjaxHeaders(ajaxHttp)
@@ -138,3 +149,11 @@ function setAjaxHeaders(ajaxHttp)
     ajaxHttp.setRequestHeader('Access-Control-Allow-Origin','*');
 }
 
+function createNewVersionOption(version)
+{
+    let option = document.createElement("option");
+    option.setAttribute('onclick', 'versionSelect(this)');
+    option.innerHTML = version;
+
+    return option;
+}
