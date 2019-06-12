@@ -33,7 +33,6 @@ function createItemForPackageList(package) {
     let selectButton = document.createElement("button");
     selectButton.setAttribute("onclick", "selectPackage(this, event");
 
-
     let selectVersion = document.createElement("select");
     selectVersion.setAttribute("id", "versionSelect");
     let baseOption = document.createElement("option");
@@ -52,4 +51,14 @@ function createItemForPackageList(package) {
     section.appendChild(expandable);
 
     return section;
+}
+
+function getElementByIdFromParent(elementId, elementName, parent) {
+    list = parent.getElementsByTagName(elementName);
+    let searchedElement;
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].id === elementId)
+        searchedElement = list[i];
+    }
+    return searchedElement;
 }

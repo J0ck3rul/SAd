@@ -62,12 +62,4 @@ function versionSelect(elem) {
     }
     ajaxHttp.send();
 }
-function getElementByIdFromParent(elementId, elementName, parent) {
-    list = parent.getElementsByTagName(elementName);
-    let searchedElement;
-    for (let i = 0; i < list.length; i++) {
-        if (list[i].id === "versionSelect")
-        searchedElement = list[i];
-    }
-    return searchedElement;
-}
+
