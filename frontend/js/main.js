@@ -74,7 +74,7 @@ async function expandPackage(elem){
     else
         {
             elem.getElementsByClassName("expandable")[0].style.display = "block";
-            getAllVersions(elem);
+            setVersions(elem);
         }
 }
 
