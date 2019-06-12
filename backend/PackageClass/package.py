@@ -1,18 +1,20 @@
-from json import JSONEncoder,dumps
+from json import JSONEncoder, dumps
+
+
 class Package:
-    def __init__(self, pkg_name):
-        self._name = pkg_name
-        self._description = ""
-        self._version = ""
-        self._pre_depends = []
-        self._depends = []
-        self._conflicts = []
-        self._breaks = []
-        self._replaces = []
-        self._installed_size = -1
-        self._download_size = -1
-        self._homepage = ""
-        self._maintainer = ""
+    def __init__(self, package_object):
+        self._name = package_object["name"]
+        self._description = package_object["description"] if "description" in package_object else ""
+        self._version = package_object["version"] if "version" in package_object else ""
+        self._pre_depends = package_object["pre_depends"] if "pre_depends" in package_object else []
+        self._depends = package_object["depends"] if "depends" in package_object else []
+        self._conflicts = package_object["conflicts"] if "conflicts" in package_object else []
+        self._breaks = package_object["breaks"] if "breaks" in package_object else []
+        self._replaces = package_object["replaces"] if "replaces" in package_object else []
+        self._installed_size = package_object["installed_size"] if "installed_size" in package_object else -1
+        self._download_size = package_object["download_size"] if "download_size" in package_object else -1
+        self._homepage = package_object["homepage"] if "homepage" in package_object else ""
+        self._maintainer = package_object["maintainer"] if "maintainer" in package_object else ""
 
     @property
     def name(self):
@@ -52,7 +54,11 @@ class Package:
         return self._maintainer
 
     def __str__(self):
-        return {
+        return self.__repr__()
+
+    def __repr__(self):
+
+        return dumps({
             "name": self._name,
             "description": self._description,
             "version": self._version,
@@ -66,7 +72,4 @@ class Package:
             "homepage": self._homepage,
             "maintainer": self._maintainer
 
-        }
-
-    def __repr__(self):
-        return self.__str__()
+        },indent=4)

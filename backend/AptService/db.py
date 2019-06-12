@@ -19,20 +19,25 @@ def InsertDB(package):
     if not FindPackageByName(package):
         return packages_coll.insert_one(service.apt_show(package).__repr__()).inserted_id
     else:
-        return None   #deja exista acest pachet
+        return None  # deja exista acest pachet
 
 
-def FindPackageByNameAndVersion(package, version):
+def GetPackageByNameAndVersion(package, version):
     obj = list(packages_coll.find({"name": package, "version": version}))
     if obj:
-        return obj
+        pkg = Package(obj[0])
+        return pkg
     else:
-        return None    #nu este gasit pachetul
+        return None
 
 
-def FindPackageByName(package):
-    obj = list(packages_coll.find({"name": package}))
-    if obj:
-        return obj
-    else:
-        return None       #nu este gasit pachetul
+def GetPackageByName(package):
+    obj_list = list(packages_coll.find({"name": package}))
+    pkg_list = []
+    for obj in obj_list:
+        pkg = Package(obj)
+        pkg_list.append(pkg)
+    return pkg_list
+
+
+print GetPackageByNameAndVersion("python","2.7.15~rc1-")

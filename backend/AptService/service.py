@@ -42,7 +42,7 @@ PKG_TEMPLATE = {
 
 
 def apt_show(pkg_name):
-    pkg = Package(pkg_name)
+    pkg = Package({"name":pkg_name})
     pkg.__dict__
     cmd_output = subprocess.check_output(['apt-cache', "show", pkg_name]).split("\n")
     for attribute in PKG_CONTENT_MATCHES:
