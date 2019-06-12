@@ -1,4 +1,4 @@
-from pmlib.aptlib import apt_show
+from AptService.aptlib import apt_show
 
 
 x=apt_show("python")
