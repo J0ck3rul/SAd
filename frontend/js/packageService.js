@@ -40,9 +40,9 @@ async function setVersions(packageContainer) {
 }
 
 function versionSelect(elem) {
-    version = elem.value;
-    id = elem.parentElement.parentElement.childNodes[0].textContent;
-    packageSection = elem.parentElement.parentElement.parentElement;
+    let version = elem.value;
+    let id = elem.parentElement.parentElement.childNodes[0].textContent;
+    let packageSection = elem.parentElement.parentElement.parentElement;
 
     let url = baseURL + '/getPackage?id=' + id + '&version=' + version;
 
@@ -52,8 +52,22 @@ function versionSelect(elem) {
 
     ajaxHttp.onreadystatechange = () => {
         var package = JSON.parse(ajaxHttp.response)
+
         packageSection.innerHTML = createItemForPackageList(package).innerHTML;
-        packageSection.style.display = "block";
+        packageSection.childNodes[1].style.display = "block";
+
+        let versionSelector = getElementByIdFromParent("versionSelect", "select", packageSection)
+
+        UpdateVersions(versionSelector, id);
     }
     ajaxHttp.send();
+}
+function getElementByIdFromParent(elementId, elementName, parent) {
+    list = parent.getElementsByTagName(elementName);
+    let searchedElement;
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].id === "versionSelect")
+        searchedElement = list[i];
+    }
+    return searchedElement;
 }

@@ -35,7 +35,7 @@ function createItemForPackageList(package) {
 
 
     let selectVersion = document.createElement("select");
-
+    selectVersion.setAttribute("id", "versionSelect");
     let baseOption = document.createElement("option");
     baseOption.innerHTML = "select a different version";
     baseOption.disabled = true;
