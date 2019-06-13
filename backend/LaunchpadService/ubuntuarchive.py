@@ -59,6 +59,8 @@ def get_pkg_from_list_format(pkg_info, arch):
         print "Failed to get name"
         return None
     new_pkg_content["architecture"] = arch
+    if "download" in new_pkg_content:
+        new_pkg_content["download"] = "http://archive.ubuntu.com/ubuntu/{}".format(new_pkg_content["download"])
     new_pkg = Package(new_pkg_content)
     return new_pkg
 
