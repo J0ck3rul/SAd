@@ -59,17 +59,41 @@ function createItemForPackageList(package) {
     selectVersion.setAttribute("id", "versionSelect");
     selectVersion.style.display = "block";
 
-    let baseOption = document.createElement("option");
-    baseOption.innerHTML = "select a different version";
-    baseOption.disabled = true;
+    let baseVersionOption = document.createElement("option");
+    baseVersionOption.innerHTML = "select a different version";
+    baseVersionOption.disabled = true;
 
-    selectVersion.appendChild(baseOption);
+
+    let selectArhitecture = document.createElement("select");
+    selectArhitecture.setAttribute("onclick", "stopPropagation(event)");
+    selectVersion.setAttribute("id", "arhitectureSelect");
+    selectArhitecture.style.display = "block";
+
+    let baseArhitectureOption  = document.createElement("option");
+    baseArhitectureOption.innerHTML = "Plase select an arhitecture";
+    baseArhitectureOption.disabled = true;
+    baseArhitectureOption.selected = 'selected';
+    
+    let amd64ArhitectureOption  = document.createElement("option");
+    amd64ArhitectureOption.innerHTML = "amd64";
+    
+    let i386ArhitectureOption  = document.createElement("option");
+    i386ArhitectureOption.innerHTML = "i386";
+
+
+    selectArhitecture.appendChild(baseArhitectureOption);
+    selectArhitecture.appendChild(amd64ArhitectureOption);
+    selectArhitecture.appendChild(i386ArhitectureOption);
+
+    selectVersion.appendChild(baseVersionOption);
+
     expandable.appendChild(id)
     expandable.appendChild(description);
     expandable.appendChild(versionContainer);
     expandable.appendChild(maintainer);
     expandable.appendChild(selectButton);
     expandable.appendChild(selectVersion);
+    expandable.appendChild(selectArhitecture);
 
     section.appendChild(name);
     section.appendChild(expandable);
@@ -104,4 +128,8 @@ function getIndexOfSelectedPackage(object) {
                 return i;
     }
     return 0;
+}
+function stopPropagation(event)
+{
+    event.stopPropagation();
 }
