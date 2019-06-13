@@ -66,21 +66,15 @@ function createItemForPackageList(package) {
 
     let selectArhitecture = document.createElement("select");
     selectArhitecture.setAttribute("onclick", "stopPropagation(event)");
-    selectVersion.setAttribute("id", "arhitectureSelect");
+    selectArhitecture.setAttribute("id", "arhitectureSelect");
     selectArhitecture.style.display = "block";
-
-    let baseArhitectureOption  = document.createElement("option");
-
-    
-
 
     let amd64ArhitectureOption  = document.createElement("option");
     amd64ArhitectureOption.innerHTML = "amd64";
     
     let i386ArhitectureOption  = document.createElement("option");
     i386ArhitectureOption.innerHTML = "i386";
-
-    if(package["_arhitecture"]==="amd64")
+    if(package["_architecture"]==="amd64")
         amd64ArhitectureOption.selected = 'selected';
     else
         i386ArhitectureOption.selected = 'selected';
