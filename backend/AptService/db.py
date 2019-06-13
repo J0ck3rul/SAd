@@ -17,7 +17,7 @@ packages_coll = db["packages"]
 
 def InsertDB(package):
     if not GetPackageByName(package):
-        return packages_coll.insert_one(service.apt_show(package).__repr__()).inserted_id
+        return packages_coll.insert_one(service.apt_show(package).get_obj()).inserted_id
     else:
         return None  # deja exista acest pachet
 
@@ -40,6 +40,6 @@ def GetPackageByName(package):
     return pkg_list
 
 
- InsertDB("python")
+print InsertDB("python")
 
 # print GetPackageByName("python")
