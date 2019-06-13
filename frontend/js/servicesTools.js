@@ -105,7 +105,3 @@ function getIndexOfSelectedPackage(object) {
     }
     return 0;
 }
-
-// function stopPropagation(event) {
-//     event.stopPropagation();
-// }
