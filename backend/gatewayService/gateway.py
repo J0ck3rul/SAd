@@ -12,6 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 arr = []
+arr2 = []
 newPkg = {}
 newPkg["name"] = "test pkg"
 package = Package(newPkg)
@@ -20,7 +21,17 @@ package._version = "128"
 package._description = "o descriere a unui nou pachet proaspat realizat inainte de examenul la matlab"
 package._maintainer = "any"
 package._architecture = "amd64"
-arr.append(package)
+
+package2 = Package(newPkg)
+package2._id = '210'
+package2._version = "129"
+package2._description = "o descriere a unui nou pachet proaspat realizat inainte de examenul la matlab"
+package2._maintainer = "any"
+package2._architecture = "x86"
+
+arr2.append(package)
+arr2.append(package2)
+arr2.append(package)
 arr = [
     "nano",
     "nanoc",
@@ -38,6 +49,8 @@ arr = [
     "libnanomsg0",
     "libnanohttp1"
 ]
+
+
 versionsArray = ["123", "124", "125", "128"]
 
 @app.route("/search", methods = ["GET"])
@@ -48,19 +61,21 @@ def getPackageList():
     json_data = arr
     return jsonify(json_data)
 
-@app.route("/getPackage", methods= ["GET"])
+@app.route("/package", methods= ["GET"])
 def getPackage():
     name = request.args['name']
-    return jsonify(package.__dict__)
+    json_data = []
 
-@app.route("/getVersions", methods = ["GET"])
+    for package in arr2:
+        json_data.append(package.__dict__)
+    return jsonify(json_data)
+
+@app.route("/getPackage", methods = ["GET"])
 def getVersions():
-    if(request.args['id'] is not None):
-        id = request.args['id']
-        return json.dumps(versionsArray),200, {'Content-Type':'application/json'}
-    if(request.args['id'] is None):
-        return 'nothing'
-
+    name = request.args["name"]
+    version = request.args["version"]
+    architecture = request.args["architecture"]
+    return jsonify(package2.__dict__)
 # @app.route("/getPackage", methods=["GET"])
 # def getPackage():
 #     id = request.args['id']

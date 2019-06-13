@@ -1,13 +1,9 @@
 function setAjaxHeaders(ajaxHttp) {
     ajaxHttp.setRequestHeader("content-type", "application/json");
-    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
 }
 
-function createPackeDetails(package) {
-
+function createPackageDetails(package, versionList) {
+    console.log(versionList);
     var expandable = document.createElement("div");
     expandable.classList.add("expandable");
 
@@ -29,6 +25,17 @@ function createPackeDetails(package) {
     versionContainer.appendChild(versionText);
     versionContainer.appendChild(versionValue);
 
+    let architectureContainer = document.createElement("p");
+
+    let architectureValue = document.createElement("span");
+    let architectureText = document.createElement("span");
+
+    architectureText.innerHTML = "architecture: ";
+    architectureValue.innerHTML = package["_architecture"];
+
+    architectureContainer.appendChild(architectureText);
+    architectureContainer.appendChild(architectureValue);
+
     let maintainer = document.createElement("p");
     maintainer.innerHTML = "maintainter: " + package["_maintainer"];
 
@@ -44,12 +51,11 @@ function createPackeDetails(package) {
         selectButton.innerHTML = "Deselect";
     }
     else {
-        // selectButton.classList.toggle("selected");
         selectButton.innerHTML = "Select";
     }
 
     let selectVersion = document.createElement("select");
-    selectVersion.setAttribute("onclick", "stopPropagation(event)")
+    selectVersion.setAttribute("onclick", "selectClick(this,event)")
     selectVersion.setAttribute("id", "versionSelect");
     selectVersion.style.display = "block";
 
@@ -58,27 +64,21 @@ function createPackeDetails(package) {
     // baseVersionOption.disabled = true;
     baseVersionOption.selected = 'selected';
 
-
-    let selectArhitecture = document.createElement("select");
-    selectArhitecture.setAttribute("onclick", "stopPropagation(event)");
-    selectArhitecture.setAttribute("id", "arhitectureSelect");
-    selectArhitecture.style.display = "block";
-
-    let baseArhitectureOption = document.createElement("option");
-    let architectureVersion = package["_architecture"];
-    baseArhitectureOption.innerHTML = architectureVersion;
-    baseArhitectureOption.selected = "selected";
-
-  
     selectVersion.appendChild(baseVersionOption);
-    selectArhitecture.appendChild(baseArhitectureOption);
+
+
+
+    versionList.forEach(version=>{
+        selectVersion.appendChild(createNewVersionOption(version));
+    })
+
     expandable.appendChild(id)
     expandable.appendChild(description);
     expandable.appendChild(versionContainer);
+    expandable.appendChild(architectureContainer);
     expandable.appendChild(maintainer);
     expandable.appendChild(selectButton);
     expandable.appendChild(selectVersion);
-    expandable.appendChild(selectArhitecture);
 
     return expandable;
 }
