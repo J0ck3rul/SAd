@@ -35,9 +35,7 @@ async function setVersions(packageContainer) {
     else
         UpdateVersions(versionSelector, id);
 }
-function stopPropagation(event) {
-    event.stopPropagation();
-}
+
 function versionSelect(elem, event) {
     event.stopPropagation();
     let version = elem.value;
@@ -63,41 +61,20 @@ function versionSelect(elem, event) {
     ajaxHttp.send();
 }
 
-async function selectPackage(elem, event) {
 
-    event.stopPropagation();
-
-    let id = elem.parentElement.childNodes[0].textContent;
-    console.log(id);
-    if (elem.classList.contains("selected")) {
-        elem.classList.toggle("selected");
-        elem.innerText = "Select";
-
-        removePackage(id);
-    }
-    else {
-        elem.classList.toggle("selected");
-        elem.innerText = "Deselect";
-
-        addPackage(id);
-    }
-
-}
-
-
-function addPackage(id) {
-    selectedPackages.push(id);
-    console.log(selectedPackages);
-}
-function removePackage(id) {
-
-    selectedPackages.slice(selectedPackages.indexOf(id), 1);
-    console.log(selectedPackages);
-}
 
 function Checkout() {
-    console.log("checkout");
-}
-function Reset() {
-    selectedPackages = [];
+    let wantedPackeges = { "packages": selectedPackages };
+    console.log(JSON.stringify(wantedPackeges));
+
+    let url = baseURL + '/checkout';
+console.log(url);
+    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
+    ajaxHttp.open("POST", url, true);
+    setAjaxHeaders(ajaxHttp);
+
+    ajaxHttp.onreadystatechange = () => {
+        console.log(ajaxHttp.response);
+    }
+    ajaxHttp.send(JSON.stringify(wantedPackeges));
 }

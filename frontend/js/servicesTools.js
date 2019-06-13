@@ -43,16 +43,16 @@ function createItemForPackageList(package) {
     let idValue = package["_id"];
 
 
-    // let isAlreadySelected = selectedPackages.includes(idValue);
+    let isAlreadySelected = selectedPackages.indexOf(idValue);
 
-    // if (isAlreadySelected === true) {
-    //     selectButton.classList.toggle("selected");
-    //     selectButton.innerHTML = "Deselect";
-    // }
-    // else {
-    //     // selectButton.classList.toggle("selected");
-    //     selectButton.innerHTML = "Select";
-    // }
+    if (isAlreadySelected !== -1 ) {
+        selectButton.classList.toggle("selected");
+        selectButton.innerHTML = "Deselect";
+    }
+    else {
+        // selectButton.classList.toggle("selected");
+        selectButton.innerHTML = "Select";
+    }
 
     let selectVersion = document.createElement("select");
     selectVersion.setAttribute("onclick", "stopPropagation(event)")
@@ -105,3 +105,7 @@ function getIndexOfSelectedPackage(object) {
     }
     return 0;
 }
+
+// function stopPropagation(event) {
+//     event.stopPropagation();
+// }
