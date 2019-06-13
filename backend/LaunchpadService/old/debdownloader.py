@@ -1,11 +1,11 @@
 import re
-import lplib
+import LaunchpadService.old.lplib
 
 # print getto.get_all_distros()
 # getto.pull_all_packages_into_db()
 
 def get_installer_package(pkg_name, distro_name, series_name, distro_arch):
-    results = lplib.get_package_sources(pkg_name, distro_name, series_name)
+    results = LaunchpadService.old.lplib.get_package_sources(pkg_name, distro_name, series_name)
     if results:
         source_pkg = results[0]
         for deb in source_pkg.binaryFileUrls():
