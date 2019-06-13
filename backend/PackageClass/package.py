@@ -4,6 +4,7 @@ from json import JSONEncoder, dumps
 class Package:
     def __init__(self, package_object):
         self._name = package_object["name"]
+        self._id = package_object["_id"] if "_id" in package_object else ""
         self._description = package_object["description"] if "description" in package_object else ""
         self._architecture = package_object["architecture"] if "architecture" in package_object else ""
         self._version = package_object["version"] if "version" in package_object else ""
