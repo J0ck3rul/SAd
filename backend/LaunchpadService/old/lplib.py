@@ -2,7 +2,7 @@ import json
 import difflib
 import shutil
 from concurrent.futures import ThreadPoolExecutor
-from constants import *
+from LaunchpadService.constants import *
 from launchpadlib.launchpad import Launchpad
 
 launchpad = Launchpad.login_anonymously('just testing', 'production')
