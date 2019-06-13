@@ -8,3 +8,5 @@ backend/packages/
 \.idea/
 
 backend/LaunchpadService/packages/
+
+backend/venv/
