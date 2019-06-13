@@ -5,7 +5,9 @@ class Package:
     def __init__(self, package_object):
         self._name = package_object["name"]
         self._description = package_object["description"] if "description" in package_object else ""
+        self._architecture = package_object["architecture"] if "architecture" in package_object else ""
         self._version = package_object["version"] if "version" in package_object else ""
+        self._download = package_object["download"] if "download" in package_object else ""
         self._pre_depends = package_object["pre_depends"] if "pre_depends" in package_object else []
         self._depends = package_object["depends"] if "depends" in package_object else []
         self._conflicts = package_object["conflicts"] if "conflicts" in package_object else []
@@ -25,8 +27,17 @@ class Package:
         return self._description
 
     @property
+    def architecture(self):
+        return self._architecture
+
+    @property
     def version(self):
         return self._version
+
+    @property
+    def download(self):
+        return self._download
+
 
     @property
     def dependencies(self):
@@ -57,11 +68,15 @@ class Package:
         return self.__repr__()
 
     def __repr__(self):
+        return dumps(self.get_obj(), indent=4)
 
-        return dumps({
+    def get_obj(self):
+        return {
             "name": self._name,
             "description": self._description,
+            "architecture": self._architecture,
             "version": self._version,
+            "download": self._download,
             "pre_depends": self._pre_depends,
             "depends": self._depends,
             "conflicts": self._conflicts,
@@ -71,5 +86,4 @@ class Package:
             "download_size": self._download_size,
             "homepage": self._homepage,
             "maintainer": self._maintainer
-
-        },indent=4)
+        }
