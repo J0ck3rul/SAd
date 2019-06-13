@@ -3,6 +3,7 @@ DB_PASSWORD = "devs"
 
 PKG_CONTENT_MATCHES = {
     r"^Package: (.+)$": "name",
+    r"^Description: (.+)$": "description",
     r"^Architecture: (.+)$": "arch",
     r"^Version: (.+)$": "version",
     r"^Maintainer: (.+)$": "maintainer",
@@ -11,7 +12,6 @@ PKG_CONTENT_MATCHES = {
     r"^Filename: (.+)$": "download",
     r"^Size: (.+)$": "download_size",  # in B
     r"^Homepage: (.+)$": "homepage",
-    r"^Description: (.+)$": "description",
     r"^Pre-Depends: (.+)$": "pre_depends",
     r"^Conflicts: (.+)$": "conflicts",
     r"^Breaks: (.+)$": "breaks",
