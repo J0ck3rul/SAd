@@ -45,11 +45,14 @@ def getPackageList():
     # if(request.ar)
     # querry_string = request.args['name']
     json_data = {}
-    json_data["package_list"] = arr
-    # for package in arr:
-        # json_data["package_list"].append(package)
+    json_data = arr
     return jsonify(json_data)
-    
+
+@app.route("/getPackage", methods= ["GET"])
+def getPackage():
+    name = request.args['name']
+    return jsonify(package.__dict__)
+
 @app.route("/getVersions", methods = ["GET"])
 def getVersions():
     if(request.args['id'] is not None):
@@ -58,13 +61,13 @@ def getVersions():
     if(request.args['id'] is None):
         return 'nothing'
 
-@app.route("/getPackage", methods=["GET"])
-def getPackage():
-    id = request.args['id']
-    version = request.args['version']
-    package._version = version
-    package._id = id
-    return json.dumps(package.__dict__), 200, {'Content-Type':'application/json'}
+# @app.route("/getPackage", methods=["GET"])
+# def getPackage():
+#     id = request.args['id']
+#     version = request.args['version']
+#     package._version = version
+#     package._id = id
+#     return json.dumps(package.__dict__), 200, {'Content-Type':'application/json'}
 
 @app.route("/checkout", methods=["POST"])
 def checkout():
