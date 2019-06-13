@@ -1,5 +1,5 @@
-DB_USERNAME = "devs"
-DB_PASSWORD = "devs"
+DB_USERNAME = "sad"
+DB_PASSWORD = "sad"
 
 PKG_CONTENT_MATCHES = {
     r"^Package: (.+)$": "name",

@@ -4,6 +4,8 @@ import shutil
 import sys
 import re
 import urllib
+import tempfile
+import atexit
 from threading import Lock
 
 from constants import PKG_CONTENT_MATCHES
@@ -12,7 +14,16 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.insert(0, os.path.abspath('..'))
 from PackageClass.package import Package
 
-stdout_lock = Lock()
+
+TEMP_FOLDER = tempfile.mkdtemp(prefix="sad_")
+STDOUT_LOCK = Lock()
+
+
+def cleanup():
+    shutil.rmtree(TEMP_FOLDER)
+
+
+atexit.register(cleanup)
 
 
 def get_all_packages():
@@ -27,7 +38,7 @@ def get_all_packages():
         if not current_arch:
             print "Arch of list {} is unknown.".format(package_list_path)
             return []
-        with open(os.path.join("packages", package_list_path), "r") as f:
+        with open(os.path.join(TEMP_FOLDER, package_list_path), "r") as f:
             package_list_content = f.read()
             for package_info in package_list_content.split("\n\n"):
                 if package_info and not package_info.isspace():
@@ -59,9 +70,6 @@ def get_all_package_lists():
     repo_series_derivation = ["", "-security", "-updates"]
     repo_type = ["main", "universe", "restricted", "multiverse"]
     repo_arch = ["binary-amd64", "binary-i386"]
-    if os.path.exists("packages"):
-        shutil.rmtree("packages")
-        os.mkdir("packages")
     job_urls = {}
     for series_derivative in repo_series_derivation:
         for series in repo_series:
@@ -72,29 +80,29 @@ def get_all_package_lists():
                     package_list_filename = "{}_{}_{}_packages.list".format(dist, d_type, d_arch)
                     archive_url = "http://archive.ubuntu.com/ubuntu/dists/{}/{}/{}/Packages.gz".format(
                         dist, d_type, d_arch)
-                    archive_path = os.path.join("packages", archive_filename)
-                    package_list_path = os.path.join("packages", package_list_filename)
+                    archive_path = os.path.join(TEMP_FOLDER, archive_filename)
+                    package_list_path = os.path.join(TEMP_FOLDER, package_list_filename)
                     job_urls[executor.submit(download_package, archive_url, archive_path, package_list_path)] = package_list_filename
     for job in as_completed(job_urls):
         job_filename= job_urls[job]
         try:
             result = job.result()
         except Exception as e:
-            stdout_lock.acquire()
+            STDOUT_LOCK.acquire()
             print("Job {} failed with exception: {}".format(job_filename, str(e)))
-            stdout_lock.release()
+            STDOUT_LOCK.release()
         else:
-            stdout_lock.acquire()
+            STDOUT_LOCK.acquire()
             print("Job {} successfully downloaded.".format(job_filename))
-            stdout_lock.release()
+            STDOUT_LOCK.release()
             downloaded_lists.append(job_filename)
     return downloaded_lists
 
 
 def download_package(archive_url, archive_path, package_list_path):
-    stdout_lock.acquire()
+    STDOUT_LOCK.acquire()
     print "Downloading {}".format(archive_url)
-    stdout_lock.release()
+    STDOUT_LOCK.release()
     urllib.urlretrieve(archive_url, archive_path)
     with gzip.open(archive_path, "rb") as archive:
         with open(package_list_path, "wb") as package_list:
