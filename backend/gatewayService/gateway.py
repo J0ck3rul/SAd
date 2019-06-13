@@ -50,6 +50,11 @@ def getPackage():
     package._id = id
     return json.dumps(package.__dict__), 200, {'Content-Type':'application/json'}
 
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    print request.data
+    return "jsonify(request.data)"
+
 if __name__ == "__main__":
     app.run(host="", port=5123)
 
