@@ -1,5 +1,7 @@
 import json
 import difflib
+import shutil
+from concurrent.futures import ThreadPoolExecutor
 from constants import *
 from launchpadlib.launchpad import Launchpad
 
@@ -85,28 +87,25 @@ def pull_packages(packages, distro_str, series_str):
                     }
 
 
-def get_all_packages():
-    all_packages = {}
-    for distro in launchpad.distributions:
-        if distro and distro.current_series:
-            pull_packages(all_packages, distro.name, distro.current_series.name)
-    return all_packages
+# def find_package(pkg):
+#     # print get_all_packages()
+#     packages = get_all_packages()
+#     best_match_names = difflib.get_close_matches(
+#         pkg,
+#         [pkg_name for pkg_name in packages],
+#         8,
+#         0.5
+#     )
+#     best_matches = []
+#     for pkg_name in best_match_names:
+#         best_matches.append({
+#             "name": pkg_name,
+#             "distro": packages[pkg_name]["distro"],
+#             "series": packages[pkg_name]["series"]
+#         })
+#     return best_matches
 
 
-def find_package(pkg):
-    # print get_all_packages()
-    packages = get_all_packages()
-    return [
-        packages[found_pkg_name]
-        for found_pkg_name in difflib.get_close_matches(
-            pkg, [pkg_name for pkg_name in packages],
-            8,
-            0.5
-        )]
-
-
-for pkg_name in find_package("python3"):
-    print get_package_sources(pkg_name, pkg_name["distro"], pkg_name["series"])
 
 # get_all_packages()
 # package_list = []

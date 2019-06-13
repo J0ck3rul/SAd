@@ -4,15 +4,15 @@ sys.path.insert(0, os.path.abspath('..'))
 from PackageClass.package import Package
 
 import lplib
+import debdownloader
+import ubuntuarchive
 
-def FindPackages(keyword):
-    found_packages_names = list(lplib.find_package_source(keyword, "ubuntu"))
-    for pkg_name in found_packages_names:
-        print pkg_name
-
-lplib.find_projects("python")
-
-# print functions.get_all_series()
+# for pkg in lplib.find_package("python3"):
+#     print pkg["name"], pkg["distro"], pkg["series"], "amd64"
+#     print debdownloader.get_installer_package(pkg["name"], pkg["distro"], pkg["series"], "amd64")
+#     print lplib.get_package_sources(pkg["name"], pkg["distro"], pkg["series"])
+print ubuntuarchive.get_all_packages()
+# print lplib.get_all_series()
 
 # print functions.get_distro("ubuntu").series_collection_link
 # pkg_list = functions.get_package_sources("apache2", "ubuntu", "bionic")

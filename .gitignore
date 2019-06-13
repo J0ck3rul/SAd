@@ -6,3 +6,5 @@
 backend/packages/
 
 \.idea/
+
+backend/LaunchpadService/packages/
