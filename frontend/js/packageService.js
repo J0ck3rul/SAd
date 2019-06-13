@@ -1,18 +1,24 @@
 
 function searchPackages() {
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
-    var url = baseURL + '/search';
+    let url = baseURL + '/search';
 
     ajaxHttp.open("GET", url, true);
 
     setAjaxHeaders(ajaxHttp);
 
-    var searchText = document.getElementsByClassName("search-field");
+    let searchText = document.getElementsByClassName("search-field");
+    let serachTextLength = searchText[0].textLength;
+    let minimumTextLength = 4;
+    if(serachTextLength < minimumTextLength)
+        {
+            alert("minimum "+ minimumTextLength + " characters");
+            return ;
+        }
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
 
         let packageList = obj["package_list"];
-        console.log(obj);
         let htmlPackageList = document.getElementsByClassName("package-list")[0];
         htmlPackageList.innerHTML = '';
 
@@ -65,10 +71,8 @@ function versionSelect(elem, event) {
 
 function Checkout() {
     let wantedPackeges = { "packages": selectedPackages };
-    console.log(JSON.stringify(wantedPackeges));
 
     let url = baseURL + '/checkout';
-console.log(url);
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("POST", url, true);
     setAjaxHeaders(ajaxHttp);
