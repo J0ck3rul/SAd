@@ -21,7 +21,23 @@ package._description = "o descriere a unui nou pachet proaspat realizat inainte 
 package._maintainer = "any"
 package._architecture = "amd64"
 arr.append(package)
-
+arr = [
+    "nano",
+    "nanoc",
+    "nanook",
+    "nanoweb",
+    "nanourl",
+    "deepnano",
+    "nanoc-doc",
+    "nano-tiny",
+    "nanopolish",
+    "nanoweb-doc",
+    "nanoblogger",
+    "libnanomsg5",
+    "libnanomsg4",
+    "libnanomsg0",
+    "libnanohttp1"
+]
 versionsArray = ["123", "124", "125", "128"]
 
 @app.route("/search", methods = ["GET"])
@@ -29,9 +45,9 @@ def getPackageList():
     # if(request.ar)
     # querry_string = request.args['name']
     json_data = {}
-    json_data["package_list"] = []
-    for package in arr:
-        json_data["package_list"].append(package.__dict__)
+    json_data["package_list"] = arr
+    # for package in arr:
+        # json_data["package_list"].append(package)
     return jsonify(json_data)
     
 @app.route("/getVersions", methods = ["GET"])

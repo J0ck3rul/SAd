@@ -11,86 +11,88 @@ function createItemForPackageList(package) {
     section.classList.add("package");
     section.setAttribute("onclick", "expandPackage(this);");
 
+    console.log(package);
+
     let name = document.createElement("h2");
-    name.innerHTML = package["_name"];
+    name.innerHTML = package;
 
     var expandable = document.createElement("div");
     expandable.classList.add("expandable");
 
-    let id = document.createElement("p");
-    id.innerHTML = package["_id"];
-    id.style.display = "none";
+    // let id = document.createElement("p");
+    // id.innerHTML = package["_id"];
+    // id.style.display = "none";
 
-    let description = document.createElement("p");
-    description.innerHTML = package["_description"];
+    // let description = document.createElement("p");
+    // description.innerHTML = package["_description"];
 
-    let versionContainer = document.createElement("p");
+    // let versionContainer = document.createElement("p");
 
-    let versionValue = document.createElement("span");
-    let versionText = document.createElement("span");
+    // let versionValue = document.createElement("span");
+    // let versionText = document.createElement("span");
 
-    versionText.innerHTML = "version: ";
-    versionValue.innerHTML = package["_version"];
+    // versionText.innerHTML = "version: ";
+    // versionValue.innerHTML = package["_version"];
 
-    versionContainer.appendChild(versionText);
-    versionContainer.appendChild(versionValue);
+    // versionContainer.appendChild(versionText);
+    // versionContainer.appendChild(versionValue);
 
-    let maintainer = document.createElement("p");
-    maintainer.innerHTML = "maintainter: " + package["_maintainer"];
+    // let maintainer = document.createElement("p");
+    // maintainer.innerHTML = "maintainter: " + package["_maintainer"];
 
-    let selectButton = document.createElement("button");
-    selectButton.setAttribute("onclick", "selectPackage(this, event)");
-    let idValue = package["_id"];
-
-
-    let isAlreadySelected = selectedPackages.indexOf(idValue);
-
-    if (isAlreadySelected !== -1 ) {
-        selectButton.classList.toggle("selected");
-        selectButton.innerHTML = "Deselect";
-    }
-    else {
-        // selectButton.classList.toggle("selected");
-        selectButton.innerHTML = "Select";
-    }
-
-    let selectVersion = document.createElement("select");
-    selectVersion.setAttribute("onclick", "stopPropagation(event)")
-    selectVersion.setAttribute("id", "versionSelect");
-    selectVersion.style.display = "block";
-
-    let baseVersionOption = document.createElement("option");
-    baseVersionOption.innerHTML = "select a different version";
-    baseVersionOption.disabled = true;
+    // let selectButton = document.createElement("button");
+    // selectButton.setAttribute("onclick", "selectPackage(this, event)");
+    // let idValue = package["_id"];
 
 
-    let selectArhitecture = document.createElement("select");
-    selectArhitecture.setAttribute("onclick", "stopPropagation(event)");
-    selectArhitecture.setAttribute("id", "arhitectureSelect");
-    selectArhitecture.style.display = "block";
+    // let isAlreadySelected = selectedPackages.indexOf(idValue);
 
-    let amd64ArhitectureOption  = document.createElement("option");
-    amd64ArhitectureOption.innerHTML = "amd64";
+    // if (isAlreadySelected !== -1 ) {
+    //     selectButton.classList.toggle("selected");
+    //     selectButton.innerHTML = "Deselect";
+    // }
+    // else {
+    //     // selectButton.classList.toggle("selected");
+    //     selectButton.innerHTML = "Select";
+    // }
+
+    // let selectVersion = document.createElement("select");
+    // selectVersion.setAttribute("onclick", "stopPropagation(event)")
+    // selectVersion.setAttribute("id", "versionSelect");
+    // selectVersion.style.display = "block";
+
+    // let baseVersionOption = document.createElement("option");
+    // baseVersionOption.innerHTML = "select a different version";
+    // baseVersionOption.disabled = true;
+
+
+    // let selectArhitecture = document.createElement("select");
+    // selectArhitecture.setAttribute("onclick", "stopPropagation(event)");
+    // selectArhitecture.setAttribute("id", "arhitectureSelect");
+    // selectArhitecture.style.display = "block";
+
+    // let amd64ArhitectureOption  = document.createElement("option");
+    // amd64ArhitectureOption.innerHTML = "amd64";
     
-    let i386ArhitectureOption  = document.createElement("option");
-    i386ArhitectureOption.innerHTML = "i386";
-    if(package["_architecture"]==="amd64")
-        amd64ArhitectureOption.selected = 'selected';
-    else
-        i386ArhitectureOption.selected = 'selected';
+    // let i386ArhitectureOption  = document.createElement("option");
+    // i386ArhitectureOption.innerHTML = "i386";
+    // if(package["_architecture"]==="amd64")
+    //     amd64ArhitectureOption.selected = 'selected';
+    // else
+    //     i386ArhitectureOption.selected = 'selected';
 
-    selectArhitecture.appendChild(amd64ArhitectureOption);
-    selectArhitecture.appendChild(i386ArhitectureOption);
+    // selectArhitecture.appendChild(amd64ArhitectureOption);
+    // selectArhitecture.appendChild(i386ArhitectureOption);
 
-    selectVersion.appendChild(baseVersionOption);
+    // selectVersion.appendChild(baseVersionOption);
 
-    expandable.appendChild(id)
-    expandable.appendChild(description);
-    expandable.appendChild(versionContainer);
-    expandable.appendChild(maintainer);
-    expandable.appendChild(selectButton);
-    expandable.appendChild(selectVersion);
-    expandable.appendChild(selectArhitecture);
+    // expandable.appendChild(id)
+    // expandable.appendChild(description);
+    // expandable.appendChild(versionContainer);
+    // expandable.appendChild(maintainer);
+    // expandable.appendChild(selectButton);
+    // expandable.appendChild(selectVersion);
+    // expandable.appendChild(selectArhitecture);
 
     section.appendChild(name);
     section.appendChild(expandable);

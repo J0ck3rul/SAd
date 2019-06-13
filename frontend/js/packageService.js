@@ -19,9 +19,10 @@ function searchPackages() {
         var obj = JSON.parse(ajaxHttp.response)
 
         let packageList = obj["package_list"];
+        console.log(packageList);
         let htmlPackageList = document.getElementsByClassName("package-list")[0];
         htmlPackageList.innerHTML = '';
-
+        
         packageList.forEach(package => {
             packageNode = createItemForPackageList(package);
             htmlPackageList.appendChild(packageNode);
@@ -34,7 +35,8 @@ async function setVersions(packageContainer) {
 
     let id = packageContainer.childNodes[1].childNodes[0].textContent;
     let versionSelector = packageContainer.childNodes[1].childNodes[5];
-    let url = baseURL + '/getVersions?id=' + id;
+    console.log(packageContainer.childNodes);
+    let url = baseURL + '/getVersions?id=' + id+'architecture=';
 
     if (versionDictionary[id] === undefined)
         await requestAndUpdateVersions(url, versionSelector, id);
