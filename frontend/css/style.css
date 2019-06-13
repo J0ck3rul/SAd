@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Heebo');
+
+
+body {
+    font-family: 'Heebo', sans-serif;
+    margin: 10px;
+}
+
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.delimiter-vertical {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.link-red {
+    color: #FF3B4A !important;
+}
+
+.link-red:hover {
+    color: #ff7780 !important;
+}
