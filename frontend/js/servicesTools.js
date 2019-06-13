@@ -70,18 +70,21 @@ function createItemForPackageList(package) {
     selectArhitecture.style.display = "block";
 
     let baseArhitectureOption  = document.createElement("option");
-    baseArhitectureOption.innerHTML = "Plase select an arhitecture";
-    baseArhitectureOption.disabled = true;
-    baseArhitectureOption.selected = 'selected';
+
     
+
+
     let amd64ArhitectureOption  = document.createElement("option");
     amd64ArhitectureOption.innerHTML = "amd64";
     
     let i386ArhitectureOption  = document.createElement("option");
     i386ArhitectureOption.innerHTML = "i386";
 
+    if(package["_arhitecture"]==="amd64")
+        amd64ArhitectureOption.selected = 'selected';
+    else
+        i386ArhitectureOption.selected = 'selected';
 
-    selectArhitecture.appendChild(baseArhitectureOption);
     selectArhitecture.appendChild(amd64ArhitectureOption);
     selectArhitecture.appendChild(i386ArhitectureOption);
 

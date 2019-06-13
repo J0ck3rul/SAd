@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 import sys
-sys.path.insert(0, '../..')
-
-from package import Package
+sys.path.insert(0, os.path.abspath('..'))
+from PackageClass.package import Package
 
 import json
 
@@ -12,14 +12,14 @@ app = Flask(__name__)
 CORS(app)
 
 arr = []
-arr.append(Package("firefox"))
-arr.append(Package("python"))
-arr.append(Package("terminator"))
-package = Package("new pkg")
+newPkg = {}
+newPkg["name"] = "test pkg"
+package = Package(newPkg)
 package._id = '279'
 package._version = "128"
 package._description = "o descriere a unui nou pachet proaspat realizat inainte de examenul la matlab"
 package._maintainer = "any"
+package._architecture = "amd64"
 arr.append(package)
 
 versionsArray = ["123", "124", "125", "128"]
@@ -32,7 +32,7 @@ def getPackageList():
     json_data["package_list"] = []
     for package in arr:
         json_data["package_list"].append(package.__dict__)
-    return json.dumps(json_data), 200, {'Content-Type':'application/json'}
+    return jsonify(json_data)
     
 @app.route("/getVersions", methods = ["GET"])
 def getVersions():
