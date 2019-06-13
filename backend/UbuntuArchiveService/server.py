@@ -57,11 +57,16 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
 
 
 @app.route("/install", methods=["GET"])
-def generate_install_script(pkg_name):
+def generate_install_script():
     if not request.is_json:
         return {"error": "Request is not a valid json."}, 400
     try:
-        return jsonify(service.generate_install_script(request.json)), 200
+        return send_file(
+            service.generate_install_script(request.get_json()),
+            "application/x-sh",
+            as_attachment=True,
+            attachment_filename="install.sh"
+        ), 200
     except Exception as e:
         return jsonify({"errormsg": str(e)}), 404
 
@@ -74,3 +79,4 @@ if __name__ == "__main__":
 # http://localhost:5000/package/nano/2.9.8-1
 # http://localhost:5000/package/nano/2.9.8-1/amd64
 # http://localhost:5000/package/nano/2.9.8-1/amd64/download
+# http://localhost:5000/install

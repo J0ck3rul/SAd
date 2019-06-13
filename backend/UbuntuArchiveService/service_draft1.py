@@ -6,9 +6,12 @@ import apt_pkg
 apt_pkg.init_system()
 
 
-pkgs = db.get_packages_by_name("python")
-versions = [pkg["version"] for pkg in pkgs]
-sortedDict = sorted(versions, cmp=apt_pkg.version_compare, reverse=True)
+def compare_versions(a, b):
+    return apt_pkg.version_compare(a, b)
+
+def check_vers_depend(version, dependency_version):
+    split_str = dependency_version.split(" ")
+    operation, dependency_version =
 
 
 def update_package_db():
@@ -16,6 +19,7 @@ def update_package_db():
     db.update_packages_database(packages)
 
 
+# Dependency format {"name", "min_version", "max_version"}
 def generate_install_script(package_list):
     conflicts_list = []
     dependency_stack = []
