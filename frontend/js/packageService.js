@@ -108,13 +108,13 @@ function versionSelect(elem, event) {
 
 function Checkout() {
     let wantedPackages = { "packages": selectedPackages };
-    console.log(wantedPackages);
     let url = baseURL + '/checkout';
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("POST", url, true);
     setAjaxHeaders(ajaxHttp);
 
     ajaxHttp.onreadystatechange = () => {
+        console.log(ajaxHttp.response);
     }
     ajaxHttp.send(JSON.stringify(wantedPackages));
 }

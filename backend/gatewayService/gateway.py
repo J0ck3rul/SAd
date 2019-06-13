@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
 import sys
@@ -86,8 +86,8 @@ def getVersions():
 
 @app.route("/checkout", methods=["POST"])
 def checkout():
-    print request.data
-    return "jsonify(request.data)"
+    # print request.data
+    return send_file("__init__.py")
 
 if __name__ == "__main__":
     app.run(host="", port=5123)
