@@ -140,11 +140,19 @@
                         <option value="Debian8">Debian 8</option>
                         <option value="Debian9">Debian 9</option>
                     </select>
-                    <input type="button" onclick="searchButton();" value="Search" class="search-confirm">
+                    <input type="button" onclick="searchPackages();" value="Search" class="search-confirm">
                 </form>
             </header>
             <button class="apply-changes-button" onclick="applyChanges(this, event)">Apply Changes</button>
             <section class="package-list">
+            </section>
+            <section>
+                <button onclick="Checkout()">
+                    Checkout
+                </button>
+                <button onclick="Reset()">
+                    Reset
+                </button>
             </section>
         </main>
 
@@ -178,6 +186,7 @@
     <script>
         firstLoadingEnd();
     </script>
+    <script src="js/models.js"></script>
     <script src="js/servicesTools.js"></script>
     <script src="js/versionService.js"></script>
     <script src="js/packageService.js"></script>

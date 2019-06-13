@@ -33,7 +33,7 @@ function UpdateVersions(versionSelector, id) {
 
 function createNewVersionOption(version) {
     let option = document.createElement("option");
-    option.setAttribute('onclick', 'versionSelect(this)');
+    option.setAttribute('onclick', 'versionSelect(this, event)');
     option.innerHTML = version;
     return option;
 }

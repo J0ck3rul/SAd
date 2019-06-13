@@ -1,7 +1,5 @@
-var baseURL = 'http://localhost:5123';
-var versionDictionary = {};
 
-function searchButton() {
+function searchPackages() {
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     var url = baseURL + '/search';
 
@@ -10,12 +8,11 @@ function searchButton() {
     setAjaxHeaders(ajaxHttp);
 
     var searchText = document.getElementsByClassName("search-field");
-
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
 
         let packageList = obj["package_list"];
-
+        console.log(obj);
         let htmlPackageList = document.getElementsByClassName("package-list")[0];
         htmlPackageList.innerHTML = '';
 
@@ -38,8 +35,11 @@ async function setVersions(packageContainer) {
     else
         UpdateVersions(versionSelector, id);
 }
-
-function versionSelect(elem) {
+function stopPropagation(event) {
+    event.stopPropagation();
+}
+function versionSelect(elem, event) {
+    event.stopPropagation();
     let version = elem.value;
     let id = elem.parentElement.parentElement.childNodes[0].textContent;
     let packageSection = elem.parentElement.parentElement.parentElement;
@@ -63,3 +63,41 @@ function versionSelect(elem) {
     ajaxHttp.send();
 }
 
+async function selectPackage(elem, event) {
+
+    event.stopPropagation();
+
+    let id = elem.parentElement.childNodes[0].textContent;
+    console.log(id);
+    if (elem.classList.contains("selected")) {
+        elem.classList.toggle("selected");
+        elem.innerText = "Select";
+
+        removePackage(id);
+    }
+    else {
+        elem.classList.toggle("selected");
+        elem.innerText = "Deselect";
+
+        addPackage(id);
+    }
+
+}
+
+
+function addPackage(id) {
+    selectedPackages.push(id);
+    console.log(selectedPackages);
+}
+function removePackage(id) {
+
+    selectedPackages.slice(selectedPackages.indexOf(id), 1);
+    console.log(selectedPackages);
+}
+
+function Checkout() {
+    console.log("checkout");
+}
+function Reset() {
+    selectedPackages = [];
+}
