@@ -21,14 +21,14 @@ def find_packages_by_name(name):
 
 def get_package_by_id(pid):
     result = coll.find_one({"_id": ObjectId(pid)})
-    result.pop("_id")
+    result["_id"] = str(result.pop("_id"))
     return result
 
 
 def get_packages_by_name(name):
     result = list(coll.find({"name": name}))
     for pkg in result:
-        pkg.pop("_id")
+        pkg["_id"] = str(pkg.pop("_id"))
     return result
 
 
@@ -38,7 +38,7 @@ def get_packages_by_name_version(name, version):
         {"version": version}
     ]}))
     for pkg in result:
-        pkg.pop("_id")
+        pkg["_id"] = str(pkg.pop("_id"))
     return result
 
 
@@ -48,7 +48,7 @@ def get_package_by_name_version_arch(name, version, arch):
         {"version": version},
         {"architecture": arch}
     ]})
-    result.pop("_id")
+    result["_id"] = str(result.pop("_id"))
     return result
 
 
@@ -58,7 +58,7 @@ def download_package_by_name_version_arch(name, version, arch):
         {"version": version},
         {"architecture": arch}
     ]})
-    result.pop("_id")
+    result["_id"] = str(result.pop("_id"))
     deb_url = result["download"]
     response = urllib.urlopen(deb_url)
     return response
