@@ -83,7 +83,9 @@ def apt_download(pkg_name):
         )
 
 
+# print apt_download("python")
 
+print apt_show("python")
 
 
 
