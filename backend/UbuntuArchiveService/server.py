@@ -84,6 +84,7 @@ def rebuild_db():
         service.update_package_db()
     except Exception as e:
         return jsonify({"errormsg": str(e)}), 500
+    return jsonify({}), 200
 
 
 
