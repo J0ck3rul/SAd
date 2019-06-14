@@ -38,7 +38,7 @@ def generate_install_script(package_list):
     generate_dependency_stack(dependency_stack_amd64, "amd64")
     generate_dependency_stack(dependency_stack_i386, "i386")
     template_downloader = "wget -O {} http://vvtsoft.ddns.net:5122/package/{}/{}/{}/download >/dev/null 2>&1"
-    template_installer = "echo yes | sudo dpkg -i {}"
+    template_installer = "echo yes | sudo dpkg -i {} || exit"
     dependency_stack_i386.reverse()
     dependency_stack_amd64.reverse()
     to_install = []
