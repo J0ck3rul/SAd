@@ -1,15 +1,16 @@
 
 function searchPackages() {
-    let url = baseURL + '/search';
-    let minimumTextLength = 4;
+    let searchText = document.getElementsByClassName("search-field");
 
+    let url = baseURL + '/search/'+searchText;
+    
+    let minimumTextLength = 4;
 
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
 
-    let searchText = document.getElementsByClassName("search-field");
     let serachTextLength = searchText[0].textLength;
     if (serachTextLength < minimumTextLength) {
         alert("minimum " + minimumTextLength + " characters");
@@ -41,7 +42,7 @@ async function getPackageProperties(packageContainer) {
 
     let name = packageContainer.childNodes[0].textContent;
 
-    let url = baseURL + '/package?name=' + name;
+    let url = baseURL + '/package/' + name;
 
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
@@ -90,7 +91,7 @@ function versionSelect(elem, event) {
 
 
 
-    let url = baseURL + '/getPackage?name=' + name + '&version=' + version + '&architecture=' + architecture;
+    let url = baseURL + '/getPackage/' + name + '/' + version + '/' + architecture;
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
@@ -114,7 +115,7 @@ function Checkout() {
     setAjaxHeaders(ajaxHttp);
 
     ajaxHttp.onreadystatechange = () => {
-        var filename = 'install.py'
+        var filename = 'install.sh'
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(ajaxHttp.response));
         element.setAttribute('download', filename);
