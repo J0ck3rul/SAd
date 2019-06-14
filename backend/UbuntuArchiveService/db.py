@@ -43,6 +43,7 @@ def get_packages_by_name_version(name, version):
 
 
 def get_package_by_name_version_arch(name, version, arch):
+    print "Getting ", name, version, arch
     result = coll.find_one({"$and": [
         {"name": name},
         {"version": version},
@@ -79,8 +80,7 @@ def insert_package(package):
 def update_packages_database(packages):
     coll.delete_many({})
     try:
-        package_objects = [package.get_obj() for package in packages]
-        coll.insert_many(package_objects, ordered=False)
+        coll.insert_many(packages, ordered=False)
         return True
     except BulkWriteError as e:
         if not any([error["code"] != 11000 for error in e.details["writeErrors"]]):
