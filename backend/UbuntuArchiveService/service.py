@@ -38,7 +38,7 @@ def generate_install_script(package_list):
     generate_dependency_stack(dependency_stack_amd64, "amd64")
     generate_dependency_stack(dependency_stack_i386, "i386")
     template_downloader = "wget -O {} http://vvtsoft.ddns.net:5122/package/{}/{}/{}/download"
-    template_installer = "sudo 'yes | dpkg -i {}'"
+    template_installer = "echo yes | sudo dpkg -i {}"
     dependency_stack_i386.reverse()
     dependency_stack_amd64.reverse()
     to_install = []
@@ -58,7 +58,7 @@ def generate_install_script(package_list):
         to_install.append(download_command.format(os.path.join("/tmp", "{}_{}_amd64.deb".format(pkg_name, pkg_version)), pkg_name, pkg_version, "amd64"))
         install_command = str(template_installer)
         to_install.append(install_command.format(os.path.join("/tmp", "{}_{}_amd64.deb".format(pkg_name, pkg_version))))
-    print "#!/bin/bash\n" + "\n".join(to_install)
+    print "#!/bin/bash\nsudo echo Login successful!\n" + "\n".join(to_install)
     return "#!/bin/bash\n" + "\n".join(to_install)
 
 
