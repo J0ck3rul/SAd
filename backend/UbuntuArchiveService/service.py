@@ -14,9 +14,13 @@ def update_package_db():
 
 def get_latest_version_for_package_name(pkg_name, architecture):
     pkgs = db.get_packages_by_name(pkg_name)
-    versions = [pkg["version"] for pkg in pkgs]
-    sortedDict = sorted(versions, cmp=apt_pkg.version_compare, reverse=True)
-    return db.get_package_by_name_version_arch(pkg_name, sortedDict[0], architecture)
+    if pkgs:
+        versions = [pkg["version"] for pkg in pkgs]
+        sortedDict = sorted(versions, cmp=apt_pkg.version_compare, reverse=True)
+        return db.get_package_by_name_version_arch(pkg_name, sortedDict[0], architecture)
+    else:
+        print "Cannot find package ", pkg_name
+        return {"version": "N/A"}
 
 
 def generate_install_script(package_list):
@@ -26,8 +30,10 @@ def generate_install_script(package_list):
     for pkg in package_list:
         pkg_obj = db.get_package_by_id(pkg)
         if "amd64" == pkg_obj["architecture"]:
+            print "Insert " + pkg_obj["name"]
             dependency_stack_amd64.append(pkg_obj["name"])
         elif "i386" == pkg_obj["architecture"]:
+            print "Insert " + pkg_obj["name"]
             dependency_stack_i386.append(pkg_obj["name"])
     generate_dependency_stack(dependency_stack_amd64, "amd64")
     generate_dependency_stack(dependency_stack_i386, "i386")
@@ -52,6 +58,7 @@ def generate_install_script(package_list):
         to_install.append(download_command.format(os.path.join("/tmp", "{}_{}_amd64.deb".format(pkg_name, pkg_version)), pkg_name, pkg_version, "amd64"))
         install_command = str(template_installer)
         to_install.append(install_command.format(os.path.join("/tmp", "{}_{}_amd64.deb".format(pkg_name, pkg_version))))
+    print "#!/bin/bash\n" + "\n".join(to_install)
     return "#!/bin/bash\n" + "\n".join(to_install)
 
 
@@ -65,7 +72,7 @@ def generate_dependency_stack(dependency_stack, arch):
         )
         if "depends" in pkg:
             for depend in pkg["depends"]:
-                depend_name = depend.split(" ")[0]
+                depend_name = depend.split(" ")[0].replace(":all", "")
                 if depend_name in cycle_deps:
                     print "Skip cycle " + depend_name
                     continue
@@ -88,7 +95,7 @@ def place_dependency_in_stack(dependency_stack, new_depend_name, stack_pos):
         stack_pos[1] = 0
         return
     if dependency_stack.index(depend) < stack_pos[0]:  # If we find the dependency before the current element, move it to the front
-        print "Move"
+        # print "Move"
         dependency_stack.remove(depend)
         stack_pos[0] -= 1
         stack_pos[1] += 1

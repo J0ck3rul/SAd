@@ -26,15 +26,17 @@ def get_package_by_id(pid):
 
 
 def get_packages_by_name(name):
-    result = list(coll.find({"name": name}))
+    name_fixed = name.replace(":any", "")
+    result = list(coll.find({"name": name_fixed}))
     for pkg in result:
         pkg["_id"] = str(pkg.pop("_id"))
     return result
 
 
 def get_packages_by_name_version(name, version):
+    name_fixed = name.replace(":any", "")
     result = list(coll.find({"$and": [
-        {"name": name},
+        {"name": name_fixed},
         {"version": version}
     ]}))
     for pkg in result:
@@ -43,9 +45,10 @@ def get_packages_by_name_version(name, version):
 
 
 def get_package_by_name_version_arch(name, version, arch):
-    print "Getting ", name, version, arch
+    name_fixed = name.replace(":any", "")
+    print "Getting ", name_fixed, version, arch
     result = coll.find_one({"$and": [
-        {"name": name},
+        {"name": name_fixed},
         {"version": version},
         {"architecture": arch}
     ]})
@@ -54,8 +57,9 @@ def get_package_by_name_version_arch(name, version, arch):
 
 
 def download_package_by_name_version_arch(name, version, arch):
+    name_fixed = name.replace(":any", "")
     result = coll.find_one({"$and": [
-        {"name": name},
+        {"name": name_fixed},
         {"version": version},
         {"architecture": arch}
     ]})

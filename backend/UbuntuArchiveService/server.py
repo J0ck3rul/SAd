@@ -60,21 +60,22 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
 
 @app.route("/install/<id_list>", methods=["GET"])
 def generate_install_script(id_list):
-    try:
-        script_str = service.generate_install_script(id_list.split(","))
-        temp_dir = tempfile.mkdtemp()
-        print temp_dir
-        with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
-            f.write(script_str)
-        return send_file(
-            os.path.join(temp_dir, "install.sh"),
-            "application/x-sh",
-            as_attachment=True,
-            attachment_filename="install.sh",
-            cache_timeout=-1
-        ), 200
-    except Exception as e:
-        return jsonify({"errormsg": str(e)}), 404
+    # try:
+    id_as_list = id_list.split(",")
+    print id_as_list
+    script_str = service.generate_install_script(id_as_list)
+    temp_dir = tempfile.mkdtemp()
+    with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
+        f.write(script_str)
+    return send_file(
+        os.path.join(temp_dir, "install.sh"),
+        "application/x-sh",
+        as_attachment=True,
+        attachment_filename="install.sh",
+        cache_timeout=-1
+    ), 200
+    # except Exception as e:
+    #     return jsonify({"errormsg": str(e)}), 404
 
 
 if __name__ == "__main__":
