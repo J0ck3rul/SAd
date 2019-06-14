@@ -54,11 +54,11 @@ async function getPackageProperties(packageContainer) {
         let versionList = [];
 
         obj.forEach(function (package, index) {
-            versionList.push({"version":package["_version"], "architecture":package["_architecture"]});
+            versionList.push({ "version": package["_version"], "architecture": package["_architecture"] });
         });
 
 
-        versionDictionary[obj[0]["_name"]] = versionList; 
+        versionDictionary[obj[0]["_name"]] = versionList;
 
         let packageDetails = createPackageDetails(obj[0], versionList);
 
@@ -85,17 +85,17 @@ function versionSelect(elem, event) {
 
     let sepIndex = elem.value.indexOf(" - ");
     let version = elem.value.substr(0, sepIndex);
-    let architecture = elem.value.substr(sepIndex+3, 15);
+    let architecture = elem.value.substr(sepIndex + 3, 15);
     let name = elem.parentNode.parentNode.parentNode.childNodes[0].textContent;
 
 
 
-    let url = baseURL + '/getPackage?name=' + name + '&version=' + version +'&architecture='+architecture;
+    let url = baseURL + '/getPackage?name=' + name + '&version=' + version + '&architecture=' + architecture;
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
-  
-    ajaxHttp.onreadystatechange = () => {   
+
+    ajaxHttp.onreadystatechange = () => {
         let versionList = [];
         var package = JSON.parse(ajaxHttp.response)
         versionList = versionDictionary[package["_name"]];
@@ -114,12 +114,22 @@ function Checkout() {
     setAjaxHeaders(ajaxHttp);
 
     ajaxHttp.onreadystatechange = () => {
-        console.log(ajaxHttp.response);
+        var filename = 'install.py'
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(ajaxHttp.response));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+
     }
     ajaxHttp.send(JSON.stringify(wantedPackages));
 }
-function selectClick(elem, event)
-{
+function selectClick(elem, event) {
     elem.childNodes[0].disabled = true;
     event.stopPropagation();
 }

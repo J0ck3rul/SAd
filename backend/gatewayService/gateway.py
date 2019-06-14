@@ -87,7 +87,7 @@ def getVersions():
 @app.route("/checkout", methods=["POST"])
 def checkout():
     # print request.data
-    return send_file("__init__.py")
+    return send_file("__init__.py", as_attachment=True, attachment_filename="install.sh")
 
 if __name__ == "__main__":
     app.run(host="", port=5123)
