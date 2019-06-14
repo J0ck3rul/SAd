@@ -30,3 +30,4 @@ function toggleLoading(){
     document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
     document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
 }
+
