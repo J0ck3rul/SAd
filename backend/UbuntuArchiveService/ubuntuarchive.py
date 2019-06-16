@@ -48,21 +48,24 @@ def get_all_packages():
 
 def get_pkg_from_list_format(pkg_info, arch):
     new_pkg_content = {}
+    lists = ["pre_depends", "depends", "conflicts", "breaks", "replaces"]
     for regex in PKG_CONTENT_MATCHES:
         match = re.search(regex, pkg_info, flags=re.MULTILINE)
         if match:
             if ", " in match.group(1):
                 new_pkg_content[PKG_CONTENT_MATCHES[regex]] = [sub_match for sub_match in match.group(1).split(", ")]
             else:
-                new_pkg_content[PKG_CONTENT_MATCHES[regex]] = match.group(1)
+                if PKG_CONTENT_MATCHES[regex] in lists:
+                    new_pkg_content[PKG_CONTENT_MATCHES[regex]] = [match.group(1)]
+                else:
+                    new_pkg_content[PKG_CONTENT_MATCHES[regex]] = match.group(1)
     if "name" not in new_pkg_content:
         print "Failed to get name"
         return None
     new_pkg_content["architecture"] = arch
     if "download" in new_pkg_content:
         new_pkg_content["download"] = "http://archive.ubuntu.com/ubuntu/{}".format(new_pkg_content["download"])
-    new_pkg = Package(new_pkg_content)
-    return new_pkg
+    return new_pkg_content
 
 
 def get_all_package_lists():

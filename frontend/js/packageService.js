@@ -1,159 +1,136 @@
-var baseURL = 'http://localhost:5123';
-function searchButton()
-{
-    let ajaxHttp = new XMLHttpRequest({mozSystem: true});
-    var url = baseURL+'/search';
+
+function searchPackages() {
+    let searchText = document.getElementsByClassName("search-field");
+
+    let url = baseURL + '/search/'+searchText;
+    
+    let minimumTextLength = 4;
+
+    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
     ajaxHttp.open("GET", url, true);
-
     setAjaxHeaders(ajaxHttp);
 
-
-    var searchText = document.getElementsByClassName("search-field");
+    let serachTextLength = searchText[0].textLength;
+    if (serachTextLength < minimumTextLength) {
+        alert("minimum " + minimumTextLength + " characters");
+        return;
+    }
 
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
 
-        let packageList = obj["package_list"];
-
+        let packageList = obj;
         let htmlPackageList = document.getElementsByClassName("package-list")[0];
         htmlPackageList.innerHTML = '';
 
         packageList.forEach(package => {
-            packageNode = createPackageListItem(package);
+            packageNode = createItemForPackageList(package);
             htmlPackageList.appendChild(packageNode);
         });
     }
-
     ajaxHttp.send();
 }
 
-function createPackageListItem(package)
-{
-    let section = document.createElement("section");
-    section.classList.add("package");
-    section.setAttribute("onclick", "expandPackage(this);");
-
-    let name = document.createElement("h2");
-    name.innerHTML = package["_name"];
-
-    var expandable = document.createElement("div");
-    expandable.classList.add("expandable");
-
-    let id = document.createElement("p");
-    id.innerHTML = package["_id"];
-    id.style.display = "none";
-
-    let description = document.createElement("p");
-    description.innerHTML = package["_description"];
-
-    let version = document.createElement("p");
-    version.innerHTML = "version: "+ package["_version"];
-
-    let maintainer = document.createElement("p");
-    maintainer.innerHTML = "maintainter: " + package["_maintainer"];
-
-    let selectButton = document.createElement("button");
-    selectButton.setAttribute("onclick","selectPackage(this, event");
-
-
-    let selectVersion = document.createElement("select");
-
-    let baseOption = document.createElement("option");
-    baseOption.innerHTML = "select a different version";
-    baseOption.disabled = true;
-    
-    selectVersion.appendChild(baseOption);
-    expandable.appendChild(id)
-    expandable.appendChild(description);
-    expandable.appendChild(version);
-    expandable.appendChild(maintainer);
-    expandable.appendChild(selectButton);
-    expandable.appendChild(selectVersion);
-    
-    section.appendChild(name);
-    section.appendChild(expandable);
 
 
 
-    return section;
+async function getPackageProperties(packageContainer) {
+    // let id = packageContainer.childNodes[1].childNodes[0].textContent;
+    // let versionSelector = packageContainer.childNodes[1].childNodes[5];
+    // let url = baseURL + '/getVersions?id=' + id+'architecture=';
 
-}
-function getAllVersions(packageContainer)
-{
-    let id = packageContainer.childNodes[1].childNodes[0].textContent;
-    let versionSelector = packageContainer.childNodes[1].childNodes[5];
-    let url = baseURL+'/getVersions?id='+id;
-    
-    let ajaxHttp = new XMLHttpRequest({mozSystem: true});
+    let name = packageContainer.childNodes[0].textContent;
+
+    let url = baseURL + '/package/' + name;
+
+    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
+
     ajaxHttp.open("GET", url, true);
-
     setAjaxHeaders(ajaxHttp);
 
     ajaxHttp.onreadystatechange = function () {
+        var obj = JSON.parse(ajaxHttp.response)
 
-        versionSelector.innerHTML = '';
+        let versionList = [];
 
-        let baseOption = document.createElement("option");
-        baseOption.innerHTML = "select a different version";
-        baseOption.disabled = true;
-        baseOption.selected='selected';
-    
-        versionSelector.appendChild(baseOption);
-
-        var versionsList = JSON.parse(ajaxHttp.response)
-        versionsList.forEach(version=>{
-
-            versionSelector.appendChild(createNewVersionOption(version));
-            
+        obj.forEach(function (package, index) {
+            versionList.push({ "version": package["_version"], "architecture": package["_architecture"] });
         });
-        
+
+
+        versionDictionary[obj[0]["_name"]] = versionList;
+
+        let packageDetails = createPackageDetails(obj[0], versionList);
+
+        packageContainer.childNodes[1].innerHTML = packageDetails.innerHTML;
+
+
+        // let packageList = obj;
+        // let htmlPackageList = document.getElementsByClassName("package-list")[0];
+        // htmlPackageList.innerHTML = '';
+
+        // packageList.forEach(package => {
+        //     packageNode = createItemForPackageList(package);
+        //     htmlPackageList.appendChild(packageNode);
+        // });
     }
-
     ajaxHttp.send();
-
 }
 
-function versionSelect(elem)
-{
-    version = elem.value;
-    id  = elem.parentElement.parentElement.childNodes[0].textContent;
-    packageSection = elem.parentElement.parentElement.parentElement;
-    console.log(packageSection);
+function versionSelect(elem, event) {
+    event.stopPropagation();
 
 
-    let url = baseURL+'/getPackage?id='+id+'&version='+version;
-   
-    let ajaxHttp = new XMLHttpRequest({mozSystem: true});
+    let packageSection = elem.parentNode.parentNode.parentNode;
+
+    let sepIndex = elem.value.indexOf(" - ");
+    let version = elem.value.substr(0, sepIndex);
+    let architecture = elem.value.substr(sepIndex + 3, 15);
+    let name = elem.parentNode.parentNode.parentNode.childNodes[0].textContent;
+
+
+
+    let url = baseURL + '/getPackage/' + name + '/' + version + '/' + architecture;
+    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
 
-    ajaxHttp.onreadystatechange = ()=> {
-
+    ajaxHttp.onreadystatechange = () => {
+        let versionList = [];
         var package = JSON.parse(ajaxHttp.response)
-        packageSection.innerHTML = createPackageListItem(package).innerHTML;
-        packageSection.style.display = "block";
+        versionList = versionDictionary[package["_name"]];
+        packageSection.childNodes[1].innerHTML = createPackageDetails(package, versionList).innerHTML;
     }
-
-
     ajaxHttp.send();
 }
 
 
-function setAjaxHeaders(ajaxHttp)
-{
-    ajaxHttp.setRequestHeader("content-type","application/json");
-    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods","*");
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+
+function Checkout() {
+    let wantedPackages = { "packages": selectedPackages };
+    let url = baseURL + '/checkout';
+    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
+    ajaxHttp.open("POST", url, true);
+    setAjaxHeaders(ajaxHttp);
+
+    ajaxHttp.onreadystatechange = () => {
+        var filename = 'install.sh'
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(ajaxHttp.response));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+
+    }
+    ajaxHttp.send(JSON.stringify(wantedPackages));
 }
-
-function createNewVersionOption(version)
-{
-    let option = document.createElement("option");
-    option.setAttribute('onclick', 'versionSelect(this)');
-    option.innerHTML = version;
-
-    return option;
+function selectClick(elem, event) {
+    elem.childNodes[0].disabled = true;
+    event.stopPropagation();
 }
