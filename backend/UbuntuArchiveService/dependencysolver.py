@@ -191,14 +191,14 @@ def first_iteration(packages):
 #     return grouped_pkgs
 
 
-def dependency_bkt(pkg_index, pkg_names_list, grouped_packages, chosen_packages, complexity):
+def dependency_bkt(pkg_index, pkg_names_list, grouped_packages, chosen_packages):
     if pkg_index == len(pkg_names_list):
-        print "{}/{}".format(complexity[0], complexity[1])
-        complexity[0] += 1
+        # print "{}/{}".format(complexity[0], complexity[1])
+        # complexity[0] += 1
         return check_all_dependencies_satisfied(chosen_packages)
     for pkg in grouped_packages[pkg_names_list[pkg_index]]:
         chosen_packages.append(pkg)
-        if dependency_bkt(pkg_index+1, pkg_names_list, grouped_packages, chosen_packages, complexity):
+        if dependency_bkt(pkg_index+1, pkg_names_list, grouped_packages, chosen_packages):
             return True
         chosen_packages.remove(pkg)
     return False
@@ -216,12 +216,8 @@ def check_all_dependencies_satisfied(package_list):
                             if is_version_in_dependency(dep_obj, pkg["version"]):
                                 found_dep = True
                                 break
-                            else:
-                                time.time()
                 if not found_dep:
                     return False
-                else:
-                    time.time()
     return True
 # Dependency backtracking #
 
@@ -230,30 +226,18 @@ def second_iteration(packages):
     # This iteration recurses every distrinct package name, using backtracking, trying to match them such that all dependencies are satisfied
     grouped_packages = packages  # group_packages_by_name(packages)
     packages_to_install = []
-    complexity = [1, 1]
-    for key in grouped_packages:
-        print key
-        complexity[1] *= len(grouped_packages[key])
-        print len(grouped_packages[key])
-    print complexity
-    if dependency_bkt(0, [pkg_name for pkg_name in grouped_packages], grouped_packages, packages_to_install, complexity):
+    # complexity = [1, 1]
+    # for key in grouped_packages:
+    #     print key
+    #     complexity[1] *= len(grouped_packages[key])
+    #     print len(grouped_packages[key])
+    # print complexity
+    if dependency_bkt(0, [pkg_name for pkg_name in grouped_packages], grouped_packages, packages_to_install):
         return packages_to_install
     return False
 
 
-def third_iteration():
-    # This iteration recurses every distrinct package name, using backtracking, trying to match them such that all dependencies are satisfied
-    pass
-
-
-import time
-start_time = time.time()
-final_list = first_iteration([db.get_package_by_name_version_arch("python", "2.7.5-5ubuntu3", "amd64")])
-# print second_iteration(final_list)
-result = second_iteration(final_list)
-if result is not False:
-    for elem in result:
-        print elem["name"], elem["version"], elem["architecture"]
-else:
-    print "cannot find viable dependencies"
-print "Dependency solving took {}s".format(time.time() - start_time)
+def get_dependency_list_for_packages(pkg_list):
+    final_list = first_iteration(pkg_list)
+    result = second_iteration(final_list)
+    return result
