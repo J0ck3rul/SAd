@@ -1,6 +1,6 @@
 import aptlib
 import json
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_file
 from flask import request
 from flask import make_response
 from flask_cors import CORS
@@ -18,7 +18,7 @@ CORS(app)
 @app.route("/search/<pkg_name>", methods=["GET"])
 def find_packages_by_name(pkg_name):
     try:
-        return jsonify(aptlib.apt_search(pkg_name)), 200
+        return jsonify(aptlib.apt_search_by_name(pkg_name)), 200
     except Exception as e:
         return jsonify({"errormsg": str(e)}), 404
 
@@ -52,7 +52,7 @@ def get_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
 def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
     try:
         return send_file(
-            db.download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture),
+            aptlib.apt_download(pkg_name, pkg_version, pkg_architecture),
             "application/vnd.debian.binary-package",
             as_attachment=True,
             attachment_filename="{}_{}_{}.deb".format(pkg_name, pkg_version, pkg_architecture)

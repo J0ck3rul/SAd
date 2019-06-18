@@ -9,7 +9,7 @@ import io
 import os
 import sys
 
-from flask import send_file , Flask
+from flask import send_file, Flask
 
 sys.path.insert(0, os.path.abspath('..'))
 from PackageClass.package import Package
@@ -117,18 +117,14 @@ def apt_search_by_name(pkg_name):
     return pkg_name_list
 
 
-def apt_download(pkg_name):
+def apt_download(pkg_name, version, architecture):
     temp_dir = tempfile.mkdtemp(prefix="sad")
-    subprocess.check_output(["apt-get", "download", pkg_name], cwd=temp_dir)
+    subprocess.check_output(["apt-get", "download", pkg_name, "=", version, "vlc:", architecture], cwd=temp_dir)
     file_name = os.listdir(temp_dir)[0]
     file_path = os.path.join(temp_dir, file_name)
     with open(file_path, "rb") as file_handle:
-        return send_file(
-            io.BytesIO(file_handle.read()),
-            attachment_filename=file_name,
-            mimetype='application/vnd.debian.binary-package'
-        )
+        return send_file(io.BytesIO(file_handle.read()), attachment_filename=file_name,
+                         mimetype='application/vnd.debian.binary-package')
 
 
-if __name__ == "__main__":
-    print apt_download("python")
+# apt_download("python", "2.7.15~rc1-1", "amd64")
