@@ -1,9 +1,11 @@
 import os
 import db
+import sys
 import ubuntuarchive
 import apt_pkg
 
-from backend.UbuntuArchiveService import constants
+sys.path.insert(0, os.path.abspath('..'))
+from UbuntuArchiveService import constants
 from dependencysolver import get_dependency_list_for_packages
 
 
