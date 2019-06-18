@@ -78,6 +78,16 @@ def generate_install_script(id_list):
     #     return jsonify({"errormsg": str(e)}), 404
 
 
+@app.route("/rebuild_db", methods=["GET"])
+def rebuild_db():
+    try:
+        service.update_package_db()
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 500
+    return jsonify({}), 200
+
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5122)
 
