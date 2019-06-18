@@ -118,13 +118,14 @@ def apt_search_by_name(pkg_name):
 
 
 def apt_download(pkg_name, version, architecture):
-    temp_dir = tempfile.mkdtemp(prefix="sad")
-    subprocess.check_output(["apt-get", "download", pkg_name, "=", version, "vlc:", architecture], cwd=temp_dir)
-    file_name = os.listdir(temp_dir)[0]
-    file_path = os.path.join(temp_dir, file_name)
-    with open(file_path, "rb") as file_handle:
-        return send_file(io.BytesIO(file_handle.read()), attachment_filename=file_name,
-                         mimetype='application/vnd.debian.binary-package')
+    if not apt_show_by_version_arch(pkg_name, version, architecture):
+        return "nu exista"
+    else:
+        temp_dir = tempfile.mkdtemp(prefix="sad")
+        subprocess.check_output(["apt-get", "download", pkg_name], cwd=temp_dir)
+        file_name = os.listdir(temp_dir)[0]
+        file_path = os.path.join(temp_dir, file_name)
+        with open(file_path, "rb") as file_handle:
+            return file_path
 
-
-# apt_download("python", "2.7.15~rc1-1", "amd64")
+print  apt_download("python", "2.7.15~rc1-1", "amd64")
