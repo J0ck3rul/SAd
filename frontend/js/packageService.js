@@ -1,9 +1,23 @@
 
 function searchPackages() {
     let searchText = document.getElementsByClassName("search-field");
+    let htmlPackageList = document.getElementsByClassName("package-list")[0];
+    htmlPackageList.innerHTML = '';
 
-    let url = baseURL + '/search/'+searchText;
-    
+    let container = document.createElement("div");
+    container.classList.add("container");
+
+    loadingContainer = document.createElement("div");
+    loadingContainer.classList.add("loading");
+    loadingText = document.createElement("span");
+    loadingText.innerHTML = "Loading";
+
+    loadingContainer.appendChild(loadingText);
+    container.appendChild(loadingContainer);
+    htmlPackageList.appendChild(container);
+
+    let url = baseURL + '/search/' + searchText;
+
     let minimumTextLength = 4;
 
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
@@ -19,9 +33,9 @@ function searchPackages() {
 
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
-
+        console.log(obj);
         let packageList = obj;
-        let htmlPackageList = document.getElementsByClassName("package-list")[0];
+
         htmlPackageList.innerHTML = '';
 
         packageList.forEach(package => {
@@ -36,9 +50,6 @@ function searchPackages() {
 
 
 async function getPackageProperties(packageContainer) {
-    // let id = packageContainer.childNodes[1].childNodes[0].textContent;
-    // let versionSelector = packageContainer.childNodes[1].childNodes[5];
-    // let url = baseURL + '/getVersions?id=' + id+'architecture=';
 
     let name = packageContainer.childNodes[0].textContent;
 
@@ -55,11 +66,11 @@ async function getPackageProperties(packageContainer) {
         let versionList = [];
 
         obj.forEach(function (package, index) {
-            versionList.push({ "version": package["_version"], "architecture": package["_architecture"] });
+            versionList.push({ "version": package["version"], "architecture": package["architecture"] });
         });
 
 
-        versionDictionary[obj[0]["_name"]] = versionList;
+        versionDictionary[obj[0]["name"]] = versionList;
 
         let packageDetails = createPackageDetails(obj[0], versionList);
 
@@ -109,11 +120,15 @@ function versionSelect(elem, event) {
 
 function Checkout() {
     let wantedPackages = { "packages": selectedPackages };
-    let url = baseURL + '/checkout';
+    let url = baseURL + '/install';
+    selectedPackages.forEach(package => {
+        url = url + '/' + package
+    });
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("POST", url, true);
     setAjaxHeaders(ajaxHttp);
 
+    console.log(url);
     ajaxHttp.onreadystatechange = () => {
         var filename = 'install.sh'
         var element = document.createElement('a');
