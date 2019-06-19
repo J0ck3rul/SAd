@@ -1,89 +1,71 @@
-import subprocess
-import re
-import tempfile
-from copy import deepcopy
-import time
-from flask import Flask, request, jsonify, send_file
-import io
+import aptlib
+import json
+from flask import Flask, jsonify, send_file
+from flask import request
+from flask import make_response
+from flask_cors import CORS
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
-from PackageClass.package import Package
-
-PKG_CONTENT_MATCHES = {
-    r"^Description[a-zA-Z\-]*: ": "_description",
-    r"^Version: ": "_version",
-    r"^Depends: ": "_depends",
-    r"^Pre-Depends: ": "_pre_depends",
-    r"^Conflicts: ": "_conflicts",
-    r"^Breaks: ": "_breaks",
-    r"^Replaces: ": "_replaces",
-    r"^Installed-Size: ": "_installed_size",  # in KB
-    r"^Size: ": "_download_size",  # in B
-    r"^Homepage: ": "_homepage",
-    r"^Maintainer: ": "_maintainer"
-
-}
-
-# download pkg by name
+app = Flask(__name__)
+CORS(app)
 
 
-PKG_TEMPLATE = {
-    "Name": "",
-    "Description": "",
-    "Version": "",
-    "PreDepends": [],
-    "Depends": [],
-    "Conflicts": [],
-    "Breaks": [],
-    "Replaces": []
-}
+# get pkg by name
+# find pkg by name
+# get pkg deb by name
+# generate install script
 
 
-def apt_show(pkg_name):
-    pkg = Package({"name":pkg_name})
-    pkg.__dict__
-    cmd_output = subprocess.check_output(['apt-cache', "show", pkg_name]).split("\n")
-    for attribute in PKG_CONTENT_MATCHES:
-        for line in cmd_output:
-            match = re.search(attribute, line)
-            if match:
-                if isinstance(pkg.__dict__[PKG_CONTENT_MATCHES[attribute]], list):
-                    arguments = re.sub(attribute, "", line).split(", ")
-                else:
-                    arguments = re.sub(attribute, "", line)
-
-                pkg.__dict__[PKG_CONTENT_MATCHES[attribute]] = arguments
-
-    return pkg
+@app.route("/search/<pkg_name>", methods=["GET"])
+def find_packages_by_name(pkg_name):
+    try:
+        return jsonify(aptlib.apt_search_by_name(pkg_name)), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
 
 
-def apt_search(pkg_name):
-    pkg_list = subprocess.check_output(['apt-cache', "search", pkg_name])
-    pkg_name_list = []
-    for pkg in pkg_list.split("\n"):
-        match = re.search(r"^[a-zA-Z0-9\.\-]+", pkg)
-        if match:
-            pkg_name_list.append(match.group(0))
-            # print(match.group(0))
-    return pkg_name_list
+@app.route("/package/<pkg_name>", methods=["GET"])
+def get_packages_by_name(pkg_name):
+    try:
+        return jsonify(aptlib.apt_show(pkg_name)), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
 
 
-def apt_download(pkg_name):
-    temp_dir = tempfile.mkdtemp(prefix="sad")
-    subprocess.check_output(["apt-get", "download", pkg_name], cwd=temp_dir)
-    file_name = os.listdir(temp_dir)[0]
-    file_path = os.path.join(temp_dir, file_name)
-    with open(file_path, "rb") as file_handle:
+@app.route("/package/<pkg_name>/<pkg_version>", methods=["GET"])
+def get_packages_by_name_version(pkg_name, pkg_version):
+    try:
+        return jsonify(aptlib.apt_show_by_version(pkg_name, pkg_version)), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
+
+
+@app.route("/package/<pkg_name>/<pkg_version>/<pkg_architecture>", methods=["GET"])
+def get_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
+    try:
+        return jsonify(aptlib.apt_show_by_version_arch(pkg_name, pkg_version, pkg_architecture)), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
+
+
+@app.route("/package/<pkg_name>/<pkg_version>/<pkg_architecture>/download", methods=["GET"])
+def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
+    try:
         return send_file(
-            io.BytesIO(file_handle.read()),
-            attachment_filename=file_name,
-            mimetype='application/vnd.debian.binary-package'
-        )
+            aptlib.apt_download(pkg_name, pkg_version, pkg_architecture),
+            "application/vnd.debian.binary-package",
+            as_attachment=True,
+            attachment_filename="{}_{}_{}.deb".format(pkg_name, pkg_version, pkg_architecture)
+        ), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
 
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5121)
 
 
-
-
+#http://localhost:5121/search/nano
+#http://localhost:5121/package/nano
+#http://localhost:5121/package/nano/2.9.3-2
+#http://localhost:5121/package/nano/2.9.3-2/amd64
+#http://localhost:5121/package/nano/2.9.3-2/amd64/download

@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 
+import os
 import db
 import service
+import tempfile
 
 app = Flask(__name__)
 CORS(app)
@@ -56,21 +58,42 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
         return jsonify({"errormsg": str(e)}), 404
 
 
-@app.route("/install", methods=["GET"])
-def generate_install_script(pkg_name):
-    if not request.is_json:
-        return {"error": "Request is not a valid json."}, 400
+@app.route("/install/<id_list>", methods=["GET"])
+def generate_install_script(id_list):
+    # try:
+    id_as_list = id_list.split(",")
+    print id_as_list
+    script_str = service.generate_install_script(id_as_list)
+    temp_dir = tempfile.mkdtemp()
+    with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
+        f.write(script_str)
+    return send_file(
+        os.path.join(temp_dir, "install.sh"),
+        "application/x-sh",
+        as_attachment=True,
+        attachment_filename="install.sh",
+        cache_timeout=-1
+    ), 200
+    # except Exception as e:
+    #     return jsonify({"errormsg": str(e)}), 404
+
+
+@app.route("/rebuild_db", methods=["GET"])
+def rebuild_db():
     try:
-        return jsonify(service.generate_install_script(request.json)), 200
+        service.update_package_db()
     except Exception as e:
-        return jsonify({"errormsg": str(e)}), 404
+        return jsonify({"errormsg": str(e)}), 500
+    return jsonify({}), 200
+
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5122)
 
 # http://localhost:5000/search/nano
 # http://localhost:5000/package/nano
 # http://localhost:5000/package/nano/2.9.8-1
 # http://localhost:5000/package/nano/2.9.8-1/amd64
 # http://localhost:5000/package/nano/2.9.8-1/amd64/download
+# http://localhost:5000/install

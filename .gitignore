@@ -10,3 +10,5 @@ backend/packages/
 backend/LaunchpadService/packages/
 
 backend/venv/
+
+venv/
