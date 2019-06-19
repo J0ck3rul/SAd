@@ -28,7 +28,6 @@ def get_packages_by_name(pkg_name):
     try:
         return jsonify(aptlib.apt_show(pkg_name)), 200
     except Exception as e:
-        print "Da"
         return jsonify({"errormsg": str(e)}), 404
 
 
@@ -63,3 +62,10 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5121)
+
+
+#http://localhost:5121/search/nano
+#http://localhost:5121/package/nano
+#http://localhost:5121/package/nano/2.9.3-2
+#http://localhost:5121/package/nano/2.9.3-2/amd64
+#http://localhost:5121/package/nano/2.9.3-2/amd64/download
