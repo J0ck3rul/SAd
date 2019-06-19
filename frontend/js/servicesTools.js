@@ -1,19 +1,9 @@
 function setAjaxHeaders(ajaxHttp) {
     ajaxHttp.setRequestHeader("content-type", "application/json");
-    ajaxHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-    ajaxHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
 }
 
-function createItemForPackageList(package) {
-    let section = document.createElement("section");
-    section.classList.add("package");
-    section.setAttribute("onclick", "expandPackage(this);");
-
-    let name = document.createElement("h2");
-    name.innerHTML = package["_name"];
-
+function createPackageDetails(package, versionList) {
+    console.log(versionList);
     var expandable = document.createElement("div");
     expandable.classList.add("expandable");
 
@@ -22,7 +12,7 @@ function createItemForPackageList(package) {
     id.style.display = "none";
 
     let description = document.createElement("p");
-    description.innerHTML = package["_description"];
+    description.innerHTML = package["description"];
 
     let versionContainer = document.createElement("p");
 
@@ -30,13 +20,24 @@ function createItemForPackageList(package) {
     let versionText = document.createElement("span");
 
     versionText.innerHTML = "version: ";
-    versionValue.innerHTML = package["_version"];
+    versionValue.innerHTML = package["version"];
 
     versionContainer.appendChild(versionText);
     versionContainer.appendChild(versionValue);
 
+    let architectureContainer = document.createElement("p");
+
+    let architectureValue = document.createElement("span");
+    let architectureText = document.createElement("span");
+
+    architectureText.innerHTML = "architecture: ";
+    architectureValue.innerHTML = package["architecture"];
+
+    architectureContainer.appendChild(architectureText);
+    architectureContainer.appendChild(architectureValue);
+
     let maintainer = document.createElement("p");
-    maintainer.innerHTML = "maintainter: " + package["_maintainer"];
+    maintainer.innerHTML = "maintainter: " + package["maintainer"];
 
     let selectButton = document.createElement("button");
     selectButton.setAttribute("onclick", "selectPackage(this, event)");
@@ -45,57 +46,57 @@ function createItemForPackageList(package) {
 
     let isAlreadySelected = selectedPackages.indexOf(idValue);
 
-    if (isAlreadySelected !== -1 ) {
+    if (isAlreadySelected !== -1) {
         selectButton.classList.toggle("selected");
         selectButton.innerHTML = "Deselect";
     }
     else {
-        // selectButton.classList.toggle("selected");
         selectButton.innerHTML = "Select";
     }
 
     let selectVersion = document.createElement("select");
-    selectVersion.setAttribute("onclick", "stopPropagation(event)")
+    selectVersion.setAttribute("onclick", "selectClick(this,event)")
     selectVersion.setAttribute("id", "versionSelect");
     selectVersion.style.display = "block";
 
     let baseVersionOption = document.createElement("option");
     baseVersionOption.innerHTML = "select a different version";
-    baseVersionOption.disabled = true;
-
-
-    let selectArhitecture = document.createElement("select");
-    selectArhitecture.setAttribute("onclick", "stopPropagation(event)");
-    selectVersion.setAttribute("id", "arhitectureSelect");
-    selectArhitecture.style.display = "block";
-
-    let baseArhitectureOption  = document.createElement("option");
-    baseArhitectureOption.innerHTML = "Plase select an arhitecture";
-    baseArhitectureOption.disabled = true;
-    baseArhitectureOption.selected = 'selected';
-    
-    let amd64ArhitectureOption  = document.createElement("option");
-    amd64ArhitectureOption.innerHTML = "amd64";
-    
-    let i386ArhitectureOption  = document.createElement("option");
-    i386ArhitectureOption.innerHTML = "i386";
-
-
-    selectArhitecture.appendChild(baseArhitectureOption);
-    selectArhitecture.appendChild(amd64ArhitectureOption);
-    selectArhitecture.appendChild(i386ArhitectureOption);
+    // baseVersionOption.disabled = true;
+    baseVersionOption.selected = 'selected';
 
     selectVersion.appendChild(baseVersionOption);
+
+
+
+    versionList.forEach(version=>{
+        selectVersion.appendChild(createNewVersionOption(version));
+    })
 
     expandable.appendChild(id)
     expandable.appendChild(description);
     expandable.appendChild(versionContainer);
+    expandable.appendChild(architectureContainer);
     expandable.appendChild(maintainer);
     expandable.appendChild(selectButton);
     expandable.appendChild(selectVersion);
-    expandable.appendChild(selectArhitecture);
 
-    section.appendChild(name);
+    return expandable;
+}
+
+function createItemForPackageList(name) {
+    let section = document.createElement("section");
+    section.classList.add("package");
+    section.setAttribute("onclick", "expandPackage(this);");
+
+    let nameField = document.createElement("h2");
+    nameField.innerHTML = name;
+
+    var expandable = document.createElement("div");
+    expandable.classList.add("expandable");
+
+
+
+    section.appendChild(nameField);
     section.appendChild(expandable);
 
     return section;
@@ -129,7 +130,6 @@ function getIndexOfSelectedPackage(object) {
     }
     return 0;
 }
-function stopPropagation(event)
-{
+function stopPropagation(event) {
     event.stopPropagation();
 }

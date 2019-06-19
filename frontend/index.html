@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/distros.css">
     <link rel="stylesheet" type="text/css" href="css/team.css">
     <link rel="stylesheet" type="text/css" href="css/browse.css">
+    <link rel="stylesheet" type="text/css" href="css/loading.css">
     <script src="js/main.js"></script>
     <script src="js/utilities.js"></script>
 
@@ -130,16 +131,9 @@
 
         <main class="browse">
             <header>
-                <form class="search" name="search-form" action="getPackages(this);">
+                <form class="search" name="search-form">
                     <input type="text" placeholder="Search for package" class="search-field">
-                    <!-- <p>Select OS:</p> -->
-                    <select>
-                        <option value="Ubuntu1604">Ubuntu 16.04</option>
-                        <option value="Ubuntu1804">Ubuntu 18.04</option>
-                        <option value="Ubuntu1810">Ubuntu 18.10</option>
-                        <option value="Debian8">Debian 8</option>
-                        <option value="Debian9">Debian 9</option>
-                    </select>
+                
                     <input type="button" onclick="searchPackages();" value="Search" class="search-confirm">
                 </form>
             </header>

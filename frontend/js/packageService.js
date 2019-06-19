@@ -1,25 +1,42 @@
 
 function searchPackages() {
+    let searchText = document.getElementsByClassName("search-field")[0].value;
+    let htmlPackageList = document.getElementsByClassName("package-list")[0];
+    htmlPackageList.innerHTML = '';
+
+    // console.log(searchText);
+
+    let container = document.createElement("div");
+    container.classList.add("container");
+
+    loadingContainer = document.createElement("div");
+    loadingContainer.classList.add("loading");
+    loadingText = document.createElement("span");
+    loadingText.innerHTML = "Loading";
+
+    loadingContainer.appendChild(loadingText);
+    container.appendChild(loadingContainer);
+    htmlPackageList.appendChild(container);
+
+    let url = baseURL + '/search/' + searchText;
+
+    let minimumTextLength = 4;
+
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
-    let url = baseURL + '/search';
 
     ajaxHttp.open("GET", url, true);
-
     setAjaxHeaders(ajaxHttp);
 
-    let searchText = document.getElementsByClassName("search-field");
     let serachTextLength = searchText[0].textLength;
-    let minimumTextLength = 4;
-    if(serachTextLength < minimumTextLength)
-        {
-            alert("minimum "+ minimumTextLength + " characters");
-            return ;
-        }
+    if (serachTextLength < minimumTextLength) {
+        alert("minimum " + minimumTextLength + " characters");
+        return;
+    }
+
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
+        let packageList = obj;
 
-        let packageList = obj["package_list"];
-        let htmlPackageList = document.getElementsByClassName("package-list")[0];
         htmlPackageList.innerHTML = '';
 
         packageList.forEach(package => {
@@ -30,39 +47,72 @@ function searchPackages() {
     ajaxHttp.send();
 }
 
-async function setVersions(packageContainer) {
 
-    let id = packageContainer.childNodes[1].childNodes[0].textContent;
-    let versionSelector = packageContainer.childNodes[1].childNodes[5];
-    let url = baseURL + '/getVersions?id=' + id;
 
-    if (versionDictionary[id] === undefined)
-        await requestAndUpdateVersions(url, versionSelector, id);
-    else
-        UpdateVersions(versionSelector, id);
+
+async function getPackageProperties(packageContainer) {
+
+    let name = packageContainer.childNodes[0].textContent;
+
+    let url = baseURL + '/package/' + name;
+
+    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
+
+    ajaxHttp.open("GET", url, true);
+    setAjaxHeaders(ajaxHttp);
+
+    ajaxHttp.onreadystatechange = function () {
+        var obj = JSON.parse(ajaxHttp.response)
+
+        let versionList = [];
+
+        obj.forEach(function (package, index) {
+            versionList.push({ "version": package["version"], "architecture": package["architecture"] });
+        });
+
+
+        versionDictionary[obj[0]["name"]] = versionList;
+
+        let packageDetails = createPackageDetails(obj[0], versionList);
+
+        packageContainer.childNodes[1].innerHTML = packageDetails.innerHTML;
+
+
+        // let packageList = obj;
+        // let htmlPackageList = document.getElementsByClassName("package-list")[0];
+        // htmlPackageList.innerHTML = '';
+
+        // packageList.forEach(package => {
+        //     packageNode = createItemForPackageList(package);
+        //     htmlPackageList.appendChild(packageNode);
+        // });
+    }
+    ajaxHttp.send();
 }
 
 function versionSelect(elem, event) {
     event.stopPropagation();
-    let version = elem.value;
-    let id = elem.parentElement.parentElement.childNodes[0].textContent;
-    let packageSection = elem.parentElement.parentElement.parentElement;
 
-    let url = baseURL + '/getPackage?id=' + id + '&version=' + version;
 
+    let packageSection = elem.parentNode.parentNode.parentNode;
+
+    let sepIndex = elem.value.indexOf(" - ");
+    let version = elem.value.substr(0, sepIndex);
+    let architecture = elem.value.substr(sepIndex + 3, 15);
+    let name = elem.parentNode.parentNode.parentNode.childNodes[0].textContent;
+
+
+
+    let url = baseURL + '/getPackage/' + name + '/' + version + '/' + architecture;
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
 
     ajaxHttp.onreadystatechange = () => {
+        let versionList = [];
         var package = JSON.parse(ajaxHttp.response)
-
-        packageSection.innerHTML = createItemForPackageList(package).innerHTML;
-        packageSection.childNodes[1].style.display = "block";
-
-        let versionSelector = getElementByIdFromParent("versionSelect", "select", packageSection)
-
-        UpdateVersions(versionSelector, id);
+        versionList = versionDictionary[package["_name"]];
+        packageSection.childNodes[1].innerHTML = createPackageDetails(package, versionList).innerHTML;
     }
     ajaxHttp.send();
 }
@@ -70,15 +120,33 @@ function versionSelect(elem, event) {
 
 
 function Checkout() {
-    let wantedPackeges = { "packages": selectedPackages };
-
-    let url = baseURL + '/checkout';
+    let wantedPackages = { "packages": selectedPackages };
+    let url = baseURL + '/install';
+    selectedPackages.forEach(package => {
+        url = url + '/' + package
+    });
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("POST", url, true);
     setAjaxHeaders(ajaxHttp);
 
+    console.log(url);
     ajaxHttp.onreadystatechange = () => {
-        console.log(ajaxHttp.response);
+        var filename = 'install.sh'
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(ajaxHttp.response));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+
     }
-    ajaxHttp.send(JSON.stringify(wantedPackeges));
+    ajaxHttp.send(JSON.stringify(wantedPackages));
+}
+function selectClick(elem, event) {
+    elem.childNodes[0].disabled = true;
+    event.stopPropagation();
 }
