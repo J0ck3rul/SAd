@@ -133,7 +133,7 @@
             <header>
                 <form class="search" name="search-form">
                     <input type="text" placeholder="Search for package" class="search-field">
-                
+
                     <input type="button" onclick="searchPackages();" value="Search" class="search-confirm">
                 </form>
             </header>
@@ -148,6 +148,7 @@
                     Reset
                 </button>
             </section>
+           
         </main>
 
         <footer>
@@ -175,11 +176,12 @@
             <footer-line></footer-line>
             <page-copyright>© Copyright 2019</page-copyright>
         </footer>
-
+        <button id="goTop" onclick="goTop()">Top</button>
     </page-content>
     <script>
         firstLoadingEnd();
     </script>
+    <script src="js/config.js"></script>
     <script src="js/models.js"></script>
     <script src="js/servicesTools.js"></script>
     <script src="js/checkoutService.js"></script>

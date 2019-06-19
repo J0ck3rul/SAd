@@ -4,8 +4,6 @@ function searchPackages() {
     let htmlPackageList = document.getElementsByClassName("package-list")[0];
     htmlPackageList.innerHTML = '';
 
-    // console.log(searchText);
-
     let container = document.createElement("div");
     container.classList.add("container");
 
@@ -20,7 +18,7 @@ function searchPackages() {
 
     let url = baseURL + '/search/' + searchText;
 
-    let minimumTextLength = 4;
+
 
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
@@ -129,7 +127,6 @@ function Checkout() {
     ajaxHttp.open("POST", url, true);
     setAjaxHeaders(ajaxHttp);
 
-    console.log(url);
     ajaxHttp.onreadystatechange = () => {
         var filename = 'install.sh'
         var element = document.createElement('a');
