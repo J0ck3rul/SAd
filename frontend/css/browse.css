@@ -38,6 +38,7 @@ main.browse > header > form.search > input.search-field{
 main.browse > section.package-list{
     flex-direction: row;
     flex-wrap: wrap;
+    /* display: flex; */
 }
 
 main.browse > section.package-list > section.package{

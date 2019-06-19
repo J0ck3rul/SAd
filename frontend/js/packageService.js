@@ -1,8 +1,10 @@
 
 function searchPackages() {
-    let searchText = document.getElementsByClassName("search-field");
+    let searchText = document.getElementsByClassName("search-field")[0].value;
     let htmlPackageList = document.getElementsByClassName("package-list")[0];
     htmlPackageList.innerHTML = '';
+
+    // console.log(searchText);
 
     let container = document.createElement("div");
     container.classList.add("container");
@@ -33,7 +35,6 @@ function searchPackages() {
 
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
-        console.log(obj);
         let packageList = obj;
 
         htmlPackageList.innerHTML = '';
