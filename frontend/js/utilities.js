@@ -31,3 +31,23 @@ function toggleLoading(){
     document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
 }
 
+
+window.onscroll = function() {
+    scrollFunction();
+}
+
+function scrollFunction()
+{
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("goTop").style.display = "block";
+      } else {
+        document.getElementById("goTop").style.display = "none";
+      }
+}
+
+function goTop()
+{
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
