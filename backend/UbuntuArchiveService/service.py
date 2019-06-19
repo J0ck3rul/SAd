@@ -3,6 +3,9 @@ import db
 import ubuntuarchive
 import apt_pkg
 
+from backend.UbuntuArchiveService import constants
+from dependencysolver import get_dependency_list_for_packages
+
 
 apt_pkg.init_system()
 
@@ -23,85 +26,28 @@ def get_latest_version_for_package_name(pkg_name, architecture):
         return {"version": "N/A"}
 
 
-def generate_install_script(package_list):
+def generate_install_script(package_ids_list):
     conflicts_list = []
-    dependency_stack_amd64 = []
-    dependency_stack_i386 = []
-    for pkg in package_list:
-        pkg_obj = db.get_package_by_id(pkg)
-        if "amd64" == pkg_obj["architecture"]:
-            print "Insert " + pkg_obj["name"]
-            dependency_stack_amd64.append(pkg_obj["name"])
-        elif "i386" == pkg_obj["architecture"]:
-            print "Insert " + pkg_obj["name"]
-            dependency_stack_i386.append(pkg_obj["name"])
-    generate_dependency_stack(dependency_stack_amd64, "amd64")
-    generate_dependency_stack(dependency_stack_i386, "i386")
-    template_downloader = "wget -O {} http://vvtsoft.ddns.net:5122/package/{}/{}/{}/download"
-    template_installer = "sudo 'yes | dpkg -i {}'"
-    dependency_stack_i386.reverse()
-    dependency_stack_amd64.reverse()
-    to_install = []
+    package_list = []
+    for pkg_id in package_ids_list:
+        pkg_obj = db.get_package_by_id(pkg_id)
+        package_list.append(pkg_obj)
+    pkgs_to_install_list = get_dependency_list_for_packages(package_list)
+    template_downloader = "wget -O {0}_{1}_{2}.deb http://{4}/package/{0}/{1}/{2}/download >/dev/null 2>&1\n"
+    template_pkg_name = "{}_{}_{}.deb"
+    template_installer = "echo yes | sudo dpkg -i {} || exit\n"
 
-    for pkg_name in dependency_stack_i386:
-        pkg_version = get_latest_version_for_package_name(pkg_name, "i386")["version"]
-        pkg_obj = db.get_package_by_name_version_arch(pkg_name, pkg_version, "i386")
-        download_command = str(template_downloader)
-        to_install.append(download_command.format(os.path.join("/tmp", "{}_{}_i386.deb".format(pkg_name, pkg_version)), pkg_name, pkg_version, "i386"))
-        install_command = str(template_installer)
-        to_install.append(install_command.format(os.path.join("/tmp", "{}_{}_i386.deb".format(pkg_name, pkg_version))))
-
-    for pkg_name in dependency_stack_amd64:
-        pkg_version = get_latest_version_for_package_name(pkg_name, "amd64")["version"]
-        pkg_obj = db.get_package_by_name_version_arch(pkg_name, pkg_version, "amd64")
-        download_command = str(template_downloader)
-        to_install.append(download_command.format(os.path.join("/tmp", "{}_{}_amd64.deb".format(pkg_name, pkg_version)), pkg_name, pkg_version, "amd64"))
-        install_command = str(template_installer)
-        to_install.append(install_command.format(os.path.join("/tmp", "{}_{}_amd64.deb".format(pkg_name, pkg_version))))
-    print "#!/bin/bash\n" + "\n".join(to_install)
-    return "#!/bin/bash\n" + "\n".join(to_install)
-
-
-def generate_dependency_stack(dependency_stack, arch):
-    cycle_deps = []
-    stack_pos = [0, 0]
-    while stack_pos[0] < len(dependency_stack):
-        pkg = get_latest_version_for_package_name(
-            dependency_stack[stack_pos[0]],
-            arch
+    file_content = "#!/bin/bash\n\n"
+    for pkg in pkgs_to_install_list:
+        file_content += str(template_downloader).format(
+            pkg["name"], pkg["version"], pkg["architecture"], constants.SERVER_PUBLIC_ADDRESS
         )
-        if "depends" in pkg:
-            for depend in pkg["depends"]:
-                depend_name = depend.split(" ")[0].replace(":all", "")
-                if depend_name in cycle_deps:
-                    print "Skip cycle " + depend_name
-                    continue
-                print "Insert " + depend_name
-                place_dependency_in_stack(dependency_stack, depend_name, stack_pos)
-                print dependency_stack
-                if stack_pos[1] > len(dependency_stack)*2:
-                    cycle_deps.append(depend_name)
-                    stack_pos[1] = 0
-        stack_pos[0] += 1
-
-
-def place_dependency_in_stack(dependency_stack, new_depend_name, stack_pos):
-    depend = None
-    for temp_depend in dependency_stack:
-        if temp_depend == new_depend_name:
-            depend = temp_depend
-    if depend is None:
-        dependency_stack.append(new_depend_name)
-        stack_pos[1] = 0
-        return
-    if dependency_stack.index(depend) < stack_pos[0]:  # If we find the dependency before the current element, move it to the front
-        # print "Move"
-        dependency_stack.remove(depend)
-        stack_pos[0] -= 1
-        stack_pos[1] += 1
-        dependency_stack.append(depend)
-        # Check if the dependency is compatible the new one and change it accordingly if necessary
-
-# update_package_db()
-# print generate_install_script(["5d02e5af10ecd1083bf2ed04"])
+    file_content += str(template_installer).format(
+        " ".join(
+            [str(template_pkg_name).format(
+                pkg["name"], pkg["version"], pkg["architecture"]
+            ) for pkg in pkgs_to_install_list]
+        )
+    )
+    return file_content
 
