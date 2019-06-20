@@ -3,6 +3,7 @@ function setAjaxHeaders(ajaxHttp) {
 }
 
 function createPackageDetails(package, versionList) {
+    console.log(versionList);
     var expandable = document.createElement("div");
     expandable.classList.add("expandable");
 
