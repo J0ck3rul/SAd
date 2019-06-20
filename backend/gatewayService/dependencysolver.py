@@ -1,8 +1,10 @@
 import json
-
-import db
 import re
 import apt_pkg
+import requests
+
+
+GATEWAY_SERVICE_ADDRESS = "http://localhost:5121"
 
 
 apt_pkg.init_system()
@@ -15,6 +17,22 @@ SYMBOL_TO_COMPARISON_RESULT_TABLE = {
     ">=": [0, 1],
     "<=": [0, -1]
 }
+
+
+def get_packages_by_name(pkg_name):
+    response = requests.get("{}/package/{}".format(GATEWAY_SERVICE_ADDRESS, pkg_name))
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+
+def get_package_by_id(pkg_id):
+    response = requests.get("{}/package_id/{}".format(GATEWAY_SERVICE_ADDRESS, pkg_id))
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
 
 
 # Dependency filtered getter #
@@ -57,14 +75,15 @@ def get_dependency_objects_list(dep, arch):
 
 
 def get_packages_matching_dependency(dependency):
-    packages_found = db.get_packages_by_name(dependency["name"])
+    packages_found = get_packages_by_name(dependency["name"])
     matching_packages = []
     for package in packages_found:
         if dependency["name"] == package["name"] and \
             (dependency["architecture"] == "any" or \
              dependency["architecture"] == package["architecture"]):
             if dependency["condition"] in SYMBOL_TO_COMPARISON_RESULT_TABLE and \
-                version_comparison(package["version"], dependency["version"]) in SYMBOL_TO_COMPARISON_RESULT_TABLE[dependency["condition"]]:
+                version_comparison(package["version"], dependency["version"]) in \
+                    SYMBOL_TO_COMPARISON_RESULT_TABLE[dependency["condition"]]:
                 matching_packages.append(package)
     return matching_packages
 
@@ -147,54 +166,11 @@ def first_iteration(packages):
                 keep_running = True
         new_additions = list(new_list)
     return grouped_deps
-# def first_iteration(packages):
-#     # This iteration finds all possible dependency packages and bundles them all together, separated list of strict dependencies
-#     first_deps_list = list(packages)
-#     grouped_deps = {}
-#
-#     for dep in first_deps_list:
-#         grouped_deps[dep["name"]] = [dep]
-#
-#     first_run = True
-#     new_additions = list(first_deps_list)
-#     new_list = []
-#     while first_run or new_list:
-#         new_additions_grouped = {}
-#         first_run = False
-#         new_list = []
-#         for pkg in new_additions:
-#             for new_dependency in get_packages_matching_dependencies_for_package(pkg):
-#                 if new_dependency["name"] not in new_additions_grouped:
-#                     new_additions_grouped[new_dependency["name"]] = []
-#                 if new_dependency not in new_additions_grouped[new_dependency["name"]]:
-#                     new_additions_grouped[new_dependency["name"]].append(new_dependency)
-#
-#                 if new_dependency not in first_deps_list and new_dependency not in new_list:
-#                     new_list.append(new_dependency)
-#
-#         for pkg_name in new_additions_grouped:
-#             if pkg_name in grouped_deps:
-#                 grouped_deps[pkg_name] = set(grouped_deps[pkg_name]).intersection(set(new_additions_grouped[pkg_name]))
-#         first_deps_list += new_list
-#         new_additions = list(new_list)
-#     return grouped_deps
 
 
 # Dependency backtracking #
-# def group_packages_by_name(pkg_list):
-#     grouped_pkgs = {}
-#     for pkg in pkg_list:
-#         if pkg["name"] not in grouped_pkgs:
-#             grouped_pkgs[pkg["name"]] = [pkg]
-#         else:
-#             grouped_pkgs[pkg["name"]].append(pkg)
-#     return grouped_pkgs
-
-
 def dependency_bkt(pkg_index, pkg_names_list, grouped_packages, chosen_packages):
     if pkg_index == len(pkg_names_list):
-        # print "{}/{}".format(complexity[0], complexity[1])
-        # complexity[0] += 1
         return check_all_dependencies_satisfied(chosen_packages)
     for pkg in grouped_packages[pkg_names_list[pkg_index]]:
         chosen_packages.append(pkg)
@@ -223,15 +199,10 @@ def check_all_dependencies_satisfied(package_list):
 
 
 def second_iteration(packages):
-    # This iteration recurses every distrinct package name, using backtracking, trying to match them such that all dependencies are satisfied
-    grouped_packages = packages  # group_packages_by_name(packages)
+    # This iteration recurses every distinct package name, using backtracking,
+    # trying to match them such that all dependencies are satisfied
+    grouped_packages = packages
     packages_to_install = []
-    # complexity = [1, 1]
-    # for key in grouped_packages:
-    #     print key
-    #     complexity[1] *= len(grouped_packages[key])
-    #     print len(grouped_packages[key])
-    # print complexity
     if dependency_bkt(0, [pkg_name for pkg_name in grouped_packages], grouped_packages, packages_to_install):
         return packages_to_install
     return False
@@ -241,3 +212,30 @@ def get_dependency_list_for_packages(pkg_list):
     final_list = first_iteration(pkg_list)
     result = second_iteration(final_list)
     return result
+
+
+def generate_install_script(package_ids_list):
+    conflicts_list = []
+    package_list = []
+    for pkg_id in package_ids_list:
+        pkg_obj = get_package_by_id(pkg_id)
+        package_list.append(pkg_obj)
+    pkgs_to_install_list = get_dependency_list_for_packages(package_list)
+    template_downloader = "wget -O {0}_{1}_{2}.deb {3}/package/{0}/{1}/{2}/download >/dev/null 2>&1\n"
+    template_pkg_name = "{}_{}_{}.deb"
+    template_installer = "echo yes | sudo dpkg -i {} || exit\n"
+
+    file_content = "#!/bin/bash\n\n"
+    for pkg in pkgs_to_install_list:
+        file_content += str(template_downloader).format(
+            pkg["name"], pkg["version"], pkg["architecture"], GATEWAY_SERVICE_ADDRESS
+        )
+    file_content += str(template_installer).format(
+        " ".join(
+            [str(template_pkg_name).format(
+                pkg["name"], pkg["version"], pkg["architecture"]
+            ) for pkg in pkgs_to_install_list]
+        )
+    )
+    return file_content
+
