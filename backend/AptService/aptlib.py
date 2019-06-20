@@ -15,19 +15,20 @@ sys.path.insert(0, os.path.abspath('..'))
 from PackageClass.package import Package
 
 PKG_CONTENT_MATCHES = {
-    r"^Description[a-zA-Z\-]*: ": "_description",
-    r"^Version: ": "_version",
-    r"^Depends: ": "_depends",
-    r"^Pre-Depends: ": "_pre_depends",
-    r"^Conflicts: ": "_conflicts",
-    r"^Breaks: ": "_breaks",
-    r"^Replaces: ": "_replaces",
-    r"^Installed-Size: ": "_installed_size",  # in KB
-    r"^Size: ": "_download_size",  # in B
-    r"^Homepage: ": "_homepage",
-    r"^Maintainer: ": "_maintainer",
-    r"^Architecture": "_architecture"
-
+    r"^Package: ": "name",
+    r"^Description[a-zA-Z\-]*?: ": "description",
+    r"^Architecture: ": "arch",
+    r"^Version: ": "version",
+    r"^Maintainer: ": "maintainer",
+    r"^Installed-Size: ": "installed_size",  # in KB
+    r"^Depends: ": "depends",
+    r"^Filename: ": "download",
+    r"^Size: ": "download_size",  # in B
+    r"^Homepage: ": "homepage",
+    r"^Pre-Depends: ": "pre_depends",
+    r"^Conflicts: ": "conflicts",
+    r"^Breaks: ": "breaks",
+    r"^Replaces: ": "replaces"
 }
 
 # download pkg by name
@@ -47,61 +48,37 @@ PKG_TEMPLATE = {
 
 
 def apt_show(pkg_name):
-    pkg = Package({"name": pkg_name})
-    pkg.__dict__
-    cmd_output = subprocess.check_output(['apt-cache', "show", pkg_name]).split("\n")
-    for attribute in PKG_CONTENT_MATCHES:
-        for line in cmd_output:
-            match = re.search(attribute, line)
-            if match:
-                if isinstance(pkg.__dict__[PKG_CONTENT_MATCHES[attribute]], list):
-                    arguments = re.sub(attribute, "", line).split(", ")
-                else:
-                    arguments = re.sub(attribute, "", line)
-
-                pkg.__dict__[PKG_CONTENT_MATCHES[attribute]] = arguments
-
-    return pkg.__dict__
+    pkg = {"name": pkg_name, "pre_depends": [], "depends": [], "conflicts": [], "breaks": [], "replaces": []}
+    try:
+        cmd_output = subprocess.check_output(['apt-cache', "show", pkg_name]).split("\n")
+        for attribute in PKG_CONTENT_MATCHES:
+            for line in cmd_output:
+                match = re.search(attribute, line)
+                if match:
+                    if PKG_CONTENT_MATCHES[attribute] not in pkg:
+                        pkg[PKG_CONTENT_MATCHES[attribute]] = ""
+                    if isinstance(pkg[PKG_CONTENT_MATCHES[attribute]], list):
+                        arguments = re.sub(attribute, "", line).split(", ")
+                    else:
+                        arguments = re.sub(attribute, "", line)
+                    pkg[PKG_CONTENT_MATCHES[attribute]] = arguments
+        return pkg
+    except Exception:
+        return []
 
 
 def apt_show_by_version(pkg_name, version):
-    pkg = Package({"name": pkg_name})
-    pkg.__dict__
-    cmd_output = subprocess.check_output(['apt-cache', "show", pkg_name]).split("\n")
-    for attribute in PKG_CONTENT_MATCHES:
-        for line in cmd_output:
-            match = re.search(attribute, line)
-            if match:
-                if isinstance(pkg.__dict__[PKG_CONTENT_MATCHES[attribute]], list):
-                    arguments = re.sub(attribute, "", line).split(", ")
-                else:
-                    arguments = re.sub(attribute, "", line)
-
-                pkg.__dict__[PKG_CONTENT_MATCHES[attribute]] = arguments
-
-    if version in pkg.__dict__["_version"]:
-        return pkg.__dict__
+    pkg = apt_show(pkg_name)
+    if pkg["version"] == version:
+        return pkg
     else:
         return []
 
 
 def apt_show_by_version_arch(pkg_name, version, arch):
-    pkg = Package({"name": pkg_name})
-    pkg.__dict__
-    cmd_output = subprocess.check_output(['apt-cache', "show", pkg_name]).split("\n")
-    for attribute in PKG_CONTENT_MATCHES:
-        for line in cmd_output:
-            match = re.search(attribute, line)
-            if match:
-                if isinstance(pkg.__dict__[PKG_CONTENT_MATCHES[attribute]], list):
-                    arguments = re.sub(attribute, "", line).split(", ")
-                else:
-                    arguments = re.sub(attribute, "", line)
-
-                pkg.__dict__[PKG_CONTENT_MATCHES[attribute]] = arguments
-
-    if version in pkg.__dict__["_version"] and arch in pkg.__dict__["_architecture"]:
-        return pkg.__dict__
+    pkg = apt_show_by_version(pkg_name, version)
+    if pkg["arch"] == arch:
+        return pkg
     else:
         return []
 
@@ -128,4 +105,6 @@ def apt_download(pkg_name, version, architecture):
         with open(file_path, "rb") as file_handle:
             return file_path
 
-print  apt_download("python", "2.7.15~rc1-1", "amd64")
+
+print  apt_show_by_version_arch("python", "2.7.15~rc1-1","amd64")
+# print apt_show("pytho")
