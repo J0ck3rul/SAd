@@ -13,7 +13,7 @@ from PackageClass.package import Package
 
 ARCHIVE_UBUNTU_SERVICE_ADDRESS = "http://localhost:5122"
 APT_SERVICE_ADDRESS = "http://localhost:5123"
-SERVICES = [ARCHIVE_UBUNTU_SERVICE_ADDRESS, APT_SERVICE_ADDRESS]
+SERVICES = [ARCHIVE_UBUNTU_SERVICE_ADDRESS]
 
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ CORS(app)
 
 
 @app.route("/package_id/<pkg_id>", methods=["GET"])
-def find_packages_by_name(pkg_id):
+def get_package_by_id(pkg_id):
     for address in SERVICES:
         response = requests.get("{}/package_id/{}".format(address, pkg_id))
         if response.status_code == 200:
@@ -35,7 +35,7 @@ def find_packages_by_name(pkg_name):
     for address in SERVICES:
         response = requests.get("{}/search/{}".format(address, pkg_name))
         if response.status_code == 200:
-            final_result.append(response.json())
+            final_result += response.json()
     return jsonify(final_result), 200
 
 
@@ -45,7 +45,7 @@ def get_packages_by_name(pkg_name):
     for address in SERVICES:
         response = requests.get("{}/package/{}".format(address, pkg_name))
         if response.status_code == 200:
-            final_result.append(response.json())
+            final_result += response.json()
     return jsonify(final_result), 200
 
 
@@ -55,7 +55,7 @@ def get_packages_by_name_version(pkg_name, pkg_version):
     for address in SERVICES:
         response = requests.get("{}/package/{}/{}".format(address, pkg_name, pkg_version))
         if response.status_code == 200:
-            final_result.append(response.json())
+            final_result += response.json()
     return jsonify(final_result), 200
 
 
@@ -78,10 +78,9 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
 
 
 @app.route("/install/<id_list>", methods=["GET"])
-def generate_install_script(id_list):
+def generate_install_script_route(id_list):
     try:
         id_as_list = id_list.split(",")
-        print id_as_list
         script_str = generate_install_script(id_as_list)
         temp_dir = tempfile.mkdtemp()
         with open(os.path.join(temp_dir, "install.sh"), "wb") as f:

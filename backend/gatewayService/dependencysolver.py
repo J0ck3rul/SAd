@@ -4,7 +4,7 @@ import apt_pkg
 import requests
 
 
-GATEWAY_SERVICE_ADDRESS = "http://localhost:5121"
+GATEWAY_SERVICE_ADDRESS = "http://vvtsoft.ddns.net:5121"
 
 
 apt_pkg.init_system()
