@@ -53,14 +53,15 @@ async function getPackageProperties(packageContainer) {
     let name = packageContainer.childNodes[0].textContent;
 
     let url = baseURL + '/package/' + name;
-
+    
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
-
-    ajaxHttp.onreadystatechange = function () {
-        var obj = JSON.parse(ajaxHttp.response)
+    // console.log(url);
+    ajaxHttp.onreadystatechange = async function () {
+        // await sleep(500);
+        var obj = JSON.parse(ajaxHttp.response);
 
         let versionList = [];
 
@@ -70,24 +71,21 @@ async function getPackageProperties(packageContainer) {
 
 
         versionDictionary[obj[0]["name"]] = versionList;
-
+        console.log(versionDictionary);
         let packageDetails = createPackageDetails(obj[0], versionList);
 
         packageContainer.childNodes[1].innerHTML = packageDetails.innerHTML;
 
+        
+        // let packageList = obj;
+        // let htmlPackageList = document.getElementsByClassName("package-list")[0];
+        // htmlPackageList.innerHTML = '';
 
-        let packageList = obj;
-        let htmlPackageList = document.getElementsByClassName("package-list")[0];
-        htmlPackageList.innerHTML = '';
 
-        if (packageList.length === 0)
-            htmlPackageList.innerHTML = 'no package found';
-        else {
-            packageList.forEach(package => {
-                packageNode = createItemForPackageList(package);
-                htmlPackageList.appendChild(packageNode);
-            });
-        }
+        // packageList.forEach(package => {
+        //     packageNode = createItemForPackageList(package);
+        //     htmlPackageList.appendChild(packageNode);
+        // });
     }
     ajaxHttp.send();
 }
@@ -106,7 +104,7 @@ function versionSelect(elem, event) {
 
 
 
-    let url = baseURL + '/getPackage/' + name + '/' + version + '/' + architecture;
+    let url = baseURL + '/package/' + name + '/' + version + '/' + architecture;
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
@@ -114,7 +112,7 @@ function versionSelect(elem, event) {
     ajaxHttp.onreadystatechange = () => {
         let versionList = [];
         var package = JSON.parse(ajaxHttp.response)
-        versionList = versionDictionary[package["_name"]];
+        versionList = versionDictionary[package["name"]];
         packageSection.childNodes[1].innerHTML = createPackageDetails(package, versionList).innerHTML;
     }
     ajaxHttp.send();
