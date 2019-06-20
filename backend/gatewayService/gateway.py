@@ -97,5 +97,5 @@ def generate_install_script_route(id_list):
 
 
 if __name__ == "__main__":
-    app.run(host="", port=5121)
+    app.run(host="0.0.0.0", port=5121)
     app.debug = True
