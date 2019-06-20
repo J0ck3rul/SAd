@@ -1,3 +1,5 @@
+var versionDictionary = {};
+var selectedPackages = [];
 
 function searchPackages() {
     let searchText = document.getElementsByClassName("search-field")[0].value;
@@ -25,7 +27,7 @@ function searchPackages() {
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
 
-    let serachTextLength = searchText[0].textLength;
+    let serachTextLength = searchText.length;
     if (serachTextLength < minimumTextLength) {
         alert("minimum " + minimumTextLength + " characters");
         return;
@@ -76,14 +78,18 @@ async function getPackageProperties(packageContainer) {
         packageContainer.childNodes[1].innerHTML = packageDetails.innerHTML;
 
 
-        // let packageList = obj;
-        // let htmlPackageList = document.getElementsByClassName("package-list")[0];
-        // htmlPackageList.innerHTML = '';
+        let packageList = obj;
+        let htmlPackageList = document.getElementsByClassName("package-list")[0];
+        htmlPackageList.innerHTML = '';
 
-        // packageList.forEach(package => {
-        //     packageNode = createItemForPackageList(package);
-        //     htmlPackageList.appendChild(packageNode);
-        // });
+        if (packageList.length === 0)
+            htmlPackageList.innerHTML = 'no package found';
+        else {
+            packageList.forEach(package => {
+                packageNode = createItemForPackageList(package);
+                htmlPackageList.appendChild(packageNode);
+            });
+        }
     }
     ajaxHttp.send();
 }
