@@ -1,3 +1,0 @@
-import platform
-
-import gateway

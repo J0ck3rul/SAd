@@ -6,7 +6,7 @@ import apt_pkg
 
 sys.path.insert(0, os.path.abspath('..'))
 from UbuntuArchiveService import constants
-from dependencysolver import get_dependency_list_for_packages
+from gatewayService.dependencysolver import get_dependency_list_for_packages
 
 
 apt_pkg.init_system()
