@@ -48,8 +48,6 @@ function searchPackages() {
 }
 
 
-
-
 async function getPackageProperties(packageContainer) {
 
     let name = packageContainer.childNodes[0].textContent;
@@ -94,6 +92,7 @@ async function getPackageProperties(packageContainer) {
     ajaxHttp.send();
 }
 
+
 function versionSelect(elem, event) {
     event.stopPropagation();
 
@@ -122,33 +121,13 @@ function versionSelect(elem, event) {
 }
 
 
-
 function Checkout() {
     let wantedPackages = { "packages": selectedPackages };
-    let url = baseURL + '/install';
-    selectedPackages.forEach(package => {
-        url = url + '/' + package
-    });
-    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
-    ajaxHttp.open("POST", url, true);
-    setAjaxHeaders(ajaxHttp);
-
-    ajaxHttp.onreadystatechange = () => {
-        var filename = 'install.sh'
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(ajaxHttp.response));
-        element.setAttribute('download', filename);
-
-        element.style.display = 'none';
-        document.body.appendChild(element);
-
-        element.click();
-
-        document.body.removeChild(element);
-
-    }
-    ajaxHttp.send(JSON.stringify(wantedPackages));
+    let url = baseURL + '/install/' + selectedPackages.join(",");
+    window.location.href = baseURL + '/install/' + selectedPackages.join(",")
 }
+
+
 function selectClick(elem, event) {
     elem.childNodes[0].disabled = true;
     event.stopPropagation();

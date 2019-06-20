@@ -6,7 +6,7 @@ import apt_pkg
 
 sys.path.insert(0, os.path.abspath('..'))
 from UbuntuArchiveService import constants
-from dependencysolver import get_dependency_list_for_packages
+from gatewayService.dependencysolver import get_dependency_list_for_packages
 
 
 apt_pkg.init_system()
@@ -35,7 +35,7 @@ def generate_install_script(package_ids_list):
         pkg_obj = db.get_package_by_id(pkg_id)
         package_list.append(pkg_obj)
     pkgs_to_install_list = get_dependency_list_for_packages(package_list)
-    template_downloader = "wget -O {0}_{1}_{2}.deb http://{4}/package/{0}/{1}/{2}/download >/dev/null 2>&1\n"
+    template_downloader = "wget -O {0}_{1}_{2}.deb {3}/package/{0}/{1}/{2}/download >/dev/null 2>&1\n"
     template_pkg_name = "{}_{}_{}.deb"
     template_installer = "echo yes | sudo dpkg -i {} || exit\n"
 
