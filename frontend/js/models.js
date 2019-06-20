@@ -1,2 +1,0 @@
-var versionDictionary = {};
-var selectedPackages = [];
