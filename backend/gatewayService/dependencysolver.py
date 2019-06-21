@@ -2,6 +2,7 @@ import json
 import re
 import apt_pkg
 import requests
+from Exceptions import PackageNotFoundException, ConflictNotResolvedException
 
 
 GATEWAY_SERVICE_ADDRESS = "http://vvtsoft.ddns.net:5121"
@@ -214,13 +215,43 @@ def get_dependency_list_for_packages(pkg_list):
     return result
 
 
-def generate_install_script(package_ids_list):
+def check_package_dependency_list_for_conflicts(dependencies):
+    packages = []
+    for dep in dependencies:
+        response = requests.get("{}/package/{}/{}/{}".format(
+            GATEWAY_SERVICE_ADDRESS, dep["name"], dep["version"], dep["architecture"]
+        ))
+        if response.status_code == 200:
+            packages.append(response.json())
+        else:
+            raise PackageNotFoundException("Cannot get package {} {} {} from gateway.".format(dep["name"], dep["version"], dep["architecture"]))
+    breaks_list = []
     conflicts_list = []
+    for pkg in packages:
+        if "breaks" in pkg:
+            for pkg_broke in pkg["breaks"]:
+                breaks_list += get_dependency_objects_list(pkg_broke)
+        if "conflicts" in pkg:
+            for pkg_conflicted in pkg["conflicts"]:
+                conflicts_list += get_dependency_objects_list(pkg_conflicted)
+    for pkg in packages:
+        for conflict in conflicts_list:
+            if pkg["name"] == conflict["name"] and is_version_in_dependency(conflict, pkg):
+                return False, []
+        for breakk in breaks_list:
+            if pkg["name"] == breakk["name"] and is_version_in_dependency(breakk, pkg):
+                return False, []
+    return True, []
+
+
+def generate_install_script(package_ids_list):
     package_list = []
     for pkg_id in package_ids_list:
         pkg_obj = get_package_by_id(pkg_id)
         package_list.append(pkg_obj)
     pkgs_to_install_list = get_dependency_list_for_packages(package_list)
+    if not check_package_dependency_list_for_conflicts(pkgs_to_install_list):
+        raise Exception("Conflicts detected, installation script will not be generated.")
     template_downloader = "wget -O {0}_{1}_{2}.deb {3}/package/{0}/{1}/{2}/download >/dev/null 2>&1\n"
     template_pkg_name = "{}_{}_{}.deb"
     template_installer = "echo yes | sudo dpkg -i {} || exit\n"
