@@ -4,3 +4,7 @@ class PackageNotFoundException(Exception):
 
 class ConflictNotResolvedException(Exception):
     pass
+
+
+class DependencySolvingTimedOutException(Exception):
+    pass

@@ -6,6 +6,7 @@ from flask import Flask, jsonify, send_file
 from flask_cors import CORS
 
 from dependencysolver import generate_install_script
+from Exceptions import DependencySolvingTimedOutException, ConflictNotResolvedException, PackageNotFoundException
 
 ARCHIVE_UBUNTU_SERVICE_ADDRESS = "http://localhost:5122"
 APT_SERVICE_ADDRESS = "http://localhost:5123"
@@ -90,8 +91,12 @@ def generate_install_script_route(id_list):
             attachment_filename="install.sh",
             cache_timeout=-1
         ), 200
+    except DependencySolvingTimedOutException:
+        return jsonify({"errormsg": "Dependency solving timed out. This can usually happen when the package has a lot of dependencies."}), 408
+    except PackageNotFoundException as e:
+        return jsonify({"errormsg": "Package not found: {}".format(str(e))}), 404
     except Exception as e:
-        return jsonify({"errormsg": str(e)}), 404
+        return jsonify({"errormsg": str(e)}), 500
 
 
 if __name__ == "__main__":
