@@ -120,7 +120,7 @@ function versionSelect(elem, event) {
 
 
 function Checkout() {
-    let wantedPackages = { "packages": selectedPackages };
+    wantedPackages = { "packages": selectedPackages };
     let url = baseURL + '/install/' + selectedPackages.join(",");
     window.location.href = baseURL + '/install/' + selectedPackages.join(",")
 }
