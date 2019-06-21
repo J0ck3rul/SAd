@@ -2,11 +2,15 @@ import json
 import re
 
 import apt_pkg
+import time
+
 import requests
 
-from Exceptions import PackageNotFoundException, ConflictNotResolvedException
+from Exceptions import PackageNotFoundException, ConflictNotResolvedException, DependencySolvingTimedOutException
 
 GATEWAY_SERVICE_ADDRESS = "http://vvtsoft.ddns.net:5121"
+
+TIME_LIMIT = 30
 
 
 apt_pkg.init_system()
@@ -172,14 +176,16 @@ def first_iteration(packages):
 
 
 # Dependency backtracking #
-def dependency_bkt(pkg_index, pkg_names_list, grouped_packages, chosen_packages):
+def dependency_bkt(pkg_index, pkg_names_list, grouped_packages, chosen_packages, time_started=time.time()):
     if pkg_index == len(pkg_names_list):
         return check_all_dependencies_satisfied(chosen_packages)
     for pkg in grouped_packages[pkg_names_list[pkg_index]]:
         chosen_packages.append(pkg)
-        if dependency_bkt(pkg_index+1, pkg_names_list, grouped_packages, chosen_packages):
+        if dependency_bkt(pkg_index+1, pkg_names_list, grouped_packages, chosen_packages, time_started):
             return True
         chosen_packages.remove(pkg)
+    if time.time()-time_started > TIME_LIMIT:
+        raise DependencySolvingTimedOutException("Dependency solving took too long, aborting.")
     return False
 
 
