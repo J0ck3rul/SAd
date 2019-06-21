@@ -240,10 +240,10 @@ def check_package_dependency_list_for_conflicts(dependencies):
                 conflicts_list += get_dependency_objects_list(pkg_conflicted, pkg["architecture"])
     for pkg in packages:
         for conflict in conflicts_list:
-            if pkg["name"] == conflict["name"] and is_version_in_dependency(conflict, pkg):
+            if pkg["name"] == conflict["name"] and is_version_in_dependency(conflict, pkg["version"]):
                 return False, []
         for breakk in breaks_list:
-            if pkg["name"] == breakk["name"] and is_version_in_dependency(breakk, pkg):
+            if pkg["name"] == breakk["name"] and is_version_in_dependency(breakk, pkg["version"]):
                 return False, []
     return True, []
 
