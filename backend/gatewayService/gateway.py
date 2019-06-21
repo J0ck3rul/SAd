@@ -1,15 +1,11 @@
+import os
 import tempfile
 
-from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS
-import os
-import sys
-import json
 import requests
-from dependencysolver import generate_install_script
-sys.path.insert(0, os.path.abspath('..'))
-from PackageClass.package import Package
+from flask import Flask, jsonify, send_file
+from flask_cors import CORS
 
+from dependencysolver import generate_install_script
 
 ARCHIVE_UBUNTU_SERVICE_ADDRESS = "http://localhost:5122"
 APT_SERVICE_ADDRESS = "http://localhost:5123"
@@ -71,7 +67,9 @@ def get_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
 @app.route("/package/<pkg_name>/<pkg_version>/<pkg_architecture>/download", methods=["GET"])
 def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
     for address in SERVICES:
-        response = requests.get("{}/package/{}/{}/{}/download".format(address, pkg_name, pkg_version, pkg_architecture), stream=True)
+        response = requests.get("{}/package/{}/{}/{}/download".format(
+            address, pkg_name, pkg_version, pkg_architecture
+        ), stream=True)
         if response.status_code == 200:
             return response.raw.read(), response.status_code, response.headers.items()
     return jsonify({}), response.status_code

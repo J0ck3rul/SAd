@@ -1,16 +1,15 @@
+import atexit
 import gzip
 import os
-import shutil
-import sys
 import re
-import urllib
+import shutil
 import tempfile
-import atexit
+import urllib
 from threading import Lock
 
-from constants import PKG_CONTENT_MATCHES
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from constants import PKG_CONTENT_MATCHES
 
 TEMP_FOLDER = tempfile.mkdtemp(prefix="sad_")
 STDOUT_LOCK = Lock()
@@ -82,11 +81,13 @@ def get_all_package_lists():
                         dist, d_type, d_arch)
                     archive_path = os.path.join(TEMP_FOLDER, archive_filename)
                     package_list_path = os.path.join(TEMP_FOLDER, package_list_filename)
-                    job_urls[executor.submit(download_package, archive_url, archive_path, package_list_path)] = package_list_filename
+                    job_urls[
+                        executor.submit(download_package, archive_url, archive_path, package_list_path)
+                    ] = package_list_filename
     for job in as_completed(job_urls):
-        job_filename= job_urls[job]
+        job_filename = job_urls[job]
         try:
-            result = job.result()
+            job.result()
         except Exception as e:
             STDOUT_LOCK.acquire()
             print("Job {} failed with exception: {}".format(job_filename, str(e)))

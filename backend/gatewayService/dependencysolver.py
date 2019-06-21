@@ -1,9 +1,10 @@
 import json
 import re
+
 import apt_pkg
 import requests
-from Exceptions import PackageNotFoundException, ConflictNotResolvedException
 
+from Exceptions import PackageNotFoundException, ConflictNotResolvedException
 
 GATEWAY_SERVICE_ADDRESS = "http://vvtsoft.ddns.net:5121"
 
@@ -39,14 +40,14 @@ def get_package_by_id(pkg_id):
 # Dependency filtered getter #
 def get_dependency_objects_list(dep, arch):
     dependency_list = [dep]
-    if " | " in dep: # Dep is a list of dependencies
+    if " | " in dep:  # Dep is a list of dependencies
         dependency_list = dep.split(" | ")
 
     dep_obj_list = []
     for dependency in dependency_list:
-        pkg_name_version_arch_match = re.findall(r"^([^ ]*):([^ ]*)\ \(([<=>]*)\ (.+)\)$", dependency)
+        pkg_name_version_arch_match = re.findall(r"^([^ ]*):([^ ]*) \(([<=>]*) (.+)\)$", dependency)
         pkg_name_arch_match = re.findall(r"^([^ ]*):([^ ]*)$", dependency)
-        pkg_name_version_match = re.findall(r"^([^ ]*)\ \(([<=>]*)\ (.+)\)$", dependency)
+        pkg_name_version_match = re.findall(r"^([^ ]*) \(([<=>]*) (.+)\)$", dependency)
         pkg_name_match = re.findall(r"^([^ ]*)$", dependency)
         dep_obj = {}
         if pkg_name_version_arch_match:
@@ -80,7 +81,7 @@ def get_packages_matching_dependency(dependency):
     matching_packages = []
     for package in packages_found:
         if dependency["name"] == package["name"] and \
-            (dependency["architecture"] == "any" or \
+            (dependency["architecture"] == "any" or
              dependency["architecture"] == package["architecture"]):
             if dependency["condition"] in SYMBOL_TO_COMPARISON_RESULT_TABLE and \
                 version_comparison(package["version"], dependency["version"]) in \
@@ -122,7 +123,8 @@ def get_packages_matching_dependencies_for_package(pkg):
 
 
 def first_iteration(packages):
-    # This iteration finds all possible dependency packages and bundles them all together, separated list of strict dependencies
+    # This iteration finds all possible dependency packages and bundles them all together,
+    # separated list of strict dependencies
     first_deps_list = list(packages)
     grouped_deps = {}
 
@@ -188,9 +190,9 @@ def check_all_dependencies_satisfied(package_list):
                 this_dep_obj_list = get_dependency_objects_list(dep, pkg["architecture"])
                 found_dep = False
                 for dep_obj in this_dep_obj_list:
-                    for pkg in package_list:
-                        if dep_obj["name"] == pkg["name"]:
-                            if is_version_in_dependency(dep_obj, pkg["version"]):
+                    for pkg2 in package_list:
+                        if dep_obj["name"] == pkg2["name"]:
+                            if is_version_in_dependency(dep_obj, pkg2["version"]):
                                 found_dep = True
                                 break
                 if not found_dep:
@@ -224,16 +226,18 @@ def check_package_dependency_list_for_conflicts(dependencies):
         if response.status_code == 200:
             packages.append(response.json())
         else:
-            raise PackageNotFoundException("Cannot get package {} {} {} from gateway.".format(dep["name"], dep["version"], dep["architecture"]))
+            raise PackageNotFoundException("Cannot get package {} {} {} from gateway.".format(
+                dep["name"], dep["version"], dep["architecture"]
+            ))
     breaks_list = []
     conflicts_list = []
     for pkg in packages:
         if "breaks" in pkg:
             for pkg_broke in pkg["breaks"]:
-                breaks_list += get_dependency_objects_list(pkg_broke)
+                breaks_list += get_dependency_objects_list(pkg_broke, pkg["architecture"])
         if "conflicts" in pkg:
             for pkg_conflicted in pkg["conflicts"]:
-                conflicts_list += get_dependency_objects_list(pkg_conflicted)
+                conflicts_list += get_dependency_objects_list(pkg_conflicted, pkg["architecture"])
     for pkg in packages:
         for conflict in conflicts_list:
             if pkg["name"] == conflict["name"] and is_version_in_dependency(conflict, pkg):
@@ -251,7 +255,7 @@ def generate_install_script(package_ids_list):
         package_list.append(pkg_obj)
     pkgs_to_install_list = get_dependency_list_for_packages(package_list)
     if not check_package_dependency_list_for_conflicts(pkgs_to_install_list):
-        raise Exception("Conflicts detected, installation script will not be generated.")
+        raise ConflictNotResolvedException("Conflicts detected, installation script will not be generated.")
     template_downloader = "wget -O {0}_{1}_{2}.deb {3}/package/{0}/{1}/{2}/download >/dev/null 2>&1\n"
     template_pkg_name = "{}_{}_{}.deb"
     template_installer = "echo yes | sudo dpkg -i {} || exit\n"
