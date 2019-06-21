@@ -6,6 +6,7 @@ import apt_pkg
 
 sys.path.insert(0, os.path.abspath('..'))
 from UbuntuArchiveService import constants
+from ubuntuarchive import get_all_package_lists, get_all_packages_in_list
 from gatewayService.dependencysolver import get_dependency_list_for_packages
 
 
@@ -13,8 +14,10 @@ apt_pkg.init_system()
 
 
 def update_package_db():
-    packages = ubuntuarchive.get_all_packages()
-    db.update_packages_database(packages)
+    pkg_lists = get_all_package_lists()
+    for pkg_list in pkg_lists:
+        packages = ubuntuarchive.get_all_packages_in_list(pkg_list)
+        db.update_packages_database(packages)
 
 
 def get_latest_version_for_package_name(pkg_name, architecture):
