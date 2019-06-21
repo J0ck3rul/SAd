@@ -1,9 +1,11 @@
 import difflib
 import urllib
-from constants import DB_PASSWORD, DB_USERNAME
+
+from bson.objectid import ObjectId
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError, BulkWriteError
-from bson.objectid import ObjectId
+
+from constants import DB_PASSWORD, DB_USERNAME
 
 client = MongoClient("mongodb://{}:{}@localhost/admin".format(DB_USERNAME, DB_PASSWORD))
 db = client["sad"]
@@ -73,7 +75,7 @@ def insert_package(package):
     package_obj = package.get_obj()
     try:
         coll.insert_one(package_obj)
-    except DuplicateKeyError as e:
+    except DuplicateKeyError:
         package_obj.pop("_id")
         coll.find_one_and_update({"$and": [
             {"name": package_obj["name"]},

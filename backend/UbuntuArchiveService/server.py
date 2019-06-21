@@ -1,10 +1,8 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, jsonify, send_file
 from flask_cors import CORS
 
-import os
 import db
-import service
-import tempfile
+from ubuntuarchive import get_all_package_lists, get_all_packages_in_list
 
 app = Flask(__name__)
 CORS(app)
@@ -66,30 +64,13 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
         return jsonify({"errormsg": str(e)}), 404
 
 
-@app.route("/install/<id_list>", methods=["GET"])
-def generate_install_script(id_list):
-    try:
-        id_as_list = id_list.split(",")
-        print id_as_list
-        script_str = service.generate_install_script(id_as_list)
-        temp_dir = tempfile.mkdtemp()
-        with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
-            f.write(script_str)
-        return send_file(
-            os.path.join(temp_dir, "install.sh"),
-            "application/x-sh",
-            as_attachment=True,
-            attachment_filename="install.sh",
-            cache_timeout=-1
-        ), 200
-    except Exception as e:
-        return jsonify({"errormsg": str(e)}), 404
-
-
 @app.route("/rebuild_db", methods=["GET"])
 def rebuild_db():
     try:
-        service.update_package_db()
+        pkg_lists = get_all_package_lists()
+        for pkg_list in pkg_lists:
+            packages = get_all_packages_in_list(pkg_list)
+            db.update_packages_database(packages)
     except Exception as e:
         return jsonify({"errormsg": str(e)}), 500
     return jsonify({}), 200
