@@ -2,3 +2,13 @@
 \.vscode/
 
 *.pyc
+
+backend/packages/
+
+\.idea/
+
+backend/LaunchpadService/packages/
+
+backend/venv/
+
+venv/

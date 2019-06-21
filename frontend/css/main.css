@@ -70,3 +70,23 @@ page-content{
         min-width: 300px;
     }
 }
+
+#goTop{
+    display: none;
+    outline: none;
+    border:none;
+
+    position:fixed;
+
+    bottom: 20px; 
+    right: 30px;
+    background-color: #e74c3c;
+    color: white;
+    cursor:pointer;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+#goTop:hover{
+    background-color: #555;
+}

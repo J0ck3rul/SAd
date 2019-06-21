@@ -32,7 +32,7 @@ async function goHome(show_loading = true){
         await sleep(500);
     }
 }
-
+// document.onL
 async function goBrowse(show_loading = true){
     if(show_loading){
         toggleLoading();
@@ -69,11 +69,13 @@ async function goBrowse(show_loading = true){
 }
 
 async function expandPackage(elem){
-    console.log(elem.getElementsByClassName("expandable")[0].style.display);
     if(elem.getElementsByClassName("expandable")[0].style.display === "block")
         elem.getElementsByClassName("expandable")[0].style.display = "none";
     else
-        elem.getElementsByClassName("expandable")[0].style.display = "block";
+        {
+            elem.getElementsByClassName("expandable")[0].style.display = "block";
+            getPackageProperties(elem);
+        }
 }
 
 async function selectOS(){

@@ -30,3 +30,24 @@ function toggleLoading(){
     document.getElementsByTagName('loading-screen')[0].classList.toggle('hidden');
     document.getElementsByTagName('loading-screen')[0].classList.toggle('shown');
 }
+
+
+window.onscroll = function() {
+    scrollFunction();
+}
+
+function scrollFunction()
+{
+    if (document.body.scrollTop > 35 || document.documentElement.scrollTop > 35) {
+        document.getElementById("goTop").style.display = "block";
+      } else {
+        document.getElementById("goTop").style.display = "none";
+      }
+}
+
+function goTop()
+{
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+

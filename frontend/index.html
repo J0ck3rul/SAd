@@ -9,9 +9,12 @@
     <link rel="stylesheet" type="text/css" href="css/distros.css">
     <link rel="stylesheet" type="text/css" href="css/team.css">
     <link rel="stylesheet" type="text/css" href="css/browse.css">
+    <link rel="stylesheet" type="text/css" href="css/loading.css">
     <script src="js/main.js"></script>
     <script src="js/utilities.js"></script>
-    <meta name="viewport" content="initial-scale=1"> 
+
+
+    <meta name="viewport" content="initial-scale=1">
 </head>
 
 <body>
@@ -53,7 +56,9 @@
                             Ubuntu
                         </h4>
                         <p>
-                                Ubuntu is a free and open-source Linux distribution based on Debian. Ubuntu is officially released in three editions: Desktop, Server, and Core. Ubuntu is a popular operating system for cloud computing, with support for OpenStack.
+                            Ubuntu is a free and open-source Linux distribution based on Debian. Ubuntu is officially
+                            released in three editions: Desktop, Server, and Core. Ubuntu is a popular operating system
+                            for cloud computing, with support for OpenStack.
                         </p>
                     </div>
 
@@ -67,7 +72,10 @@
                     <div class="distro-text">
                         <h4>Linux Mint</h4>
                         <p>
-                                Linux Mint is a community-driven Linux distribution based on Debian and Ubuntu that strives to be a modern, elegant and comfortable operating system which is both powerful and easy to use. Linux Mint provides full out-of-the-box multimedia support by including some proprietary software and comes bundled with a variety of free and open-source applications.    
+                            Linux Mint is a community-driven Linux distribution based on Debian and Ubuntu that strives
+                            to be a modern, elegant and comfortable operating system which is both powerful and easy to
+                            use. Linux Mint provides full out-of-the-box multimedia support by including some
+                            proprietary software and comes bundled with a variety of free and open-source applications.
                         </p>
                     </div>
 
@@ -82,7 +90,10 @@
                             Debian
                         </h4>
                         <p>
-                                Debian is one of the earliest operating systems based on the Linux kernel. The project's work is carried out over the Internet by a team of volunteers guided by the Debian Project Leader and three foundational documents: the Debian Social Contract, the Debian Constitution, and the Debian Free Software Guidelines. 
+                            Debian is one of the earliest operating systems based on the Linux kernel. The project's
+                            work is carried out over the Internet by a team of volunteers guided by the Debian Project
+                            Leader and three foundational documents: the Debian Social Contract, the Debian
+                            Constitution, and the Debian Free Software Guidelines.
                         </p>
                     </div>
                 </section>
@@ -120,203 +131,24 @@
 
         <main class="browse">
             <header>
-                <form class="search" name="search-form" action="getPackages(this);">
+                <form class="search" name="search-form">
                     <input type="text" placeholder="Search for package" class="search-field">
-                    <!-- <p>Select OS:</p> -->
-                    <select>
-                        <option value="Ubuntu1604">Ubuntu 16.04</option>
-                        <option value="Ubuntu1804">Ubuntu 18.04</option>
-                        <option value="Ubuntu1810">Ubuntu 18.10</option>
-                        <option value="Debian8">Debian 8</option>
-                        <option value="Debian9">Debian 9</option>
-                    </select>
-                    <input type="button" onclick="selectOS();" value="Search"
-                        class="search-confirm">
+
+                    <input type="button" onclick="searchPackages();" value="Search" class="search-confirm">
                 </form>
             </header>
             <button class="apply-changes-button" onclick="applyChanges(this, event)">Apply Changes</button>
             <section class="package-list">
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
-                <section class="package" onclick="expandPackage(this);">
-                    <h2>Package Name: firefox</h2>
-                    <div class="expandable">
-                        <p>Description: Firefox delivers safe, easy web browsing. A familiar user interface, enhanced
-                            security features including protection from online identity theft, and integrated search let
-                            you get the most out of the web.</p>
-                        <p>Version: 66.0+build3-0ubuntu1</p>
-                        <p>Architectures: any</p>
-                        <p>Maintainer: Ubuntu-Mozilla-Team</p>
-                        <button onclick="selectPackage(this, event)">Select</button>
-                    </div>
-                </section>
             </section>
+            <section>
+                <button onclick="Checkout()">
+                    Checkout
+                </button>
+                <button onclick="Reset()">
+                    Reset
+                </button>
+            </section>
+           
         </main>
 
         <footer>
@@ -330,13 +162,13 @@
                 </section>
                 <section class="contact">
                     <h4>Numar de telefon</h4>
-                    <p>0755555555</p>
-                    <p>0755555555</p>
-                    <p>0755555555</p>
+                    <p>0746800016</p>
+                    <p>07 noi doi</p>
+                    <p>07 n am cartela</p>
                 </section>
                 <section class="contact">
                     <h4>Firma</h4>
-                    <p>Maxcode</p>
+                    <p>Centric</p>
                     <p>Bittdefender</p>
                     <p>Wait...</p>
                 </section>
@@ -344,11 +176,16 @@
             <footer-line></footer-line>
             <page-copyright>© Copyright 2019</page-copyright>
         </footer>
-
+        <button id="goTop" onclick="goTop()">Top</button>
     </page-content>
     <script>
         firstLoadingEnd();
     </script>
+    <script src="js/config.js"></script>
+    <script src="js/servicesTools.js"></script>
+    <script src="js/checkoutService.js"></script>
+    <script src="js/versionService.js"></script>
+    <script src="js/packageService.js"></script>
 </body>
 
 </html>

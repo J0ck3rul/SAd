@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SAD</title>
+        <link rel="stylesheet" href="..\frontend\css\style.css">
+    </head>
+
+    <body>
+        <main>
+            <div class="row">
+                <section class="container d-flex">
+                    <div class="side-container container"></div>
+                    <div class="d-flex-column-uncentered container bg-white">
+                        <div class="d-flex-around">
+                            <div style="flex-basis: 30%;" class="d-flex-column-uncentered"></div>
+                            <div style="flex-basis: 75%" class="d-flex-column-uncentered profile-tab">
+                                <section id="user-systems" class="d-flex-column-uncentered">
+                                    <h2>SAD Documentation</h2>
+                                </section>
+                                <section id="table-of-contents">
+                                    <h3>Table of Contents
+                                        <hr>
+                                    </h3>
+                                    <ol class="link-red">
+                                        <li><a href="#c-abstract" class="link-red">Abstract</a></li>
+                                        <li><a href="#c-intro" class="link-red">Introduction</a></li>
+                                        <li><a href="#c-overview" class="link-red">Overview</a>
+                                            <ol>
+                                                <li><a href="#c-technologies" class="link-red">Technologies</a></li>
+                                                <li><a href="#c-routesendp" class="link-red">Routes and End-points
+                                                        <ol>
+                                                            <li><a href="#c-routes" class="link-red">Routes</a></li>
+                                                            <li><a href="#c-endpoints" class="link-red">API
+                                                                    End-points</a></li>
+                                                        </ol></a></li>
+                                            </ol>
+                                        </li>
+                                        <li><a href="#c-diagrams" class="link-red">Diagrams and Schemas</a></li>
+                                        <li><a href="#c-conclusion" class="link-red">Conclusion</a></li>
+                                        <li><a href="#c-credits" class="link-red">Packages Used</a></li>
+                                    </ol>
+                                </section>
+                                <section id="c-abstract">
+                                    <h3>1. Abstract
+                                        <hr>
+                                    </h3>
+                                    <p>SAD is an advanced web service meant to help System Administrators and
+                                        Developers keep installs their packages easily and efficiently.SAD
+                                        uses technologies such as REST API's to streamline communication between client
+                                        and server.</p>
+                                </section>
+                                <section id="c-intro">
+                                    <h1>2. Introduction
+                                        <hr>
+                                    </h1>
+                                    <p>Both System Admins and Developers are in need of an easy way to monitor their
+                                        software components, considering the fact that conflicts between packages might
+                                        result in difficulty when it comes to troubleshooting issues, which then proves
+                                        being time consuming. The idea is to bring an interface for Systems and their
+                                        packages’ management, providing easy access to a broad range of repositories.
+                                    </p>
+                                    <p>SAD use tool like dpkg to install your favorite packages.</p>
+                                    <p>The only thing that has to be done is choosing a platform and package name, so
+                                        that SAd will generate and compile a script installing
+                                        everything you need..</p>
+
+                                </section>
+                                <section id="c-overview">
+                                    <h3>3. Overview
+                                        <hr>
+                                    </h3>
+                                    <p>SAd Is based on modern Software Design techniques.
+                                    </p>
+                                    <h4 id="c-technologies">3.1 Technologies</h4>
+                                    <p>We are going to use html, css and javascript for frontend, in scope of stylizing
+                                        and creating.(html for document strucutre and css designing and javascript for
+                                        frontend processing)</p>
+                                    <p>Python 2.7 will be used to create a REST API for the aplication. The deb packages
+                                        will be downloaded from launchpad lib and mongoDB is going to store the packages
+                                        information(names, dependencies and conflicts).</p>
+                                   
+                                    <h4 id="c-routesendp">3.2 Routes and End-points</h4>
+                                    <p>SAd uses a series of routes and end-points to deliver content to users.
+                                        The following is a hierarchical view of the Routes:</p>
+                                    <h4 id="c-routes">3.2.1 Routes</h4>
+                                    <ul>
+                                        <li>/search/{pkg_name} </li>
+                                        <li>/package/{pkg_name}</li>
+                                        <li>/package/{pkg_name}/{pkg_version}</li>
+                                        <li>/package/{pkg_name}/{pkg_version}/{pkg_architecture}</li>
+                                        <li>/package/{pkg_name}/{pkg_version}/{pkg_architecture}/download</li>
+
+
+                                    </ul>
+                                    <h4 id="c-endpoints">3.2.2 End-points</h4>
+                                    <ul>
+                                        <li>/checkout</li>
+                                        <li>/install</li>
+                                    </ul>
+
+                                    <h3 id="c-diagrams">4. Diagrams & Schemas
+                                        <hr>
+                                    </h3>
+                                    <img src="..\docs\Structura SAd.png"
+                                        alt="uml diagram" style="width: 60%;">
+                                    <h3 id="c-conclusion">5. Conclusion
+                                        <hr>
+                                    </h3>
+                                    <p>Even though the implementation of most functionalities we projected at first was
+                                        done, there have been some technical issues that slowed down the progress
+                                        significantly. However, SAd is defined both as an idea and as a project and we
+                                        are content with the fact that it has the potential to be developed in time.</p>
+                                    <h4>Team</h4>
+                                    <p><b>Radu Marinoiu</b></p>
+                                    <p><b>Eduard Tibuleac</b></p>
+                                    <p><b>Andrei Calinciuc</b></p>
+
+                                </section>
+                                <section id="c-credits">
+                                    <h3>6. Packages Used
+                                        <hr>
+                                    </h3>
+                                    <p>
+                                        Below are some of the packages used to develop it:
+                                        <div class="d-flex-column-uncentered"></div>
+                                    </p>
+                                    <ul>
+                                        <li>from flask import Flask, request, jsonify, send_file </li>
+                                        <li>from flask_cors import CORS</li>
+                                        <li>db</li>
+                                        <li>service</li>
+                                        <li>difflib</li>
+                                        <li>urllib</li>
+                                        <li>from constants import DB_PASSWORD, DB_USERNAME, PKG_CONTENT_MATCHES</li>
+                                        <li>from pymongo import MongoClient</li>
+                                        <li>from pymongo.errors import DuplicateKeyError, BulkWriteError</li>
+                                        <li>from bson.objectid import ObjectId</li>
+                                        <li>apt_pkg</li>
+                                        <li>ubuntuarchive</li>
+                                        <li>from copy import deepcopy</li>
+                                        <li>gzip</li>
+                                        <li>os</li>
+                                        <li>shutil</li>
+                                        <li>sys</li>
+                                        <li>re</li>
+                                        <li>tempfile</li>
+                                        <li>atexit</li>
+                                        <li>from threading import Lock</li>
+                                        <li>from concurrent.futures import ThreadPoolExecutor, as_completed</li>
+                                        <li>from PackageClass.package import Package</li>
+                                    </ul>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="side-container container"></div>
+                </section>
+            </div>
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+
+</html>
