@@ -45,6 +45,14 @@ def get_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
         return jsonify({"errormsg": str(e)}), 404
 
 
+@app.route("/package_id/<pkg_id>", methods=["GET"])
+def get_package_by_id(pkg_id):
+    try:
+        return jsonify(db.get_package_by_id(pkg_id)), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
+
+
 @app.route("/package/<pkg_name>/<pkg_version>/<pkg_architecture>/download", methods=["GET"])
 def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
     try:
@@ -60,22 +68,22 @@ def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architectur
 
 @app.route("/install/<id_list>", methods=["GET"])
 def generate_install_script(id_list):
-    # try:
-    id_as_list = id_list.split(",")
-    print id_as_list
-    script_str = service.generate_install_script(id_as_list)
-    temp_dir = tempfile.mkdtemp()
-    with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
-        f.write(script_str)
-    return send_file(
-        os.path.join(temp_dir, "install.sh"),
-        "application/x-sh",
-        as_attachment=True,
-        attachment_filename="install.sh",
-        cache_timeout=-1
-    ), 200
-    # except Exception as e:
-    #     return jsonify({"errormsg": str(e)}), 404
+    try:
+        id_as_list = id_list.split(",")
+        print id_as_list
+        script_str = service.generate_install_script(id_as_list)
+        temp_dir = tempfile.mkdtemp()
+        with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
+            f.write(script_str)
+        return send_file(
+            os.path.join(temp_dir, "install.sh"),
+            "application/x-sh",
+            as_attachment=True,
+            attachment_filename="install.sh",
+            cache_timeout=-1
+        ), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
 
 
 @app.route("/rebuild_db", methods=["GET"])
@@ -85,7 +93,6 @@ def rebuild_db():
     except Exception as e:
         return jsonify({"errormsg": str(e)}), 500
     return jsonify({}), 200
-
 
 
 if __name__ == "__main__":

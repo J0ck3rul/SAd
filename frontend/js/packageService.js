@@ -1,17 +1,33 @@
+var versionDictionary = {};
+var selectedPackages = [];
 
 function searchPackages() {
-    let searchText = document.getElementsByClassName("search-field");
+    let searchText = document.getElementsByClassName("search-field")[0].value;
+    let htmlPackageList = document.getElementsByClassName("package-list")[0];
+    htmlPackageList.innerHTML = '';
 
-    let url = baseURL + '/search/'+searchText;
-    
-    let minimumTextLength = 4;
+    let container = document.createElement("div");
+    container.classList.add("container");
+
+    loadingContainer = document.createElement("div");
+    loadingContainer.classList.add("loading");
+    loadingText = document.createElement("span");
+    loadingText.innerHTML = "Loading";
+
+    loadingContainer.appendChild(loadingText);
+    container.appendChild(loadingContainer);
+    htmlPackageList.appendChild(container);
+
+    let url = baseURL + '/search/' + searchText;
+
+
 
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
 
-    let serachTextLength = searchText[0].textLength;
+    let serachTextLength = searchText.length;
     if (serachTextLength < minimumTextLength) {
         alert("minimum " + minimumTextLength + " characters");
         return;
@@ -19,9 +35,8 @@ function searchPackages() {
 
     ajaxHttp.onreadystatechange = function () {
         var obj = JSON.parse(ajaxHttp.response)
-
         let packageList = obj;
-        let htmlPackageList = document.getElementsByClassName("package-list")[0];
+
         htmlPackageList.innerHTML = '';
 
         packageList.forEach(package => {
@@ -33,42 +48,39 @@ function searchPackages() {
 }
 
 
-
-
 async function getPackageProperties(packageContainer) {
-    // let id = packageContainer.childNodes[1].childNodes[0].textContent;
-    // let versionSelector = packageContainer.childNodes[1].childNodes[5];
-    // let url = baseURL + '/getVersions?id=' + id+'architecture=';
 
     let name = packageContainer.childNodes[0].textContent;
 
     let url = baseURL + '/package/' + name;
-
+    
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
 
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
-
-    ajaxHttp.onreadystatechange = function () {
-        var obj = JSON.parse(ajaxHttp.response)
+    // console.log(url);
+    ajaxHttp.onreadystatechange = async function () {
+        // await sleep(500);
+        var obj = JSON.parse(ajaxHttp.response);
 
         let versionList = [];
 
         obj.forEach(function (package, index) {
-            versionList.push({ "version": package["_version"], "architecture": package["_architecture"] });
+            versionList.push({ "version": package["version"], "architecture": package["architecture"] });
         });
 
 
-        versionDictionary[obj[0]["_name"]] = versionList;
-
+        versionDictionary[obj[0]["name"]] = versionList;
+        console.log(versionDictionary);
         let packageDetails = createPackageDetails(obj[0], versionList);
 
         packageContainer.childNodes[1].innerHTML = packageDetails.innerHTML;
 
-
+        
         // let packageList = obj;
         // let htmlPackageList = document.getElementsByClassName("package-list")[0];
         // htmlPackageList.innerHTML = '';
+
 
         // packageList.forEach(package => {
         //     packageNode = createItemForPackageList(package);
@@ -77,6 +89,7 @@ async function getPackageProperties(packageContainer) {
     }
     ajaxHttp.send();
 }
+
 
 function versionSelect(elem, event) {
     event.stopPropagation();
@@ -91,7 +104,7 @@ function versionSelect(elem, event) {
 
 
 
-    let url = baseURL + '/getPackage/' + name + '/' + version + '/' + architecture;
+    let url = baseURL + '/package/' + name + '/' + version + '/' + architecture;
     let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
     ajaxHttp.open("GET", url, true);
     setAjaxHeaders(ajaxHttp);
@@ -99,37 +112,20 @@ function versionSelect(elem, event) {
     ajaxHttp.onreadystatechange = () => {
         let versionList = [];
         var package = JSON.parse(ajaxHttp.response)
-        versionList = versionDictionary[package["_name"]];
+        versionList = versionDictionary[package["name"]];
         packageSection.childNodes[1].innerHTML = createPackageDetails(package, versionList).innerHTML;
     }
     ajaxHttp.send();
 }
 
 
-
 function Checkout() {
     let wantedPackages = { "packages": selectedPackages };
-    let url = baseURL + '/checkout';
-    let ajaxHttp = new XMLHttpRequest({ mozSystem: true });
-    ajaxHttp.open("POST", url, true);
-    setAjaxHeaders(ajaxHttp);
-
-    ajaxHttp.onreadystatechange = () => {
-        var filename = 'install.sh'
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(ajaxHttp.response));
-        element.setAttribute('download', filename);
-
-        element.style.display = 'none';
-        document.body.appendChild(element);
-
-        element.click();
-
-        document.body.removeChild(element);
-
-    }
-    ajaxHttp.send(JSON.stringify(wantedPackages));
+    let url = baseURL + '/install/' + selectedPackages.join(",");
+    window.location.href = baseURL + '/install/' + selectedPackages.join(",")
 }
+
+
 function selectClick(elem, event) {
     elem.childNodes[0].disabled = true;
     event.stopPropagation();

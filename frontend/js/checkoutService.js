@@ -26,7 +26,8 @@ function removePackage(pkg) {
 function Reset() {
     selectedPackages = [];
     selectButtons = document.getElementsByClassName("selected");
-    for (let button of selectButtons) {
+    while(selectButtons.length > 0) {
+        button = selectButtons[selectButtons.length-1];
         button.classList.toggle("selected");
         button.innerHTML = "Select";
     }

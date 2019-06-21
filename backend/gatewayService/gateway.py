@@ -1,95 +1,101 @@
+import tempfile
+
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
 import sys
+import json
+import requests
+from dependencysolver import generate_install_script
 sys.path.insert(0, os.path.abspath('..'))
 from PackageClass.package import Package
 
-import json
+
+ARCHIVE_UBUNTU_SERVICE_ADDRESS = "http://localhost:5122"
+APT_SERVICE_ADDRESS = "http://localhost:5123"
+SERVICES = [ARCHIVE_UBUNTU_SERVICE_ADDRESS]
 
 
 app = Flask(__name__)
 CORS(app)
 
-arr = []
-arr2 = []
-newPkg = {}
-newPkg["name"] = "test pkg"
-package = Package(newPkg)
-package._id = '279'
-package._version = "128"
-package._description = "o descriere a unui nou pachet proaspat realizat inainte de examenul la matlab"
-package._maintainer = "any"
-package._architecture = "amd64"
 
-package2 = Package(newPkg)
-package2._id = '210'
-package2._version = "129"
-package2._description = "o descriere a unui nou pachet proaspat realizat inainte de examenul la matlab"
-package2._maintainer = "any"
-package2._architecture = "x86"
-
-arr2.append(package)
-arr2.append(package2)
-arr2.append(package)
-arr = [
-    "nano",
-    "nanoc",
-    "nanook",
-    "nanoweb",
-    "nanourl",
-    "deepnano",
-    "nanoc-doc",
-    "nano-tiny",
-    "nanopolish",
-    "nanoweb-doc",
-    "nanoblogger",
-    "libnanomsg5",
-    "libnanomsg4",
-    "libnanomsg0",
-    "libnanohttp1"
-]
+@app.route("/package_id/<pkg_id>", methods=["GET"])
+def get_package_by_id(pkg_id):
+    for address in SERVICES:
+        response = requests.get("{}/package_id/{}".format(address, pkg_id))
+        if response.status_code == 200:
+            return jsonify(response.json()), 200
+    return jsonify({}), response.status_code
 
 
-versionsArray = ["123", "124", "125", "128"]
+@app.route("/search/<pkg_name>", methods=["GET"])
+def find_packages_by_name(pkg_name):
+    final_result = []
+    for address in SERVICES:
+        response = requests.get("{}/search/{}".format(address, pkg_name))
+        if response.status_code == 200:
+            final_result += response.json()
+    return jsonify(final_result), 200
 
-@app.route("/search", methods = ["GET"])
-def getPackageList():
-    # if(request.ar)
-    # querry_string = request.args['name']
-    json_data = {}
-    json_data = arr
-    return jsonify(json_data)
 
-@app.route("/package", methods= ["GET"])
-def getPackage():
-    name = request.args['name']
-    json_data = []
+@app.route("/package/<pkg_name>", methods=["GET"])
+def get_packages_by_name(pkg_name):
+    final_result = []
+    for address in SERVICES:
+        response = requests.get("{}/package/{}".format(address, pkg_name))
+        if response.status_code == 200:
+            final_result += response.json()
+    return jsonify(final_result), 200
 
-    for package in arr2:
-        json_data.append(package.__dict__)
-    return jsonify(json_data)
 
-@app.route("/getPackage", methods = ["GET"])
-def getVersions():
-    name = request.args["name"]
-    version = request.args["version"]
-    architecture = request.args["architecture"]
-    return jsonify(package2.__dict__)
-# @app.route("/getPackage", methods=["GET"])
-# def getPackage():
-#     id = request.args['id']
-#     version = request.args['version']
-#     package._version = version
-#     package._id = id
-#     return json.dumps(package.__dict__), 200, {'Content-Type':'application/json'}
+@app.route("/package/<pkg_name>/<pkg_version>", methods=["GET"])
+def get_packages_by_name_version(pkg_name, pkg_version):
+    final_result = []
+    for address in SERVICES:
+        response = requests.get("{}/package/{}/{}".format(address, pkg_name, pkg_version))
+        if response.status_code == 200:
+            final_result += response.json()
+    return jsonify(final_result), 200
 
-@app.route("/checkout", methods=["POST"])
-def checkout():
-    # print request.data
-    return send_file("__init__.py", as_attachment=True, attachment_filename="install.sh")
+
+@app.route("/package/<pkg_name>/<pkg_version>/<pkg_architecture>", methods=["GET"])
+def get_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
+    for address in SERVICES:
+        response = requests.get("{}/package/{}/{}/{}".format(address, pkg_name, pkg_version, pkg_architecture))
+        if response.status_code == 200:
+            return jsonify(response.json()), 200
+    return jsonify({}), response.status_code
+
+
+@app.route("/package/<pkg_name>/<pkg_version>/<pkg_architecture>/download", methods=["GET"])
+def download_package_by_name_version_arch(pkg_name, pkg_version, pkg_architecture):
+    for address in SERVICES:
+        response = requests.get("{}/package/{}/{}/{}/download".format(address, pkg_name, pkg_version, pkg_architecture), stream=True)
+        if response.status_code == 200:
+            return response.raw.read(), response.status_code, response.headers.items()
+    return jsonify({}), response.status_code
+
+
+@app.route("/install/<id_list>", methods=["GET"])
+def generate_install_script_route(id_list):
+    try:
+        id_as_list = id_list.split(",")
+        script_str = generate_install_script(id_as_list)
+        temp_dir = tempfile.mkdtemp()
+        with open(os.path.join(temp_dir, "install.sh"), "wb") as f:
+            f.write(script_str)
+        return send_file(
+            os.path.join(temp_dir, "install.sh"),
+            "application/x-sh",
+            as_attachment=True,
+            attachment_filename="install.sh",
+            cache_timeout=-1
+        ), 200
+    except Exception as e:
+        return jsonify({"errormsg": str(e)}), 404
+
 
 if __name__ == "__main__":
-    app.run(host="", port=5123)
-
+    app.run(host="0.0.0.0", port=5121)
     app.debug = True
