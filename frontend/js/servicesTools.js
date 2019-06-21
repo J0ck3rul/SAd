@@ -12,7 +12,7 @@ function createPackageDetails(package, versionList) {
     id.style.display = "none";
 
     let description = document.createElement("p");
-    description.innerHTML = package["_description"];
+    description.innerHTML = package["description"];
 
     let versionContainer = document.createElement("p");
 
@@ -20,7 +20,7 @@ function createPackageDetails(package, versionList) {
     let versionText = document.createElement("span");
 
     versionText.innerHTML = "version: ";
-    versionValue.innerHTML = package["_version"];
+    versionValue.innerHTML = package["version"];
 
     versionContainer.appendChild(versionText);
     versionContainer.appendChild(versionValue);
@@ -31,13 +31,13 @@ function createPackageDetails(package, versionList) {
     let architectureText = document.createElement("span");
 
     architectureText.innerHTML = "architecture: ";
-    architectureValue.innerHTML = package["_architecture"];
+    architectureValue.innerHTML = package["architecture"];
 
     architectureContainer.appendChild(architectureText);
     architectureContainer.appendChild(architectureValue);
 
     let maintainer = document.createElement("p");
-    maintainer.innerHTML = "maintainter: " + package["_maintainer"];
+    maintainer.innerHTML = "maintainter: " + package["maintainer"];
 
     let selectButton = document.createElement("button");
     selectButton.setAttribute("onclick", "selectPackage(this, event)");
